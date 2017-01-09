@@ -27,7 +27,7 @@ if analysis.Type_analysis.Trim:
     import Trim
     Trim.load(analysis)
 
-if analysis.Type_analysis.Allign:
+if analysis.Type_analysis.AllignPhix or analysis.Type_analysis.AllignGenome:
     import Allign
     Allign.load(analysis)
 
