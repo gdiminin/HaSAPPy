@@ -17,7 +17,7 @@ Modules:
  
 =>	REQUISITES
 
-For the correct functionality of HaSAPPy program the following Python Packages are necessery and requeste to download/update using pip -instal or pip install --upgrade command:
+For the correct functionality of HaSAPPy program the following Python Packages are necessery and requested to download/update using pip -instal or pip install --upgrade command:
  - numpy
  - HTSeq
  - matplotlib
