@@ -33,7 +33,7 @@ if analysis.Type_analysis.AllignPhix or analysis.Type_analysis.AllignGenome:
 
 if analysis.Type_analysis.IIDefinition:
     import IIDefinition
-    IIDefinition.main(analysis)
+    IIDefinition.load(analysis)
 
 if analysis.Type_analysis.GeneDefinition:
     import GeneDefinition
