@@ -51,6 +51,7 @@ Write output PATH in LoadModule.txt where requested (see next)
 
 
 =>	RUN HaSAPPy SOFTWARE
+
 Compile LoadModule.txt file according to instructions and save the modified file (Don’t overwrite it). Run the program using HaSAPPy_start.py file. The program requests as parameter the location of LoadModule file.
 
 ex. User$ python HaSAPPy_start.py -i User/HaSAPPy/Commands/LoadModule_170101.txt
