@@ -134,7 +134,7 @@ args = parser.parse_args()
 print '\n***Generation of gene models library for HaSAPPY program***'
 
 
-if args.input and args.output == None:
+if args.input or args.output == None:
     print '\nWARNING: informations provided are not sufficent.\nCheck -h option to have more details on requested parameters'
 
 else:
