@@ -165,5 +165,5 @@ def library_generation (exp, Info):
 
 
 def load(Info):
-    for exp in analysis.IIDefinition.lib_names:
+    for exp in Info.IIDefinition.lib_names:
         library_generation(exp,Info)
