@@ -162,3 +162,8 @@ def library_generation (exp, Info):
     Info.print_save(exp,string)
 
     return library
+
+
+def main(Info):
+    for exp in analysis.IIDefinition.lib_names:
+        library_generation(exp,Info)
