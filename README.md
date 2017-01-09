@@ -26,10 +26,15 @@ For the correct functionality of HaSAPPy program the following Python Packages a
  - sklearn
  - xlsxwriter
 
+
+=>	INSTALLATION
+
+To use HaSAPPy program download the package from GitHub repository. Programs can be started from the 'HaSAPPy/program' subfolder using command prompt
+
 =>	GENERATE GENES REFERENCE LIBRARY FOR HaSAPPy SOFTWARE
 
 After installation of HaSAPPY program, Genes Reference Library must be generated using GeneReference_built.py
-The program requests two variables:
+The program requires two variables:
 
 -i (INPUT) 	location of .txt file containing gene annotations according to UCSC browser. In the download folder, users can find the mm10_REFSEQgenes.txt file built for the mouse genome according to the assembly of Dec. 2011 (GCRm38/mm10). Alternatively, annotations can be obtained from UCSC browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). Provide the following informations:
 	clade:			Mammal
