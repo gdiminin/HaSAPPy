@@ -132,9 +132,9 @@ parser.add_argument('-o','--output', help = 'Provide .pkl file PATH where librar
 args = parser.parse_args()
 
 print '\n***Generation of gene models library for HaSAPPY program***'
+print '\tInput file: %s' % args.input
 
-
-if args.input or args.output == None:
+if ((args.input==None) or (args.output == None)):
     print '\nWARNING: informations provided are not sufficent.\nCheck -h option to have more details on requested parameters'
 
 else:
