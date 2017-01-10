@@ -1,0 +1,44 @@
+﻿anton@zanton400:~/HaSAPPy/program$ python GeneReference_built.py -i ../docs/mm10_REFSEQgenes.txt -o ../mm10_HaSAPPY_reference.pkl
+
+***Generation of gene models library for HaSAPPY program***
+	Input file: ../docs/mm10_REFSEQgenes.txt
+Started: 17-01-10 22:54:33
+	- Loading .txt file
+	- Redundant gene intervals management
+	- Define exonic regions
+Traceback (most recent call last):
+  File "GeneReference_built.py", line 143, in <module>
+    library_preparation(args)
+  File "GeneReference_built.py", line 100, in library_preparation
+    gene_data.ix[index,"variants"] = {transcript:exonInterval}
+  File "/usr/local/lib/python2.7/dist-packages/pandas/core/indexing.py", line 141, in __setitem__
+    self._setitem_with_indexer(indexer, value)
+  File "/usr/local/lib/python2.7/dist-packages/pandas/core/indexing.py", line 565, in _setitem_with_indexer
+    value = self._align_series(indexer, Series(value))
+  File "/usr/local/lib/python2.7/dist-packages/pandas/core/indexing.py", line 705, in _align_series
+    raise ValueError('Incompatible indexer with Series')
+ValueError: Incompatible indexer with Series
+anton@zanton400:~/HaSAPPy/program$ pip show pandas
+---
+Name: pandas
+Version: 0.19.2
+Location: /usr/local/lib/python2.7/dist-packages
+Requires: python-dateutil, pytz, numpy
+anton@zanton400:~/HaSAPPy/program$ pip show numpy
+---
+Name: numpy
+Version: 1.11.3
+Location: /usr/local/lib/python2.7/dist-packages
+Requires: 
+anton@zanton400:~/HaSAPPy/program$ pip show HTSeq
+---
+Name: HTSeq
+Version: 0.6.1p1
+Location: /usr/local/lib/python2.7/dist-packages/HTSeq-0.6.1p1-py2.7-linux-x86_64.egg
+Requires: 
+anton@zanton400:~/HaSAPPy/program$ pip show pysam
+---
+Name: pysam
+Version: 0.8.4
+Location: /usr/local/lib/python2.7/dist-packages/pysam-0.8.4-py2.7-linux-x86_64.egg
+Requires: 
