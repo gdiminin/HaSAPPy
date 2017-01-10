@@ -52,7 +52,7 @@ def library_preparation(info):
     
     gene_data = pd.DataFrame(columns= columns)
     gene_data.index.name = "genes"
-    print '\t- Redoundant gene intervals menagment'
+    print '\t- Redundant gene intervals management'
 
     for index in gene_collection.index:
         list_interval = []
