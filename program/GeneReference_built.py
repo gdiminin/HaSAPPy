@@ -97,7 +97,7 @@ def library_preparation(info):
             if gene_data.ix[index,"variants"] != 0:
                 gene_data.ix[index,"variants"][transcript] = exonInterval
             else:
-                gene_data.ix[index,"variants"] = {transcript:exonInterval}
+                gene_data.set_value(index, "variants", {transcript:exonInterval})
 
     print '\t- Define intronic regions'        
 
