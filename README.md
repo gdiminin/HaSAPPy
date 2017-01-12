@@ -31,6 +31,8 @@ For the correct functionality of HaSAPPy program the following Python Packages a
 
 To use HaSAPPy program download the package from GitHub repository. Programs can be started from the 'HaSAPPy/program' subfolder using command prompt
 
+http://support.illumina.com/sequencing/sequencing_software/igenome.html
+
 =>	GENERATE GENES REFERENCE LIBRARY FOR HaSAPPy SOFTWARE
 
 After installation of HaSAPPY program, Genes Reference Library must be generated using GeneReference_built.py
