@@ -1,6 +1,6 @@
-*******************************************************************
-***	HaSAPPy (Haploid Screening Analysis Python Package)	***
-*******************************************************************
+
+**	HaSAPPy (Haploid Screening Analysis Python Package)	**
+
 
 =>	INTRODUCTION
 
@@ -25,13 +25,19 @@ For the correct functionality of HaSAPPy program the following Python Packages a
  - scipy
  - sklearn
  - xlsxwriter
-
+Moreover, allignment modules require installation in PATH of the following programs:
+- To remove Phix sequences from libraries installation of Bowtie2 is requested
+- To allign libraries against a reference genome for insertions localization, users can choose between Bowtie2, nvBowtie and Nextgenemap
+Installation details and packages can be found following the links:
+Bowtie2 	http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
+nvBowtie 	http://nvlabs.github.io/nvbio/
+Nextgenemap 	http://cibiv.github.io/NextGenMap/
+File containing genome sequence of the organism of interest should be provided to build teh genome reference used for the allignment. Fasta files can be found in Illumina browser (http://support.illumina.com/sequencing/sequencing_software/igenome.html). Use the UCSC source.
 
 =>	INSTALLATION
 
 To use HaSAPPy program download the package from GitHub repository. Programs can be started from the 'HaSAPPy/program' subfolder using command prompt
 
-http://support.illumina.com/sequencing/sequencing_software/igenome.html
 
 =>	GENERATE GENES REFERENCE LIBRARY FOR HaSAPPy SOFTWARE
 
