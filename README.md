@@ -2,7 +2,7 @@
 ***HaSAPPy (Haploid Screening Analysis Python Package)***
 *********************************************************
 
-=>	***INTRODUCTION
+=>	***INTRODUCTION***
 
 Forward genetic screens represent one of the most important approaches to unveil the complexity of cellular mechanisms. The derivation of different mammalian haploid cell models (from tumors and from embryos) opened the possibility to perform forward genetic screens using insertional mutagenesis in mammals.
 HaSAPPy software can be used to identify insertion locations in the whole genome, map them at the level of genes, and classify insertions according to their effects on gene expression. The code conforms to current Python programming guidelines and can be freely adapted and extended according to user needs.
@@ -16,7 +16,7 @@ Modules:
  - Data presentation
 
 
-=>	REQUISITES
+=>	***REQUISITES***
 
 For the correct functionality of HaSAPPy program the following Python Packages are necessery and requested to download/update using pip -instal or pip install --upgrade command:
  - numpy
