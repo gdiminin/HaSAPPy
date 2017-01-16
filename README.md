@@ -1,6 +1,6 @@
-******************************************************************
-***	HaSAPPy (Haploid Screening Analysis Python Package)	**
-******************************************************************
+*********************************************************
+***HaSAPPy (Haploid Screening Analysis Python Package)***
+*********************************************************
 
 =>	INTRODUCTION
 
@@ -49,17 +49,17 @@ To use HaSAPPy program download the package from GitHub repository. Programs can
 After installation of HaSAPPY program, Genes Reference Library must be generated using GeneReference_built.py
 The program requires two variables:
 
--i (INPUT) 	location of .txt file containing gene annotations according to UCSC browser. In the download folder, users can find the mm10_REFSEQgenes.txt file built for the mouse genome according to the assembly of Dec. 2011 (GCRm38/mm10). Alternatively, annotations can be obtained from UCSC browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). Provide the following informations:
+-i (INPUT) 	location of .txt file containing gene annotations according to UCSC browser. In the download folder, users can find the mm10_REFSEQgenes.txt file built for the mouse genome according to the assembly of Dec. 2011 (GCRm38/mm10). Alternatively, annotations can be obtained from UCSC browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). Provide the following informations:	
 -	clade:			Mammal
-	genome:			Mouse or Human
-	assembly:		(according to the last version)
-	group:			Genes and Gene Predictions
-	track:			RefSeq Genes  
-	table:			refGene
-	region:   		genome
-	output format:		all fields from selected table
-	output file:		…
-	file type returned:	gzip compressed
+-	genome:			Mouse or Human
+-	assembly:		(according to the last version)
+-	group:			Genes and Gene Predictions
+-	track:			RefSeq Genes  
+-	table:			refGene
+-	region:   		genome
+-	output format:		all fields from selected table
+-	output file:		…
+-	file type returned:	gzip compressed
 
 -o (OUTPUT)	location where to store pandas library containing gene annotations necessary for HaSAPPy program. Informations are stored in a .pkl file. Add .pkl extension to the PATH provided
 
