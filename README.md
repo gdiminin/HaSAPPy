@@ -1,6 +1,6 @@
-
-***	HaSAPPy (Haploid Screening Analysis Python Package)	***
-
+******************************************************************
+***	HaSAPPy (Haploid Screening Analysis Python Package)	**
+******************************************************************
 
 =>	INTRODUCTION
 
@@ -14,7 +14,8 @@ Modules:
  - Classify insertions at the genes level
  - Enrichment analysis
  - Data presentation
- 
+
+
 =>	REQUISITES
 
 For the correct functionality of HaSAPPy program the following Python Packages are necessery and requested to download/update using pip -instal or pip install --upgrade command:
@@ -31,14 +32,12 @@ Moreover, allignment modules require installation in PATH of the following progr
 - To allign libraries against a reference genome for insertions localization, users can choose between Bowtie2, nvBowtie and Nextgenemap
 
 Installation details and packages can be found following the links:
-
-Bowtie2 	http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
-
-nvBowtie 	http://nvlabs.github.io/nvbio/
-
-Nextgenemap 	http://cibiv.github.io/NextGenMap/
+- Bowtie2 		http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
+- nvBowtie 		http://nvlabs.github.io/nvbio/
+- Nextgenemap 		http://cibiv.github.io/NextGenMap/
 
 File containing genome sequence of the organism of interest should be provided to build teh genome reference used for the allignment. Fasta files can be found in Illumina browser (http://support.illumina.com/sequencing/sequencing_software/igenome.html). Use the UCSC source.
+
 
 =>	INSTALLATION
 
@@ -51,7 +50,7 @@ After installation of HaSAPPY program, Genes Reference Library must be generated
 The program requires two variables:
 
 -i (INPUT) 	location of .txt file containing gene annotations according to UCSC browser. In the download folder, users can find the mm10_REFSEQgenes.txt file built for the mouse genome according to the assembly of Dec. 2011 (GCRm38/mm10). Alternatively, annotations can be obtained from UCSC browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). Provide the following informations:
-	clade:			Mammal
+-	clade:			Mammal
 	genome:			Mouse or Human
 	assembly:		(according to the last version)
 	group:			Genes and Gene Predictions
