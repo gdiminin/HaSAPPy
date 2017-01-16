@@ -1,6 +1,5 @@
-
 *HaSAPPy (Haploid Screening Analysis Python Package)
-*********************************************************
+
 
 =>	***INTRODUCTION***
 
