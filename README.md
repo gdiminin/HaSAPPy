@@ -37,7 +37,7 @@ Installation details and packages can be found following the links:
 - nvBowtie 		http://nvlabs.github.io/nvbio/
 - Nextgenemap 		http://cibiv.github.io/NextGenMap/
 
-File containing genome sequence of the organism of interest should be provided to build teh genome reference used for the allignment. Fasta files can be found in Illumina browser (http://support.illumina.com/sequencing/sequencing_software/igenome.html). Use the UCSC source.
+File containing genome sequence of the organism of interest should be provided to build teh genome reference used for the allignment. Fasta files can be found in Illumina browser. Use the UCSC source (http://support.illumina.com/sequencing/sequencing_software/igenome.html). 
 
 
 =>	***INSTALLATION***
