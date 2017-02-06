@@ -433,7 +433,7 @@ class Info(Upperlevel):
                 print '\t{:20s}:\t'.format('Name') + table
                 print '\t\t{:20s}:\t\t'.format('Keys') + str(self.Tables.keys[position]).strip('[]').replace("'","").replace(" ","")
                 filter_list = []
-                if self.Tables.filters.has_key(position):       
+                if position < len(self.Tables.filters):       
                     for n in self.Tables.filters[position]:
                         parameter = str(n['parameter']).strip('[]').replace("'","").replace(" ","")
                         if n.has_key('number'):
