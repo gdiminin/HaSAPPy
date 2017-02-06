@@ -266,7 +266,7 @@ Construct table representation using following keys (each new line correspond to
 	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter dosen't need any 'Data type')
 	Data type: all, raw, mean, stdev, fold, ttest
 	ex. :  	(all,II,raw),(group1,KI,mean)
-		(group1,KI,pvalue),(all,Bias,fold)
+		(group1,KI,ttest),(all,Score)
 @8B)
 @8B)
 …
