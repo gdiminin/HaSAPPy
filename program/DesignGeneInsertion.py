@@ -210,7 +210,7 @@ def start(Info):
             genes[gene] = genes_ref.loc[gene]    
         
     
-    with open (Info.Design.input_files,'rb') as handle: #loading GroupAnlaysis class exential for get all information on the samples
+    with open (Info.Design.input_files,'rb') as handle: #loading GroupAnlaysis class exential to get all information on the samples
         GroupAnalysis = pickle.load(handle)
     
     reference = group_generation(Info,genes,GroupAnalysis,GroupAnalysis.Reference,'NaN')
