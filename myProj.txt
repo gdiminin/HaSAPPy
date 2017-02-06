@@ -88,7 +88,7 @@ Location of input file 2 (if pair-end) (add additional lines if necessary):
 @2E)
 …
 Adaptor p7 sequence (for trimming 3’ ends of sequence in file 1):
-@2F)AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
+@2F)ATCTCGTATGCCGTCTTCTGCTT
 Adaptor p5 sequence (for trimming 3’ ends of sequence in file 2):
 @2G)
 Quality selection parameters:
@@ -104,7 +104,7 @@ ALIGNMENT AND DISCHARGING				section:	3
 PHIX GENOME
 
 Location of Phix reference genome:
-@3A)/home/anton/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index
+@3A)/home/anton/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
 Would you like to store permanently Phix-cleaned files  (mark ‘Y’ or ’N’)?
 @3B)Y
 
@@ -133,7 +133,7 @@ GENOME
 Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
 @4A)bowtie2
 Location of reference genome:
-@4B)/home/anton/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index
+@4B)/home/anton/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
 Would you like to store permanently BAM aligned files  (mark ‘Y’ or ’N’)?
 @4C)Y
 
@@ -306,6 +306,10 @@ Provide a filter parameter to select/sort values displayed (N.B. more than one f
 	ex. :  	filter[(group2,KI,mean), >, 3.45]
 		filter[(group1,KI,mean), ==, 3.45],filter[(group2,Bias,mean)]
 @8C)filter[(Selected,II,mean), >, 15]
+@8C)filter[(Selected,II,mean), >, 15]
+@8C)filter[(Selected,II,mean), >, 15]
+@8C)filter[(Selected,II,mean), >, 15]
+@8C)filter[(Selected,II,mean), >, 15]
 
 !!!N.B. Compile the following section just if this is your starting point!!!
 Location of file storing GroupAnalysis informations:
@@ -324,6 +328,7 @@ Genes list to analysed (ex. gene1,gene2,gene3):
 !!!N.B. Compile the following section just if this is your starting point!!!
 Location of file storing GroupAnalysis informations:
 @9C)
+
 
 
 
