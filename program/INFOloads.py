@@ -433,12 +433,13 @@ class Info(Upperlevel):
                 print '\t{:20s}:\t'.format('Name') + table
                 print '\t\t{:20s}:\t\t'.format('Keys') + str(self.Tables.keys[position]).strip('[]').replace("'","").replace(" ","")
                 filter_list = []
-                for n in self.Tables.filters[position]:
-                    parameter = str(n['parameter']).strip('[]').replace("'","").replace(" ","")
-                    if n.has_key('number'):
-                        filter_list.append('%s%s%i' % (parameter,n['operation'],n['number']))
-                    else:
-                        filter_list.append('%s%s' % (parameter,n['operation']))
+                if Tables.filters.has_key(position):       
+                    for n in self.Tables.filters[position]:
+                        parameter = str(n['parameter']).strip('[]').replace("'","").replace(" ","")
+                        if n.has_key('number'):
+                            filter_list.append('%s%s%i' % (parameter,n['operation'],n['number']))
+                        else:
+                            filter_list.append('%s%s' % (parameter,n['operation']))
                 print '\t\t{:20s}:\t\t'.format('Filters') + ", ".join(filter_list)
         if self.Type_analysis.Design:
             print 'Gene rappresentation'
