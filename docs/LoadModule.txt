@@ -261,10 +261,11 @@ Table name representation(add additional lines if necessary):
 @8A)
 … 
 Construct table representation using following keys (each new line correspond to a table):
+	!!!Read Info file to have detailed informations of how to compile this part!!!
 	Samples: all, group name
-	Parameters: all, II, KI, Bias, Reads
-	Data type: row, mean, stdev,fold, pvalue, outlier_mean, outlier_fold, outlier_abs
-	ex. :  	(all,II,row),(group1,KI,mean)
+	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter dosen't need any 'Data type')
+	Data type: all, raw, mean, stdev, fold, ttest
+	ex. :  	(all,II,raw),(group1,KI,mean)
 		(group1,KI,pvalue),(all,Bias,fold)
 @8B)
 @8B)
@@ -272,10 +273,10 @@ Construct table representation using following keys (each new line correspond to
 
 Provide a filter parameter to select/sort values displayed (N.B. more than one filter can be defined):
 	Keys: as previously defined (N.B. you can not use as parameter ‘all’) 
-	Symbols: >, >=, < , <= , == , ascending, decreasing  
+	Symbols: >, >=, < , <= , == , ascending, descending  
 	Number: a float or int value or nothing if (ascending/descending)
 	ex. :  	filter[(group2,KI,mean), >, 3.45]
-		filter[(group1,KI,mean), ==, 3.45],filter[(group2,Bias,mean)]
+		filter[(group1,KI,mean), ==, 3.45],filter[(group2,Bias,mean), ascending]
 @8C)
 @8C)
 …
@@ -291,7 +292,9 @@ GENE INSERTIONS
 
 Location of gene reference:
 @9A)
-Genes list to analysed (ex. gene1,gene2,gene3):
+Genes list to analyse (also genomic intervals can be provided:
+	ex: 	gene1,gene2,gene3
+	ex:	chrX_12345619_12456789,chr2_3726189_3726567
 @9B)
 
 !!!N.B. Compile the following section just if this is your starting point!!!
