@@ -39,7 +39,7 @@ GENERAL INFORMATIONS					section:	1
 Operator Name: 
 @1A)Zan
 Storing location (provide a correct path):
-@1B)~/HaSAPPy/data
+@1B)/home/anton/HaSAPPy/analysis
 
 ___________________________________________________________________
 TRIM ADAPTOR AND SEQUENCE				section:	2
@@ -285,6 +285,7 @@ Table name representation(add additional lines if necessary):
 @8A)KillingInsertions
 @8A)InsertionBias
 @8A)Reads
+@8A)Overview
 
 Construct table representation using following keys (each new line correspond to a table):
 	Samples: all, group name
