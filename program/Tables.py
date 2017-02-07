@@ -65,7 +65,7 @@ def main(Info):
                             
             if instruction[1]  != 'Score':
                 value = instruction[2]
-                if value == 'row' or value == 'all':
+                if value == 'raw' or value == 'all':
                     values = {}
                     if GroupAnalysis.Reference.name in group:
                         values[GroupAnalysis.Reference.name] = [exp for exp in GroupAnalysis.Reference.experiments]
