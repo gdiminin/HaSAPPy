@@ -44,7 +44,8 @@ def library_generation (exp, Info):
         for algnt in aligned_file:
             if algnt.aligned:
                 if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-                    ins = HTSeq.GenomicPosition('chr%s' %str(algnt.iv.chrom),algnt.iv.start_d,algnt.iv.strand)
+		    ins = HTSeq.GenomicPosition(algnt.iv.chrom,algnt.iv.start_d,algnt.iv.strand)
+#                    ins = HTSeq.GenomicPosition('chr%s' %str(algnt.iv.chrom),algnt.iv.start_d,algnt.iv.strand)
                     insertions_counts[ins] +=1
                     count_GoodQualityAllignment +=1                    
                 count_aligned +=1                    
