@@ -41,11 +41,19 @@ def library_generation (exp, Info):
         count_aligned = 0
         count_GoodQualityAllignment = 0
         count_total = 0
+	for algnt in aligned_file:
+		if algnt.aligned:
+			if algnt.iv.chrom.startswith('chr'):
+				chromosome_style = 'chr'
+			else:
+				chromosome_style = ''
+			break
+	
+	
         for algnt in aligned_file:
             if algnt.aligned:
                 if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-		    ins = HTSeq.GenomicPosition(algnt.iv.chrom,algnt.iv.start_d,algnt.iv.strand)
-#                    ins = HTSeq.GenomicPosition('chr%s' %str(algnt.iv.chrom),algnt.iv.start_d,algnt.iv.strand)
+		    ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
                     insertions_counts[ins] +=1
                     count_GoodQualityAllignment +=1                    
                 count_aligned +=1                    
