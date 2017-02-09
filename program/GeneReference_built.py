@@ -87,17 +87,15 @@ def library_preparation(info):
 
     print '\t- Define exonic regions'
     
-    gene_data["variants"] = 0
+    gene_data["variants"] = [{} for gene in range(len(gene_data))]
 
 
     for index in gene_data.index:
         for num in gene_data.ix[index,"reference"]:
             exonInterval = exonInterval_define(num,ref_gene)
             transcript = ref_gene.ix[num,"name"]
-            if gene_data.ix[index,"variants"] != 0:
-                gene_data.ix[index,"variants"][transcript] = exonInterval
-            else:
-                gene_data.set_value(index, "variants", {transcript:exonInterval})
+            gene_data.ix[index,"variants"][transcript] = exonInterval
+   
 
     print '\t- Define intronic regions'        
 
