@@ -44,9 +44,9 @@ def library_generation (exp, Info):
 	for algnt in aligned_file:
 		if algnt.aligned:
 			if algnt.iv.chrom.startswith('chr'):
-				chromosome_style = 'chr'
-			else:
 				chromosome_style = ''
+			else:
+				chromosome_style = 'chr'
 			break
 	
 	
