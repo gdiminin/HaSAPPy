@@ -70,7 +70,9 @@ The program requires two variables:
 **-o** (OUTPUT)	location where to store pandas library containing gene annotations necessary for HaSAPPy program. Informations are stored in a .pkl file. Add .pkl extension to the PATH provided
 
 Ex.
-```User$ python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/HaSAPPy/mm10_HaSAPPY_refernce.pkl```
+```
+User$ python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/HaSAPPy/mm10_HaSAPPY_refernce.pkl
+```
 
 Write output PATH in LoadModule.txt where requested (see next)
 
@@ -80,7 +82,9 @@ Write output PATH in LoadModule.txt where requested (see next)
 Compile LoadModule.txt file according to instructions and save the modified file (Don’t overwrite it). Run the program using HaSAPPy_start.py file. The program requests as parameter the location of LoadModule file.
 
 Ex.
-```User$ python HaSAPPy_start.py User/HaSAPPy/Commands/LoadModule_170101.txt```
+```
+User$ python HaSAPPy_start.py User/HaSAPPy/Commands/LoadModule_170101.txt
+```
 
 
 
