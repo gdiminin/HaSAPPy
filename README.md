@@ -27,16 +27,17 @@ For the correct functionality of HaSAPPy program the following Python Packages a
  - sklearn
  - xlsxwriter
  
-Moreover, alignment modules require installation in PATH of the following programs:
+Moreover, alignment module requires installation in PATH of the following programs:
 - Bowtie2: to remove Phix sequences from libraries
 - Bowtie2: nvBowtie and Nextgenemap: to allign libraries against a reference genome
 
 Packages and installation details can be found following the links:
-|Program | Source |
-|——-|——-|
-|Bowtie2 | http://bowtie-bio.sourceforge.net/bowtie2/index.shtml |
-|nvBowtie | http://nvlabs.github.io/nvbio/ |
-|Nextgenemap | http://cibiv.github.io/NextGenMap/ |
+
+| Program     | Source                                                |
+| ----------- | ------------------------------------------------------|
+| Bowtie2     | http://bowtie-bio.sourceforge.net/bowtie2/index.shtml |
+| nvBowtie    | http://nvlabs.github.io/nvbio/                        |
+| Nextgenemap | http://cibiv.github.io/NextGenMap/                    |
 
 File containing genome sequence of the organism of interest should be provided to build the genome reference used for the alignment. Fasta files can be found in Illumina browser. Use the UCSC source (http://support.illumina.com/sequencing/sequencing_software/igenome.html). 
 
@@ -52,18 +53,19 @@ After installation of HaSAPPY program, Genes Reference Library must be generated
 The program requires two variables:
 
 **-i** (INPUT) 	location of .txt file containing gene annotations according to UCSC browser. In the download folder, users can find the mm10_REFSEQgenes.txt file built for the mouse genome according to the assembly of Dec. 2011 (GCRm38/mm10). Alternatively, annotations can be obtained from UCSC browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). Provide the following informations:	
+
 | Task | Selection |
-|——-|——-|
-| clade	| Mammal |
-| genome | Mouse or Human |
-| assembly | (according to the last version) |
-| group	| Genes and Gene Predictions |
-| track	| RefSeq Genes |
-| table	| refGene |
-| region | genome |
-| output format	| all fields from selected table |
-| output file |	… |
-| file type returned | gzip compressed |
+| --- | --- |
+| *clade*	| Mammal |
+| *genome* | Mouse or Human |
+| *assembly* | (according to the last version) |
+| *group*	| Genes and Gene Predictions |
+| *track*	| RefSeq Genes |
+| *table*	| refGene |
+| *region* | genome |
+| *output format*	| all fields from selected table |
+| *output file* |	… |
+| *file type returned* | gzip compressed |
 
 **-o** (OUTPUT)	location where to store pandas library containing gene annotations necessary for HaSAPPy program. Informations are stored in a .pkl file. Add .pkl extension to the PATH provided
 
