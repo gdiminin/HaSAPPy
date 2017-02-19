@@ -29,7 +29,7 @@ For the correct functionality of HaSAPPy program the following Python Packages a
  
 Moreover, alignment module requires installation in PATH of the following programs:
 - Bowtie2: to remove Phix sequences from libraries
-- Bowtie2, nvBowtie and Nextgenemap: to allign libraries against a reference genome
+- Bowtie2, nvBowtie and Nextgenemap: to align libraries against a reference genome
 
 Packages and installation details can be found following the links:
 
