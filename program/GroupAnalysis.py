@@ -43,10 +43,10 @@ def performing_analysis(Info):
         ####
     
         def creating_DataFrame(group_name,experiments,parameter):    
-            """Concatanation of the different replicates
-            group_name = the name of the orignial group = Info.GroupAnalysis.Group.name
+            """Concatenation of the different replicates
+            group_name = the name of the original group = Info.GroupAnalysis.Group.name
             experiments_name = list of group_name + replicates name
-            parameter= list of Series for a paricular parameter
+            parameter= list of Series for a particular parameter
             """
             series = []
             keys_name = []
@@ -78,8 +78,8 @@ def performing_analysis(Info):
             replicates_number +=1
             replicate_input = Info.GroupAnalysis.input_files[Info.GroupAnalysis.lib_names.index(replicate)]#get the input file for the replicate of the group
             with open (replicate_input,'rb') as loading: #recover .pkl file with general informations of the library
-                row_data = pickle.load(loading)
-            experiments[replicate] = row_data #Upload in experiments (connected with library name) general adress used in creating_DataFrame
+                raw_data = pickle.load(loading)
+            experiments[replicate] = raw_data #Upload in experiments (connected with library name) general address used in creating_DataFrame
 
         processing.replicates = replicates_number      
         
@@ -109,7 +109,7 @@ def performing_analysis(Info):
                 list_to_concat.append(experiments[exp])
                 exp_replicates = replicates[exp]
                 temporary_dataframe = pd.DataFrame()
-                sobstitution = 1/float(control_replicates)
+                substitution = 1/float(control_replicates)
                 if control_replicates > 1:
                     control_series = control['%s_%s_mean' %(Info.GroupAnalysis.Reference.name,parameter)]
                 else:
@@ -127,10 +127,10 @@ def performing_analysis(Info):
                         temporary_dataframe.ix[index,'control'] = 1
                 if (False,True)in grouped.groups:
                     for index in grouped.groups[(False,True)]:
-                        temporary_dataframe.ix[index,'exp'] = sobstitution
+                        temporary_dataframe.ix[index,'exp'] = substitution
                 if (True,False)in grouped.groups:
                     for index in grouped.groups[(True,False)]:
-                        temporary_dataframe.ix[index,'control'] = sobstitution
+                        temporary_dataframe.ix[index,'control'] = substitution
 
                 temporary_dataframe['fold'] =  temporary_dataframe['exp'] / temporary_dataframe['control']
 
@@ -206,78 +206,75 @@ def performing_analysis(Info):
         def outlier_InputData (Info,summary,group):
             ####            
             def prepare_lists (mean_to_concat,fold_to_concat,summary,group,dataframe,parameter):
+                
                 if summary.replicates[group] == 1:
                     value = Info.GroupAnalysis.Others.experiments[0][0]
-                    mean_to_concat.append(dataframe['%s_%s_%s'%(group,parameter,value)])       
+                    mean_to_concat.append(dataframe['%s_%s_%s'%(group,parameter,value)]-dataframe['%s_%s_%s'%(Info.GroupAnalysis.Reference.name,parameter,Info.GroupAnalysis.Reference.experiments[0])])       
                 else:
-                    mean_to_concat.append(dataframe['%s_%s_mean'%(group,parameter)])
+                    mean_to_concat.append(dataframe['%s_%s_mean'%(group,parameter)]-dataframe['%s_%s_mean'%(Info.GroupAnalysis.Reference.name,parameter)])
                 fold_to_concat.append(dataframe['%s_%s_fold'%(group,parameter)])
+                    
+                
                 return mean_to_concat,fold_to_concat
             ####
-            def introduce_limit(Info,group,value,outlier_mean):
-                if Info.GroupAnalysis.Outlier.Parameters.II:
-                    outlier_mean.ix['LIMIT','%s_%s_%s' % (group,'II',value)] = Info.GroupAnalysis.Outlier.Limits.II
-                if Info.GroupAnalysis.Outlier.Parameters.KI:
-                    outlier_mean.ix['LIMIT','%s_%s_%s' % (group,'KI',value)] = Info.GroupAnalysis.Outlier.Limits.KI
-                if Info.GroupAnalysis.Outlier.Parameters.Bias:
-                    outlier_mean.ix['LIMIT','%s_%s_%s' % (group,'Bias',value)] = Info.GroupAnalysis.Outlier.Limits.Bias
-                if Info.GroupAnalysis.Outlier.Parameters.Reads:
-                    outlier_mean.ix['LIMIT','%s_%s_%s' % (group,'Reads',value)] = Info.GroupAnalysis.Outlier.Limits.Reads
-                return outlier_mean
                         
             mean_to_concat = []
             fold_to_concat = []
-            to_plot = []
+            II_selection = pd.DataFrame()
             if Info.GroupAnalysis.Outlier.Parameters.II:
                 mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.II,'II')
-                to_plot.append('%s_%s_%s'%(group,'II','fold'))
+                if summary.replicates[group] == 1:
+                    value = Info.GroupAnalysis.Others.experiments[0][0]
+                    name = '%s_%s_%s'%(group,'II',value)
+                    II_selection[name] = summary.II[name]
+                else:
+                    name = '%s_%s_mean'%(group,'II')
+                    II_selection[name] = summary.II[name]
+                                              
             if Info.GroupAnalysis.Outlier.Parameters.KI:
                 mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.KI,'KI')
-                to_plot.append('%s_%s_%s'%(group,'KI','fold'))
             if Info.GroupAnalysis.Outlier.Parameters.Bias:
                 mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.Bias,'Bias')
-                to_plot.append('%s_%s_%s'%(group,'Bias','fold'))
             if Info.GroupAnalysis.Outlier.Parameters.Reads:
                mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.Reads,'Reads')
-               to_plot.append('%s_%s_%s'%(group,'Reads','fold'))
                        
-            outlier_mean = pd.concat(mean_to_concat, axis = 1)         
+            outlier_mean = pd.concat(mean_to_concat, axis = 1)
+            outlier_mean[outlier_mean < 0] = 0
             outlier_fold = pd.concat(fold_to_concat, axis = 1)
             if summary.replicates[group] == 1:
                 value = Info.GroupAnalysis.Others.experiments[0][0]
             else:
                 value = 'mean'
-                
-            outlier_fold = outlier_fold[outlier_mean['%s_II_%s' % (group,value)] >5]
+            
+                   
+            outlier_fold = outlier_fold[II_selection['%s_II_%s' % (group,value)] >5]
     
-            outlier_mean = outlier_mean[outlier_mean['%s_II_%s' % (group,value)] >5]
+            outlier_mean = outlier_mean[II_selection['%s_II_%s' % (group,value)] >5]
             
             
-            return outlier_mean, outlier_fold,to_plot
+            return outlier_mean, outlier_fold
 
             
         ####
         for group in Info.GroupAnalysis.Others.name:        
-            outlier_mean,outlier_fold,to_plot = outlier_InputData (Info,summary,group)
-#            scores = LOF.main(outlier_mean,Info,len(outlier_mean.index))
-#            outlier_mean = pd.merge(outlier_mean,scores,left_index=True,right_index=True)
-#            limit =  scores.ix['LIMIT','Score']
-#            scores = scores.drop('LIMIT')
-#            outlier_fold = outlier_fold[scores['Score'] > limit]
+            outlier_mean,outlier_fold = outlier_InputData (Info,summary,group)
             
-            outlier_mean = np.log10(outlier_mean)
-            outlier_mean[-(outlier_mean>0)] = 0
-            outlier_mean.columns = outlier_fold.columns
-            
-            outlier_fold = outlier_fold*outlier_mean
+            value_of_trustability = 0.4
             
             
-            scores =LOF.main(outlier_fold,Info,len(outlier_fold.index))
+            trustability = LOF.main(outlier_mean,Info,len(outlier_mean.index))
+            trustability = trustability * value_of_trustability
+            trustability = pd.merge(outlier_mean,trustability,left_index=True,right_index=True)
             
-            outlier=pd.merge(outlier_fold,scores,left_index=True,right_index=True)
-            outlier['flag'] = outlier.apply(LOF.returnFlag,axis=1)
-            LOF.plot_outliers(outlier,Info,to_plot)
-            summary.Outlier['%s_Score'%group] = scores ['Score']
+
+            outliers =LOF.main(outlier_fold,Info,len(outlier_fold.index))
+            outliers=pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
+            
+            summary.Outlier['%s_Outliers'%group] = outliers ['Score']
+            
+            summary.Outlier['%s_Score'%group] = outliers ['Score']*trustability['Score']         
+
+
             
             return summary
             
@@ -297,7 +294,7 @@ def performing_analysis(Info):
 
     date_today = getDay()   
     
-    #Printing statments    
+    #Printing statements    
     
     strings = []    
     strings.append('\n***\tPerform Group Analysis\t***\t\tDate: %s' % date_today)
@@ -391,20 +388,20 @@ def performing_analysis(Info):
     string = '\nColumns: \n\t%s' %(' | ').join(summary.all.columns)
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     
-    with open (os.path.join(Info.GroupAnalysis.storage_loc,'row', 'RowData.pkl'),'wb') as saving:
+    with open (os.path.join(Info.GroupAnalysis.storage_loc,'raw', 'RawData.pkl'),'wb') as saving:
         pickle.dump(summary,saving)
         
-    string = '\nSaved RowData analysis in : %s' %(os.path.join(Info.GroupAnalysis.storage_loc,'row', 'RowData.pkl'))
+    string = '\nSaved RawData analysis in : %s' %(os.path.join(Info.GroupAnalysis.storage_loc,'raw', 'RawData.pkl'))
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     
-    with open (os.path.join(Info.GroupAnalysis.storage_loc,'row', 'GroupAnalysis.pkl'),'wb') as saving:
+    with open (os.path.join(Info.GroupAnalysis.storage_loc,'raw', 'GroupAnalysis.pkl'),'wb') as saving:
         pickle.dump(Info.GroupAnalysis,saving)
     
-    string = 'Saved GroupAnalysis file (necessary for table generation) in : %s' %(os.path.join(Info.GroupAnalysis.storage_loc,'row', 'GroupAnalysis.pkl'))
+    string = 'Saved GroupAnalysis file (necessary for table generation) in : %s' %(os.path.join(Info.GroupAnalysis.storage_loc,'raw', 'GroupAnalysis.pkl'))
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)       
     
     for exp in Info.GroupAnalysis.input_files:
-        location = re.findall('^(.+)/row/(.+)_GenesData.pkl',exp)[0]
+        location = re.findall('^(.+)/raw/(.+)_GenesData.pkl',exp)[0]
         with open (os.path.join(location[0],location[1] + '_info.txt'),'a') as write:
             string = '\t%s :\t %s' % (date_today,Info.GroupAnalysis.storage_loc)
             print >> write,string
@@ -413,6 +410,8 @@ def performing_analysis(Info):
             
     string = '***\tEND Perform Group Analysis\t***' 
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
+    
+
     
         
     

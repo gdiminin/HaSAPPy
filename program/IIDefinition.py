@@ -20,7 +20,7 @@ class Library():
         self.name = exp
         self.input = input_
         self.informations = {'Total':'nd','Aligned':'nd','Unique_reads':'nd','Insertions':'nd','I.I.':'nd'}        
-        self.row = pd.Series()
+        self.raw = pd.Series()
         
 
 #2) Function library_gneration
@@ -39,7 +39,7 @@ def library_generation (exp, Info):
 
     if not Info.IIDefinition.reads_duplicate: # single_end sequencing!!!!
         count_aligned = 0
-        count_GoodQualityAllignment = 0
+        count_GoodQualityAlignment = 0
         count_total = 0
 	for algnt in aligned_file:
 		if algnt.aligned:
@@ -55,11 +55,11 @@ def library_generation (exp, Info):
                 if algnt.aQual >= Info.IIDefinition.fidelity_limit:
 		    ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
                     insertions_counts[ins] +=1
-                    count_GoodQualityAllignment +=1                    
+                    count_GoodQualityAlignment +=1                    
                 count_aligned +=1                    
             count_total +=1
             
-        string = '\t-Total reads: %i\n\t-Alligned reads: %i\n\t-Alligned Reads trusted: %i\n\t-Insertions identified: %i' %(count_total,count_aligned,count_GoodQualityAllignment, len(insertions_counts.keys()))
+        string = '\t-Total reads: %i\n\t-Aligned reads: %i\n\t-Aligned Reads trusted: %i\n\t-Insertions identified: %i' %(count_total,count_aligned,count_GoodQualityAlignment, len(insertions_counts.keys()))
         Info.print_save(exp,string)
       
     else: # pair_end sequencing = Allow analysis of number of reads       
@@ -68,14 +68,14 @@ def library_generation (exp, Info):
         count_aligned = 0
         count_position = 0
         count_duplicates = 0
-        count_GoodQualityAllignment = 0
+        count_GoodQualityAlignment = 0
 
         for algnt in aligned_file:
             count_total +=1 #all the read in file
             
-            if algnt.pe_which == "first" and algnt.proper_pair:#just consider sequenced 1)alligned, 2)for which a paired_end has been identified, 3) coming from the "first" file (in theory p5 strand)
+            if algnt.pe_which == "first" and algnt.proper_pair:#just consider sequenced 1)aligned, 2)for which a paired_end has been identified, 3) coming from the "first" file (in theory p5 strand)
                 if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-                    count_GoodQualityAllignment +=1
+                    count_GoodQualityAlignment +=1
                     i_p5 = HTSeq.GenomicPosition('chr%s'%str(algnt.iv.chrom),algnt.iv.start_d,algnt.iv.strand) # Viral insertion genomic position
                     if insertions.has_key(i_p5):
                         if algnt.inferred_insert_size in insertions[i_p5]:#where algnt.mate_start is the starting genomic position of the reverse paired read (that for us..is the LAM_PCR end)
@@ -96,7 +96,7 @@ def library_generation (exp, Info):
             insertions_counts[ins] = length
             count_reads += length
             
-        string = '\t-Total reads: %i\n\t-Alligned reads: %i\n\t-Alligned Reads trusted: %i\n\t-Detected duplicates: %i\n\tInsertions identified: %i' %(count_total,count_aligned,count_GoodQualityAllignment,count_duplicates,len(insertions_counts.keys()))
+        string = '\t-Total reads: %i\n\t-Aligned reads: %i\n\t-Aligned Reads trusted: %i\n\t-Detected duplicates: %i\n\tInsertions identified: %i' %(count_total,count_aligned,count_GoodQualityAlignment,count_duplicates,len(insertions_counts.keys()))
         Info.print_save(exp,string)
         
     string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
@@ -160,10 +160,10 @@ def library_generation (exp, Info):
 
     
             
-    library.row = pd.Series(insertions_collapsed, index = insertions_collapsed.keys())
+    library.raw = pd.Series(insertions_collapsed, index = insertions_collapsed.keys())
     
     #####Store the class!!!!!#####
-    location = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'row',exp + '_IIRowdata.pkl')   
+    location = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'raw',exp + '_IIRawdata.pkl')   
     with open (location,'wb') as saving:
             pickle.dump(library,saving)
     #####END the program#####

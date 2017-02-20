@@ -28,37 +28,37 @@ def load(Info):
         if pair_end:
             output_file_II = os.path.join(storing_loc,exp + '_pairend' + storing_suffix)
         
-        if Info.Type_analysis.AllignPhix:
-            if Info_selected == Info.AllignPhix:
+        if Info.Type_analysis.AlignPhix:
+            if Info_selected == Info.AlignPhix:
                 command = "bowtie2 --time --threads 8 -x %s %s -S %s" %(Info_selected.reference,input_file_I,output_file_I) #bowtie2 command
                 if pair_end:
                     command_pair_end = "bowtie2 --time --threads 8 -x %s %s -S %s" %(Info_selected.reference,input_file_II,output_file_II) #bowtie2 command
 
-        if Info.Type_analysis.AllignGenome:
-            if Info_selected == Info.AllignGenome : 
+        if Info.Type_analysis.AlignGenome:
+            if Info_selected == Info.AlignGenome : 
                 if program == 'bowtie2':
                     if pair_end:
                         command = "bowtie2 --time --local --threads 8 -x %s -1 %s -2 %s -S %s" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
                     else:
                         command = "bowtie2 --time --local --threads 8 -x %s %s -S %s" %(Info_selected.reference,input_file_I,output_file_I)
-                if program == 'ngm':
+                if program == 'NextGenMap':
                     if pair_end:
-                        command = "ngm --local --gpu 0,1 --paired -r %s -1 %s -2 %s -o %s -t 8" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
+                        pass #understand the command to allow pair-end alignment
                     else:
-                        command = "ngm --local --gpu 0,1 -q %s -r %s -o %s -t 8" %(input_file_I,Info_selected.reference,output_file_I)
+                        command = 'ngm -q %s -r %s -o %s -t 8 -g' %(input_file_I,Info_selected.reference,output_file_I)
                 if program == 'nvBowtie':
                     if pair_end:
-                        command = "nvBowtie --local --device 0 --device 1 -x %s -1 %s -2 %s -S %s" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
+                        pass #understand the command to allow pair-end alignment
                     else:
-                        command = "nvBowtie --local --device 0 --device 1 -U %s -x %s -S %s" % (input_file_I,Info_selected.reference,output_file_I)
+                        command = 'nvBowtie --local --device 0 -U %s -x %s -S %s' % (input_file_I,Info_selected.reference,output_file_I)
         
         startTime = getCurrTime()
         run_output = subprocess.check_output(command,shell= True,stderr=subprocess.STDOUT)
         string = "\t\tCommand used: %s\n\t\t%s\n\tStarted: %s\tRunTime: %s\n\t\t\tStored in: %s\n" %(command,run_output,startTime,computeRunTime(startTime, getCurrTime()),output_file_I)
         Info.print_save(exp,string)
         
-        if Info.Type_analysis.AllignPhix:
-            if Info_selected == Info.AllignPhix:
+        if Info.Type_analysis.AlignPhix:
+            if Info_selected == Info.AlignPhix:
                 if pair_end:
                     startTime = getCurrTime()
                     run_output = subprocess.check_output(command_pair_end,shell= True,stderr=subprocess.STDOUT)
@@ -68,9 +68,9 @@ def load(Info):
                 
     def Trim_Phix(Info,exp,storing_loc,pair_end):
         to_clean = []
-        to_clean.append(os.path.join(storing_loc,exp + '_Alligned.sam'))
+        to_clean.append(os.path.join(storing_loc,exp + '_Aligned.sam'))
         if pair_end:
-            to_clean.append(os.path.join(storing_loc,exp + '_pairend_Alligned.sam'))
+            to_clean.append(os.path.join(storing_loc,exp + '_pairend_Aligned.sam'))
             
         for library in to_clean:                                                                               
             Phix_blast = HTSeq.SAM_Reader(library)
@@ -96,27 +96,27 @@ def load(Info):
     ####
             
             
-    if Info.Type_analysis.AllignPhix:
-        for exp in Info.AllignPhix.lib_names:      
-            string = "\n\n***\tAllignment\t***\n"
+    if Info.Type_analysis.AlignPhix:
+        for exp in Info.AlignPhix.lib_names:      
+            string = "\n\n***\tAlignment\t***\n"
             Info.print_save(exp,string)
     else:
-        if Info.Type_analysis.AllignGenome:
-            for exp in Info.AllignGenome.lib_names:
-                string = "\n\n***\tAllignment\t***\n"
+        if Info.Type_analysis.AlignGenome:
+            for exp in Info.AlignGenome.lib_names:
+                string = "\n\n***\tAlignment\t***\n"
                 Info.print_save(exp,string)
                 
     
             
-    if Info.Type_analysis.AllignPhix:        
-        for exp in Info.AllignPhix.lib_names:
+    if Info.Type_analysis.AlignPhix:        
+        for exp in Info.AlignPhix.lib_names:
             startTime = getCurrTime()
-            string = 'Allign to Phix genome\n\tStarted: %s' %(startTime)
+            string = 'Align to Phix genome\n\tStarted: %s' %(startTime)
             Info.print_save(exp,string)
-            storing_loc = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'row')
-            storing_suffix = '_Alligned.sam'
+            storing_loc = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'raw')
+            storing_suffix = '_Aligned.sam'
             
-            Align_library(Info,Info.AllignPhix,exp,storing_loc,storing_suffix,program = 'bowtie2',pair_end = Info.General.pair_ends)
+            Align_library(Info,Info.AlignPhix,exp,storing_loc,storing_suffix,program = 'bowtie2',pair_end = Info.General.pair_ends)
             
             string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
             Info.print_save(exp,string)
@@ -133,35 +133,35 @@ def load(Info):
             
             if Info.Type_analysis.Trim:
                 if not Info.Trim.store:
-                    os.remove(Info.AllignPhix.input_files_I[Info.AllignPhix.lib_names.index(exp)])
-                    if not os.path.exists(Info.AllignPhix.input_files_I[Info.AllignPhix.lib_names.index(exp)]):
-                        string = "\tCancelled file:\n\t\t-%s" % Info.AllignPhix.input_files_I[Info.AllignPhix.lib_names.index(exp)]
+                    os.remove(Info.AlignPhix.input_files_I[Info.AlignPhix.lib_names.index(exp)])
+                    if not os.path.exists(Info.AlignPhix.input_files_I[Info.AlignPhix.lib_names.index(exp)]):
+                        string = "\tCancelled file:\n\t\t-%s" % Info.AlignPhix.input_files_I[Info.AlignPhix.lib_names.index(exp)]
                         Info.print_save(exp,string)
                     if Info.General.pair_ends:
-                        os.remove(Info.AllignPhix.input_files_II[Info.AllignPhix.lib_names.index(exp)])
-                        if not os.path.exists(Info.AllignPhix.input_files_I[Info.AllignPhix.lib_names.index(exp)]):
-                            string = "\tCancelled file:\n\t\t-%s" % Info.AllignPhix.input_files_I[Info.AllignPhix.lib_names.index(exp)]
+                        os.remove(Info.AlignPhix.input_files_II[Info.AlignPhix.lib_names.index(exp)])
+                        if not os.path.exists(Info.AlignPhix.input_files_I[Info.AlignPhix.lib_names.index(exp)]):
+                            string = "\tCancelled file:\n\t\t-%s" % Info.AlignPhix.input_files_I[Info.AlignPhix.lib_names.index(exp)]
                             Info.print_save(exp,string)
                         
                 
     
-    if Info.Type_analysis.AllignGenome:
-        for exp in Info.AllignGenome.lib_names:
+    if Info.Type_analysis.AlignGenome:
+        for exp in Info.AlignGenome.lib_names:
             print exp
             startTime = getCurrTime()
-            string = 'Allign to Reference genome:\n\tStarted: %s' %startTime
+            string = 'Align to Reference genome:\n\tStarted: %s' %startTime
             Info.print_save(exp,string)
-            storing_loc = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'row')
-            storing_suffix = '_Alligned.sam'
+            storing_loc = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'raw')
+            storing_suffix = '_Aligned.sam'
             
-            Align_library(Info,Info.AllignGenome,exp,storing_loc,storing_suffix,program = Info.AllignGenome.program_type,pair_end = Info.General.pair_ends)
+            Align_library(Info,Info.AlignGenome,exp,storing_loc,storing_suffix,program = Info.AlignGenome.program_type,pair_end = Info.General.pair_ends)
             
             string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
             Info.print_save(exp,string)
 
-    if Info.Type_analysis.AllignPhix:    
-        if not Info.AllignPhix.store:
-            for exp in Info.AllignGenome.lib_names:
+    if Info.Type_analysis.AlignPhix:    
+        if not Info.AlignPhix.store:
+            for exp in Info.AlignGenome.lib_names:
                  os.remove(os.path.join(storing_loc,exp + '_PhixCleaned.fastq'))
                  if not os.path.exists(os.path.join(storing_loc,exp + '_PhixCleaned.fastq')):
                      string = "\tCancelled files:\n\t\t-%s" % os.path.join(storing_loc,exp + '_PhixCleaned.fastq')
@@ -173,14 +173,14 @@ def load(Info):
                          Info.print_save(exp,string)
                      
                      
-    if Info.Type_analysis.AllignGenome:
-        for exp in Info.AllignGenome.lib_names:      
-            string = "***\tEND Allignment\t***"
+    if Info.Type_analysis.AlignGenome:
+        for exp in Info.AlignGenome.lib_names:      
+            string = "***\tEND Alignment\t***"
             Info.print_save(exp,string)
     else:
-        if Info.Type_analysis.AllignPhix:
-            for exp in Info.AllignPhix.lib_names:   
-                string = "***\tEND Allignment\t***"
+        if Info.Type_analysis.AlignPhix:
+            for exp in Info.AlignPhix.lib_names:   
+                string = "***\tEND Alignment\t***"
                 Info.print_save(exp,string)
                  
     

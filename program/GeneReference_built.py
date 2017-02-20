@@ -63,15 +63,15 @@ def library_preparation(info):
                 first = False
             else:
                 count = 0
-                finded = False
+                found = False
                 for interval in list_interval:    
                     if ref_gene.ix[n,"interval"].overlaps(interval[0]):
                         interval[0].extend_to_include(ref_gene.ix[n,"interval"])
                         list_interval[count][1].append(n)
-                        finded = True
+                        found = True
                         break
                     count +=1               
-                if not finded:
+                if not found:
                     list_interval.append((ref_gene.ix[n,"interval"],[n]))
                         
         if len(list_interval)==1:
@@ -133,7 +133,7 @@ print '\n***Generation of gene models library for HaSAPPY program***'
 print '\tInput file: %s' % args.input
 
 if ((args.input==None) or (args.output == None)):
-    print '\nWARNING: informations provided are not sufficent.\nCheck -h option to have more details on requested parameters'
+    print '\nWARNING: informations provided are not sufficient.\nCheck -h option to have more details on requested parameters'
 
 else:
     startTime = getCurrTime()

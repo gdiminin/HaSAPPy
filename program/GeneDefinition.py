@@ -39,7 +39,7 @@ def library_analysis(Info):
         library = Genes_library(exp,Info.GeneDefinition.input_files[Info.GeneDefinition.lib_names.index(exp)])
                     
         with open (library.input,'rb') as loading:
-            row_data = pickle.load(loading)
+            raw_data = pickle.load(loading)
             
         library.II = pd.Series(data = 0, index = genes_ref.index)        
         library.II['_no_feature'] = 0
@@ -59,15 +59,15 @@ def library_analysis(Info):
         library.reads = pd.Series(data = 0, index = genes_ref.index)
         library.reads['_no_feature'] = 0
     
-        for i in row_data.row.keys():
+        for i in raw_data.raw.keys():
             i_nosense = HTSeq.GenomicPosition(i.chrom,i.start,strand =".")
             if Info.GeneDefinition.Parameters.Reads: #Counting all Genes Insertions to be added to library.reads if paired-end
                 gene_ids = set(genes[i_nosense])
                 if gene_ids == set([]):
-                    library.reads["_no_feature"] += row_data.row[i]
+                    library.reads["_no_feature"] += raw_data.raw[i]
                 else:
                     for gene_id in gene_ids: 
-                        library.reads[gene_id] += row_data.row[i]
+                        library.reads[gene_id] += raw_data.raw[i]
             if Info.GeneDefinition.Parameters.II:
                 update_library(genes,i_nosense,library.II)
             if Info.GeneDefinition.Parameters.KI:    
@@ -93,11 +93,11 @@ def library_analysis(Info):
         library.bias = temporary_dataframe['FW'] / temporary_dataframe['RV']
             
         #Store the class
-        location = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'row',exp + '_GenesData.pkl')   
+        location = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'raw',exp + '_GenesData.pkl')   
         with open (location,'wb') as saving:
             pickle.dump(library,saving)
             
-        library_evaluation(Info,library,len(row_data.row.keys()))
+        library_evaluation(Info,library,len(raw_data.raw.keys()))
                     
         
         string = '\tRunTime: %s\n' %computeRunTime(startTime, getCurrTime())  

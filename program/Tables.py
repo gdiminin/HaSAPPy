@@ -13,8 +13,13 @@ from HaSAPPY_time import *
 
 
 def main(Info):
+    def print_save_analysis (string, storage_loc):
+        print string
+        with open (os.path.join(storage_loc,'analysis_info.txt'), 'a' ) as write:
+            print >> write, string
     ####
     def create_table(Info,GroupAnalysis,summary,keys,filters,name):
+        
         for instruction in filters:
             if instruction['parameter'][1] != 'Score':
                 key  = '%s_%s_%s' %(instruction['parameter'][0],instruction['parameter'][1],instruction['parameter'][2])
@@ -108,24 +113,70 @@ def main(Info):
                   
                 
         for name in columns_name:
-            table[name] = summary[name]
+            if name in summary.columns:
+                table[name] = summary[name]
+                
+            else:
+                string = "\tWarning!!! %s is not among avaiable columns" % (name)
+                print_save_analysis (string, GroupAnalysis.storage_loc)
+                
+        string = '\n\tColumns:\n\t%s' %(' | ').join(table.columns)
+        print_save_analysis (string, GroupAnalysis.storage_loc)
+        string = '\n\tFilters:%s\n\t' % (' | ').join(filters)
+        print_save_analysis (string, GroupAnalysis.storage_loc)
                 
         return table
         ########
-
+    
+    date_today = getDay()   
+    
+    #Printing statements    
+    
+    strings = []
+    
+    strings.append('\n***\tTable generation\t***\t\tDate: %s' % date_today)
+    
+        
     #Upload GroupAnalysis
-
+    startTime = getCurrTime()      
+    strings.append('\nRestoring GroupAnalysis information and RawData files\n\tStarted: %s' % startTime)
+    
     with open(Info.Tables.input_files, 'rb') as loading:
         GroupAnalysis = pickle.load(loading)
-    with open (os.path.join(GroupAnalysis.storage_loc,'row', 'RowData.pkl'), 'rb') as loading:
+    strings.append('\tGroupAnalysis location: %s' % Info.Tables.input_files)
+            
+    with open (os.path.join(GroupAnalysis.storage_loc,'raw', 'RawData.pkl'), 'rb') as loading:
         summary = (pickle.load(loading)).all
+    strings.append('\tRowData.pkl location: %s' % os.path.join(GroupAnalysis.storage_loc,'raw', 'RawData.pkl'))
     
+    strings.append('\tRunTime: %s' % computeRunTime(startTime,getCurrTime()))
     
-    tables = []                
-    for table in Info.Tables.names:
+    for string in strings:
+        print_save_analysis (string, GroupAnalysis.storage_loc)
+    
+    startTime = getCurrTime() 
+    string = '\nGeneration of Tables\n\tStarted: %s'% startTime
+    print_save_analysis (string, GroupAnalysis.storage_loc)
+        
+    tables = []
+    table_count = 0                
+    for table in Info.Tables.names:  
+        table_count +=1
+        
+        string = '%i) %s' %(table_count,table)
+        print_save_analysis (string, GroupAnalysis.storage_loc)
+        
         keys = Info.Tables.keys[Info.Tables.names.index(table)]
         filters = Info.Tables.filters[Info.Tables.names.index(table)]
         tables.append(create_table(Info,GroupAnalysis,summary,keys,filters,table))
+    
+    string = '\tRunTime: %s' % computeRunTime(startTime,getCurrTime())
+    print_save_analysis (string, GroupAnalysis.storage_loc)
+    
+    
+    startTime = getCurrTime()
+    string = '\nGeneration of Excel table\n\tStarted: %s'% startTime
+    print_save_analysis (string, GroupAnalysis.storage_loc)
     
     storing_loc = os.path.join(GroupAnalysis.storage_loc,'Table_%s.xlsx'% getDay())
     attempt = 0
@@ -145,3 +196,12 @@ def main(Info):
         
     # Close the Pandas Excel writer and output the Excel file.
     writer.save()
+    
+    string = '\tSaved Table : %s' %(storing_loc)
+    print_save_analysis (string, GroupAnalysis.storage_loc)
+    
+    string = '\tRunTime: %s' % computeRunTime(startTime,getCurrTime())
+    print_save_analysis (string, GroupAnalysis.storage_loc)
+    
+    string = '\n***\tEND Table Generation\t***' 
+    print_save_analysis (string, GroupAnalysis.storage_loc)
