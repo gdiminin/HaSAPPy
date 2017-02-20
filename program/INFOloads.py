@@ -17,8 +17,8 @@ class Upperlevel:
 class Type_analysis(Upperlevel):
     def __init__(self,dictionary):
         self.Trim = dictionary[0]['A']
-        self.AllignPhix = dictionary[0]['B']
-        self.AllignGenome = dictionary[0]['C']
+        self.AlignPhix = dictionary[0]['B']
+        self.AlignGenome = dictionary[0]['C']
         self.IIDefinition = dictionary[0]['D']
         self.GeneDefinition = dictionary[0]['E']
         self.GroupAnalysis = dictionary[0]['F']
@@ -29,7 +29,7 @@ class General(Upperlevel):
     def __init__(self,dictionary):                      
         self.operator = dictionary[1]['A']
         self.storing_loc = dictionary[1]['B']
-        self.pair_ends = True if (dictionary[2]['B']+dictionary[3]['D']+dictionary[4]['E']+dictionary[5]['E']+dictionary[6]['G']) >= 1 else False
+        self.pair_ends = True if (dictionary[2]['B']+dictionary[3]['D']+dictionary[4]['E']+dictionary[5]['F']+dictionary[6]['G']) >= 1 else False
         self.date = (datetime.date.today()).isoformat()
 
 class QS (Upperlevel):
@@ -49,7 +49,7 @@ class Trim(Upperlevel):
         self.QS = QS(dictionary[2]['H'],dictionary[2]['J'])
         self.store = dictionary[2]['K']       
         
-class AllignPhix(Upperlevel):
+class AlignPhix(Upperlevel):
     def __init__(self,dictionary,pair_ends,starting):                 
         self.reference = dictionary[3]['A']
         self.store = dictionary[3]['B']
@@ -66,7 +66,7 @@ class AllignPhix(Upperlevel):
             if pair_ends:
                 self.input_files_II = []
                 
-class AllignGenome(Upperlevel):
+class AlignGenome(Upperlevel):
     def __init__(self,dictionary,pair_ends,starting):
         self.program_type = dictionary[4]['A']
         self.reference = dictionary[4]['B']
@@ -166,12 +166,30 @@ class Tables(Upperlevel):
         else:
             self.input_files = ''
 
+            
+class Gene_model(Upperlevel):
+    def __init__ (self,perform,reference,genes):
+        self.perform = perform
+        self.reference = reference
+        self.genes = []
+        for n in genes.split(','):
+            self.genes.append(n.rstrip(' ').lstrip(' '))
+
+class Insertions_distribution(Upperlevel):
+    def __init__ (self,perform,outlier,outlier_value,annotate,annotate_value):
+        self.perform = perform
+        self.outlier = outlier
+        self.outlier_value = outlier_value
+        self.annotate = annotate
+        self.annotate_value = annotate_value
+        
+            
 class Design (Upperlevel):
     def __init__ (self,dictionary,starting):
-        self.reference = dictionary[9]['A']
-        self.genes = dictionary[9]['B']
+        self.Gene_model = Gene_model(dictionary[9]['A'],dictionary[9]['C'],dictionary[9]['D'])
+        self.Distribution = Insertions_distribution(dictionary[9]['B'],dictionary[9]['E'],dictionary[9]['F'],dictionary[9]['G'],dictionary[9]['H']) 
         if starting:
-            self.input_files = dictionary[9]['C']
+            self.input_files = dictionary[9]['I']
         else:
             self.input_files = ''
         
@@ -183,12 +201,12 @@ class Info(Upperlevel):
     def upload_informations(self,dictionary):
         if self.Type_analysis.Trim:
             self.Trim = Trim(dictionary,self.General.pair_ends)
-        if self.Type_analysis.AllignPhix:
-            self.AllignPhix = AllignPhix(dictionary,self.General.pair_ends,starting = not(self.Type_analysis.Trim))
-        if self.Type_analysis.AllignGenome:
-            self.AllignGenome = AllignGenome (dictionary,self.General.pair_ends,starting = False if (self.Type_analysis.Trim + self.Type_analysis.AllignPhix) == 1 else True)
+        if self.Type_analysis.AlignPhix:
+            self.AlignPhix = AlignPhix(dictionary,self.General.pair_ends,starting = not(self.Type_analysis.Trim))
+        if self.Type_analysis.AlignGenome:
+            self.AlignGenome = AlignGenome (dictionary,self.General.pair_ends,starting = False if (self.Type_analysis.Trim + self.Type_analysis.AlignPhix) == 1 else True)
         if self.Type_analysis.IIDefinition:  
-            self.IIDefinition = IIDefinition (dictionary,self.General.pair_ends, starting = not(self.Type_analysis.AllignGenome))
+            self.IIDefinition = IIDefinition (dictionary,self.General.pair_ends, starting = not(self.Type_analysis.AlignGenome))
         if self.Type_analysis.GeneDefinition:  
             self.GeneDefinition = GeneDefinition(dictionary, starting = not(self.Type_analysis.IIDefinition))
         if self.Type_analysis.GroupAnalysis:
@@ -201,10 +219,10 @@ class Info(Upperlevel):
     def starting (self):
         if self.Type_analysis.Trim:
             self.Type_analysis.starting = self.Trim
-        elif self.Type_analysis.AllignPhix:
-            self.Type_analysis.starting = self.AllignPhix
-        elif self.Type_analysis.AllignGenome:
-            self.Type_analysis.starting = self.AllignGenome
+        elif self.Type_analysis.AlignPhix:
+            self.Type_analysis.starting = self.AlignPhix
+        elif self.Type_analysis.AlignGenome:
+            self.Type_analysis.starting = self.AlignGenome
         elif self.Type_analysis.IIDefinition:
             self.Type_analysis.starting = self.IIDefinition
         elif self.Type_analysis.GeneDefinition:
@@ -222,12 +240,12 @@ class Info(Upperlevel):
         if self.Type_analysis.Trim:
             if self.Type_analysis.starting != self.Trim:
                 to_do.append(self.Trim)
-        if self.Type_analysis.AllignPhix:
-            if self.Type_analysis.starting != self.AllignPhix:
-                to_do.append(self.AllignPhix)
-        if self.Type_analysis.AllignGenome:
-            if self.Type_analysis.starting != self.AllignGenome:
-                to_do.append(self.AllignGenome)
+        if self.Type_analysis.AlignPhix:
+            if self.Type_analysis.starting != self.AlignPhix:
+                to_do.append(self.AlignPhix)
+        if self.Type_analysis.AlignGenome:
+            if self.Type_analysis.starting != self.AlignGenome:
+                to_do.append(self.AlignGenome)
         if self.Type_analysis.IIDefinition:
             if self.Type_analysis.starting != self.IIDefinition:
                 to_do.append(self.IIDefinition)
@@ -255,7 +273,7 @@ class Info(Upperlevel):
         After checking if the storing_location does not exist (and eventually asking for a new name), creates:
         the main folder: self.General.storing_loc + '/' exp_name + '_' + self.General.date
         the graph folder: main folder +'/graph/'
-        the row folder: main folder +'/row/' """
+        the raw folder: main folder +'/raw/' """
         
         do_folder_experiments = True
         if self.Type_analysis.GroupAnalysis:
@@ -285,8 +303,8 @@ class Info(Upperlevel):
                 graph_loc = os.path.join(location, "graph")
                 os.mkdir(graph_loc)
                 
-                row = os.path.join(location, "row")
-                os.mkdir(row)
+                raw = os.path.join(location, "raw")
+                os.mkdir(raw)
                         
         if self.Type_analysis.GroupAnalysis:            
             analysis_main = os.path.join(self.General.storing_loc,'Analysis')  
@@ -302,8 +320,8 @@ class Info(Upperlevel):
                     analysis_loc = os.path.join(analysis_main,new_name)
             self.GroupAnalysis.storage_loc = analysis_loc
             os.mkdir(analysis_loc)
-            row_loc = os.path.join(analysis_loc, "row")
-            os.mkdir(row_loc)
+            raw_loc = os.path.join(analysis_loc, "raw")
+            os.mkdir(raw_loc)
             graph_loc = os.path.join(analysis_loc, "graph")
             os.mkdir(graph_loc)
             
@@ -316,8 +334,8 @@ class Info(Upperlevel):
         print '\t{:20s}:\t'.format('Pair ends') + '%s'% self.General.pair_ends
         print 'Type of analysis'
         print '\t{:20s}:\t'.format('Trim') + '%s' % self.Type_analysis.Trim
-        print '\t{:20s}:\t'.format('AllignPhix') + '%s'%self.Type_analysis.AllignPhix
-        print '\t{:20s}:\t'.format('AllignGenome') + '%s'%self.Type_analysis.AllignGenome
+        print '\t{:20s}:\t'.format('AlignPhix') + '%s'%self.Type_analysis.AlignPhix
+        print '\t{:20s}:\t'.format('AlignGenome') + '%s'%self.Type_analysis.AlignGenome
         print '\t{:20s}:\t'.format('IIDefinition') + '%s'%self.Type_analysis.IIDefinition
         print '\t{:20s}:\t'.format('GeneDefinition') + '%s'%self.Type_analysis.GeneDefinition
         print '\t{:20s}:\t'.format('GroupAnalysis') + '%s'%self.Type_analysis.GroupAnalysis
@@ -337,26 +355,26 @@ class Info(Upperlevel):
             print '\t\t{:20s}:\t'.format('Extension limit') + '%s' % self.Trim.QS.sequence_3end
             print '\t{:20s}:\t'.format('Permanently store') + '%s' % self.Trim.store
             
-        if self.Type_analysis.AllignPhix:
-            print 'AllignPhix'
-            print '\t{:20s}:\t'.format('Phix reference') + '%s' % self.AllignPhix.reference
-            print '\t{:20s}:\t'.format('Permanently store') + '%s' % self.AllignPhix.store
-            print '\t{:20s}:\t'.format('Libraries number') + '%s' % self.AllignPhix.lib_numb
-            print '\t{:20s}:\t'.format('Libraries name') + '%s' % '\n\t{:20s}\t'.format('').join(self.AllignPhix.lib_names)
-            print '\t{:20s}:\t'.format('Lib input') + '%s' % '\n\t{:20s}\t'.format('').join(self.AllignPhix.input_files_I)
+        if self.Type_analysis.AlignPhix:
+            print 'AlignPhix'
+            print '\t{:20s}:\t'.format('Phix reference') + '%s' % self.AlignPhix.reference
+            print '\t{:20s}:\t'.format('Permanently store') + '%s' % self.AlignPhix.store
+            print '\t{:20s}:\t'.format('Libraries number') + '%s' % self.AlignPhix.lib_numb
+            print '\t{:20s}:\t'.format('Libraries name') + '%s' % '\n\t{:20s}\t'.format('').join(self.AlignPhix.lib_names)
+            print '\t{:20s}:\t'.format('Lib input') + '%s' % '\n\t{:20s}\t'.format('').join(self.AlignPhix.input_files_I)
             if self.General.pair_ends:
-                print '\t{:20s}:\t'.format('Lib input pair_end') + '%s' % '\n\t{:20s}\t'.format('').join(self.AllignPhix.input_files_II)
+                print '\t{:20s}:\t'.format('Lib input pair_end') + '%s' % '\n\t{:20s}\t'.format('').join(self.AlignPhix.input_files_II)
             
-        if self.Type_analysis.AllignGenome:
-            print 'AllignGenome'
-            print '\t{:20s}:\t'.format('Allignment Program') + '%s' % self.AllignGenome.program_type
-            print '\t{:20s}:\t'.format('Reference') + '%s' % self.AllignGenome.reference
-            print '\t{:20s}:\t'.format('Permanently store') + '%s' % self.AllignGenome.store
-            print '\t{:20s}:\t'.format('Libraries number') + '%s' % self.AllignGenome.lib_numb
-            print '\t{:20s}:\t'.format('Libraries name') + '%s' % '\n\t{:20s}\t'.format('').join(self.AllignGenome.lib_names)
-            print '\t{:20s}:\t'.format('Lib input') + '%s' % '\n\t{:20s}\t'.format('').join(self.AllignGenome.input_files_I)
+        if self.Type_analysis.AlignGenome:
+            print 'AlignGenome'
+            print '\t{:20s}:\t'.format('Alignment Program') + '%s' % self.AlignGenome.program_type
+            print '\t{:20s}:\t'.format('Reference') + '%s' % self.AlignGenome.reference
+            print '\t{:20s}:\t'.format('Permanently store') + '%s' % self.AlignGenome.store
+            print '\t{:20s}:\t'.format('Libraries number') + '%s' % self.AlignGenome.lib_numb
+            print '\t{:20s}:\t'.format('Libraries name') + '%s' % '\n\t{:20s}\t'.format('').join(self.AlignGenome.lib_names)
+            print '\t{:20s}:\t'.format('Lib input') + '%s' % '\n\t{:20s}\t'.format('').join(self.AlignGenome.input_files_I)
             if self.General.pair_ends:
-                print '\t{:20s}:\t'.format('Lib input pair_end') + '%s' % '\n\t{:20s}\t'.format('').join(self.AllignGenome.input_files_II)
+                print '\t{:20s}:\t'.format('Lib input pair_end') + '%s' % '\n\t{:20s}\t'.format('').join(self.AlignGenome.input_files_II)
         
         if self.Type_analysis.IIDefinition:
             print 'I.I. Definition'
@@ -443,9 +461,25 @@ class Info(Upperlevel):
                 print '\t\t{:20s}:\t\t'.format('Filters') + ", ".join(filter_list)
         if self.Type_analysis.Design:
             print 'Gene rappresentation'
-            print '\t{:20s}:\t'.format('Genes annotation') + self.Design.reference
-            print '\t{:20s}:\t'.format('Genes to analyse') + '%s' % '\n\t{:20s}\t'.format('').join(self.Design.genes)
-            print '\t{:20s}:\t'.format('Data_reference') + self.Design.input_files
+            print '\t{:20s}:\t'.format('Data_reference') + self.Design.input_files 
+            print '\t{:20s}:\t'.format('Type of plot')
+            print '\t\t{:20s}:\t'.format('I.I. in gene models') + '%s' % self.Design.Gene_model.perform
+            print '\t\t{:20s}:\t'.format('Genes distribution') + '%s' % self.Design.Distribution.perform
+            if self.Design.Gene_model.perform:
+                print '\t{:20s}:\t'.format('I.I. in gene models')
+                print '\t{:20s}:\t'.format('Genes annotation') + '%s' % self.Design.Gene_model.reference
+                print '\t{:20s}:\t'.format('Genes (or intervals)')
+                for name in self.Design.Gene_model.genes:
+                    print '\t\t%s' % name
+            if self.Design.Distribution.perform:
+                print '\t{:20s}:\t'.format('Genes distribution')
+                print '\t\t{:20s}:\t'.format('Mark Outliers') + '%s' % self.Design.Distribution.outlier
+                if self.Design.Distribution.outlier:
+                    print '\t\t\t{:20s}:\t'.format('Outlier value') + '%s' % self.Design.Distribution.outlier_value
+                print '\t\t{:20s}:\t'.format('Annotate genes') + '%s' % self.Design.Distribution.annotate
+                if self.Design.Distribution.annotate:
+                    print '\t\t\t{:20s}:\t'.format('Value or Gene list') + '%s' % self.Design.Distribution.annotate_value
+                    
             
     def fill_up(self):
         def fill_up_categories(self,category,terminal_string,pair_end = True):
@@ -454,49 +488,49 @@ class Info(Upperlevel):
             if pair_end:
                 input_ =[]
                 for exp in self.Type_analysis.starting.lib_names:
-                    file_input = os.path.join(self.General.storing_loc,exp + '_' +self.General.date,'row',exp + terminal_string)
+                    file_input = os.path.join(self.General.storing_loc,exp + '_' +self.General.date,'raw',exp + terminal_string)
                     input_.append(file_input)
                 category.input_files_I = input_             
                 if self.General.pair_ends:
                     input_ = []
                     for exp in self.Type_analysis.starting.lib_names:
-                        file_input = os.path.join(self.General.storing_loc,exp + '_' +self.General.date,'row',exp + '_pairend' + terminal_string)
+                        file_input = os.path.join(self.General.storing_loc,exp + '_' +self.General.date,'raw',exp + '_pairend' + terminal_string)
                         input_.append(file_input)
                     category.input_files_II = input_
             else:
                 input_ =[]
                 for exp in self.Type_analysis.starting.lib_names:
-                    file_input = os.path.join(self.General.storing_loc,exp + '_' +self.General.date,'row',exp + terminal_string)
+                    file_input = os.path.join(self.General.storing_loc,exp + '_' +self.General.date,'raw',exp + terminal_string)
                     input_.append(file_input)
                 category.input_files = input_             
                 
         
         for category in self.Type_analysis.to_do:
-            if self.Type_analysis.AllignPhix:
-                if category == self.AllignPhix:
+            if self.Type_analysis.AlignPhix:
+                if category == self.AlignPhix:
                     fill_up_categories(self,category,'_QS.fastq',pair_end = True)
-            if self.Type_analysis.AllignGenome:                    
-                if category == self.AllignGenome:
-                    if self.Type_analysis.AllignPhix:
+            if self.Type_analysis.AlignGenome:                    
+                if category == self.AlignGenome:
+                    if self.Type_analysis.AlignPhix:
                         fill_up_categories(self,category,'_PhixCleaned.fastq',pair_end = True)
                     else:
                         fill_up_categories(self,category,'_QS.fastq',pair_end = True)
             if self.Type_analysis.IIDefinition:
                 if category == self.IIDefinition:
-                    fill_up_categories(self,category,'_Alligned.sam',pair_end = False)
+                    fill_up_categories(self,category,'_Aligned.sam',pair_end = False)
             if self.Type_analysis.GeneDefinition:
                 if category == self.GeneDefinition:
-                    fill_up_categories(self,category,'_IIRowdata.pkl',pair_end = False)
+                    fill_up_categories(self,category,'_IIRawdata.pkl',pair_end = False)
             if self.Type_analysis.GroupAnalysis:
                 if category == self.GroupAnalysis:
                     fill_up_categories(self,category,'_GenesData.pkl',pair_end = False)
             if self.Type_analysis.Tables:
                 if category == self.Tables:
-                    file_input = os.path.join(self.GroupAnalysis.storage_loc,'row','GroupAnalysis.pkl')
+                    file_input = os.path.join(self.GroupAnalysis.storage_loc,'raw','GroupAnalysis.pkl')
                     self.Tables.input_files = file_input
             if self.Type_analysis.Design:
                 if category == self.Design:
-                    file_input = os.path.join(self.GroupAnalysis.storage_loc,'row','GroupAnalysis.pkl')
+                    file_input = os.path.join(self.GroupAnalysis.storage_loc,'raw','GroupAnalysis.pkl')
                     self.Design.input_files = file_input
                     
     def print_save(self,exp,string):
@@ -523,8 +557,8 @@ def read_txt(informations,text):
     def get_NUMBER(section,task,line,informations):
         if not informations.has_key(section):
             informations[section] = {}
-        if re.search ('^\s*@\d[A-Z]\).*([\d.]+).*',line):
-            value = re.findall ('^\s*@\d[A-Z]\).*([\d.]+).*',line)[0]
+        if re.search ('^\s*@\d[A-Z]\)\D*([\d.]+)\D*',line):
+            value = re.findall ('^\s*@\d[A-Z]\)\D*([\d.]+)\D*',line)[0]
             if value:
                 informations[section][task] = float(value)
             else:
@@ -594,7 +628,7 @@ def read_txt(informations,text):
                 informations = extract_line (section,task,line,informations,true =['C','E'],number =['D'],list_=['F','G','H'],string=['A','B'])  
              
             elif section == 5:        
-                informations = extract_line (section,task,line,informations,true =['B','C','E','F'],number =['A','D'],list_=['G','H'],string=[])  
+                informations = extract_line (section,task,line,informations,true =['B','C','F'],number =['A','D','E'],list_=['G','H'],string=[])  
         
             elif section == 6:        
                 informations = extract_line (section,task,line,informations,true =['B','C','D','E','G'],number =['F'],list_=['H','I'],string=['A'])  
@@ -626,7 +660,7 @@ def read_txt(informations,text):
                         elif variable[1] == 'Score':
                             key.append(variable)
                         else:
-                            print "ERROR! Line %d Section %s Task %d: The table parameter '%s' dosen't contain the correct structure" %(line_count,section,task,param)
+                            print "ERROR! Line %d Section %s Task %d: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,param)
                     informations[section][task].append(key)
                 elif task == 'C':
                     if not informations[section].has_key(task):
@@ -644,7 +678,7 @@ def read_txt(informations,text):
                             elif variable[1] == 'Score':
                                 filter_['parameter']= variable
                             else:
-                                print "ERROR! Line %d Section %d Task %s: The table parameter '%s' dosen't contain the correct structure" %(line_count,section,task,q)    
+                                print "ERROR! Line %d Section %d Task %s: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,q)
                                 continue
                         elif re.search('\((.*?)\)\s*,\s*(\S+)\s*,\s*(\S+)',q):
                             parameters = re.findall('\((.*?)\)\s*,\s*(\S+)\s*,\s*(\S+)',q)[0]
@@ -654,17 +688,17 @@ def read_txt(informations,text):
                             if len(variable) == 3:
                                 filter_['parameter']= variable
                             else:
-                                print "ERROR! Line %d Section %d Task %s: The table parameter '%s' dosen't contain the correct structure" %(line_count,section,task,q)    
+                                print "ERROR! Line %d Section %d Task %s: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,q)
                                 continue                        
                         else: 
-                            print "ERROR! Line %d Section %d Task %s: The table parameter '%s' dosen't contain the correct structure" %(line_count,section,task,q)    
+                            print "ERROR! Line %d Section %d Task %s: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,q)
                             continue
                         filters.append(filter_)
                     informations[section][task].append(filters)
         
             elif section == 9:
-                informations = extract_line (section,task,line,informations,list_=['B'],string =['A','C'])
-        
+                informations = extract_line (section,task,line,informations,true =['A','B','E','G'],number =['F'],string=['C','D','H','I'])           
+    
     return informations
 
         
