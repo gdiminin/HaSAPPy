@@ -657,7 +657,7 @@ def read_txt(informations,text):
                         variable = tuple(n.lstrip().rstrip() for n in param.split(',') if n != '')
                         if len(variable) == 3:
                             key.append(variable)
-                        elif variable[1] == 'Score':
+                        elif variable[1] == 'Score' or variable[1] == 'Outliers':
                             key.append(variable)
                         else:
                             print "ERROR! Line %d Section %s Task %d: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,param)
@@ -678,7 +678,7 @@ def read_txt(informations,text):
                             elif variable[1] == 'Score':
                                 filter_['parameter']= variable
                             else:
-                                print "ERROR! Line %d Section %d Task %s: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,q)
+                                print "ERROR! Line %i Section %i Task %s: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,q)
                                 continue
                         elif re.search('\((.*?)\)\s*,\s*(\S+)\s*,\s*(\S+)',q):
                             parameters = re.findall('\((.*?)\)\s*,\s*(\S+)\s*,\s*(\S+)',q)[0]

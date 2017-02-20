@@ -21,7 +21,7 @@ def main(Info):
     def create_table(Info,GroupAnalysis,summary,keys,filters,name):
         
         for instruction in filters:
-            if instruction['parameter'][1] != 'Score':
+            if instruction['parameter'][1] != 'Score' and instruction['parameter'][1] != 'Outliers':
                 key  = '%s_%s_%s' %(instruction['parameter'][0],instruction['parameter'][1],instruction['parameter'][2])
             else:
                 key = '%s_%s' % (instruction['parameter'][0],instruction['parameter'][1])
@@ -63,12 +63,15 @@ def main(Info):
                     parameter.append('KI')
                 if GroupAnalysis.Parameters.Bias:
                     parameter.append('Bias')
+                    parameter.append('biasFW')
+                    parameter.append('biasRV')
                 if GroupAnalysis.Parameters.Reads:
                     parameter.append('Reads')
                 if GroupAnalysis.Outlier.perform:
+                    parameter.append('Outliers')
                     parameter.append('Score')
                             
-            if instruction[1]  != 'Score':
+            if instruction[1]  != 'Score' and instruction[1]  != 'Outliers':
                 value = instruction[2]
                 if value == 'raw' or value == 'all':
                     values = {}
@@ -94,19 +97,20 @@ def main(Info):
                     for group_exp in GroupAnalysis.Others.name:
                         if group_exp in group:
                             values[group_exp] = [value]
-                
+            
+            
             for a in group:
                 if not a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        if not b == 'Score':
+                        if b != 'Score' and b != 'Outliers':
                             for c in values[a]:
                                 columns_name.append('%s_%s_%s'%(a,b,c))
-                        elif b == 'Score':
+                        elif b == 'Score' or b == 'Outliers':
                             columns_name.append('%s_%s'%(a,b))
                             
                 elif a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        if not b == 'Score':
+                        if b != 'Score' and b != 'Outliers':
                             for c in values[a]:
                                 if not c == 'fold' and not c == 'ttest':
                                     columns_name.append('%s_%s_%s'%(a,b,c))

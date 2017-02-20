@@ -25,8 +25,8 @@ class Analysis:
         self.II = pd.DataFrame()
         self.KI = pd.DataFrame()
         self.Bias = pd.DataFrame()
-        self.bias_FW = pd.DataFrame()
-        self.bias_RV = pd.DataFrame()
+        self.biasFW = pd.DataFrame()
+        self.biasRV = pd.DataFrame()
         self.all = pd.DataFrame()
         self.Outlier = pd.DataFrame()
         
@@ -62,9 +62,9 @@ def performing_analysis(Info):
                     series.append(experiments[exp].reads)
                 elif parameter == 'Bias':
                     series.append(experiments[exp].bias)
-                elif parameter == 'bias_FW':
+                elif parameter == 'biasFW':
                     series.append(experiments[exp].bias_FW)
-                elif parameter == 'bias_RV':
+                elif parameter == 'biasRV':
                     series.append(experiments[exp].bias_RV)
                     
                 
@@ -95,8 +95,8 @@ def performing_analysis(Info):
             processing.KI = creating_DataFrame(group_name,experiments,'KI')
         if Info.GroupAnalysis.Parameters.Bias:
             processing.Bias = creating_DataFrame(group_name,experiments,'Bias')
-            processing.bias_FW = creating_DataFrame(group_name,experiments,'bias_FW')
-            processing.bias_RV = creating_DataFrame(group_name,experiments,'bias_RV')
+            processing.biasFW = creating_DataFrame(group_name,experiments,'biasFW')
+            processing.biasRV = creating_DataFrame(group_name,experiments,'biasRV')
         if Info.GroupAnalysis.Parameters.Reads:
             processing.Reads = creating_DataFrame(group_name,experiments,'Reads')
         
@@ -199,17 +199,17 @@ def performing_analysis(Info):
             on_going_replicates = {}
             for group in categories:
                 on_going_replicates[group] = categories[group].replicates
-                on_going_experiments[group] = categories[group].bias_FW
+                on_going_experiments[group] = categories[group].biasFW
             
-            summary.bias_FW = fold_ttest(Info,on_going_experiments,on_going_replicates,'bias_FW')
+            summary.biasFW = fold_ttest(Info,on_going_experiments,on_going_replicates,'biasFW')
             
             on_going_experiments = {}
             on_going_replicates = {}
             for group in categories:
                 on_going_replicates[group] = categories[group].replicates
-                on_going_experiments[group] = categories[group].bias_RV
+                on_going_experiments[group] = categories[group].biasRV
             
-            summary.bias_RV = fold_ttest(Info,on_going_experiments,on_going_replicates,'bias_RV')
+            summary.biasRV = fold_ttest(Info,on_going_experiments,on_going_replicates,'biasRV')
         
         if Info.GroupAnalysis.Parameters.Reads:    
             on_going_experiments = {}
@@ -404,7 +404,7 @@ def performing_analysis(Info):
     
     
     
-    summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.bias_FW,summary.bias_RV,summary.Reads,summary.Outlier] if not parameter.empty],axis = 1)
+    summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.biasFW,summary.biasRV,summary.Reads,summary.Outlier] if not parameter.empty],axis = 1)
     
     
     
