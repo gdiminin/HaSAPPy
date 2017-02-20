@@ -8,7 +8,7 @@ ___________________________________________________________________
 Which analysis would you like to perform? (please mark ‘Y’ or ’N’)
 
 Trim adaptor and sequence quality selection (fill up section 2):
-@0A)	
+@0A)
 
 Alignment and discharging Phix genome (fill up section 3):
 @0B)	
@@ -23,10 +23,10 @@ Classification of I.I. in genes	(fill up section 6):
 Comparison of different experiments (fill up section 7):
 @0F)
 
-Generate Tables summarizing analysis results (fill up section 8):
+Generate Tables summarising analysis results (fill up section 8):
 @0G)
 
-Visualize insertions by genes representation (fill up section 9):
+Visualise insertions by genes representation (fill up section 9):
 @0H)
 ___________________________________________________________________
 
@@ -45,7 +45,7 @@ ___________________________________________________________________
 TRIM ADAPTOR AND SEQUENCE				section:	2
 QUALITY SELECTION
 
-How many libraries do you want to analyze?:
+How many libraries do you want to analyse?:
 @2A)
 Are those libraries sequenced pair-end?:
 @2B)
@@ -83,7 +83,7 @@ Would you like to store permanently Phix-cleaned files  (mark ‘Y’ or ’N’
 @3B)
 
 !!!N.B. Compile the following section just if this is your starting point!!!
-How many libraries do you want to analyze?:
+How many libraries do you want to analyse?:
 @3C)	
 Are those libraries sequenced pair-end?:
 @3D)	
@@ -112,7 +112,7 @@ Would you like to store permanently BAM aligned files  (mark ‘Y’ or ’N’)
 @4C)
 
 !!!N.B. Compile the following section just if this is your starting point!!!
-How many libraries do you want to analyze?:
+How many libraries do you want to analyse?:
 @4D)	
 Are those libraries sequenced pair-end?:
 @4E)	
@@ -135,7 +135,7 @@ INDEPENDENT INSERTIONS (I.I.)
 
 Number of reads to define a I.I.:
 @5A) 
-If pair-end libraries,do you want to remove PCR-duplicates (mark ‘Y’ or ’N’)?
+If pair-end libraries, do you want to remove PCR-duplicates (mark ‘Y’ or ’N’)?
 @5B)
 Do you want to indicate a level of alignment fidelity (mark ‘Y’ or ’N’):
 @5C)
@@ -143,7 +143,7 @@ If level of alignment fidelity is requested, provide a limit number:
 @5D)
 
 !!!N.B. Compile the following section just if this is your starting point!!!
-How many library do you want to analyze?:
+How many library do you want to analyse?:
 @5E)	
 Are those libraries sequenced pair-end?:
 @5F)	
@@ -162,7 +162,7 @@ IN GENES
 
 Location of gene reference:
 @6A)
-Type of parameters analyzed (mark ‘Y’ or ’N’):
+Type of parameters analysed (mark ‘Y’ or ’N’):
 	Independent insertions (I.I.):
 	@6B)
 	Killing insertions (K.I.):
@@ -174,7 +174,7 @@ Type of parameters analyzed (mark ‘Y’ or ’N’):
 
 
 !!!N.B. Compile the following section just if this is your starting point!!!
-How many library do you want to analyze?:
+How many library do you want to analyse?:
 @6F)	
 Are those libraries sequenced pair-end?:
 @6G)	
@@ -191,7 +191,7 @@ ___________________________________________________________________
 COMPARISON OF							section:	7
 DIFFERENT EXPERIMENTS
 
-Number of groups to be analyzed:
+Number of groups to be analysed:
 @7A)
 Reference group name:
 @7B)
@@ -205,7 +205,7 @@ Other data group (provide the library names separated by a ‘,’ (ex. ‘lib1,
  @7E)
  @7E)
 …
-Type of parameters analyzed (mark ‘Y’ or ’N’):
+Type of parameters analysed (mark ‘Y’ or ’N’):
 	Independent insertions (I.I.):
 	@7F)
 	Killing insertions (K.I.):
@@ -217,7 +217,7 @@ Type of parameters analyzed (mark ‘Y’ or ’N’):
 Perform Outlier analysis(mark ‘Y’ or ’N’):
 @7J)
 Parameters used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
-	Type of parameters analyzed (mark ‘Y’ or ’N’):
+	Type of parameters analysed (mark ‘Y’ or ’N’):
 		Independent insertions (I.I.):
 		@7K)
 		Killing insertions (K.I.):
@@ -239,7 +239,7 @@ Filter limits for Outlier analysis in Selected libraries (Fill this part just if
 
 
 !!!N.B. Compile the following section just if this is your starting point!!!
-How many library do you want to analyze?:
+How many library do you want to analyse?:
 @7S)	
 	
 Name of the library (Use the same names provided in section 7C and 7E) (add additional lines if necessary):
@@ -263,7 +263,7 @@ Table name representation(add additional lines if necessary):
 Construct table representation using following keys (each new line correspond to a table):
 	!!!Read Info file to have detailed informations of how to compile this part!!!
 	Samples: all, group name
-	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter dosen't need any 'Data type')
+	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
 	Data type: all, raw, mean, stdev, fold, ttest
 	ex. :  	(all,II,raw),(group1,KI,mean)
 		(group1,KI,ttest),(all,Score)
@@ -290,16 +290,41 @@ ___________________________________________________________________
 DESIGN									section:	9
 GENE INSERTIONS
 
-Location of gene reference:
-@9A)
-Genes list to analyse (also genomic intervals can be provided:
-	ex: 	gene1,gene2,gene3
-	ex:	chrX_12345619_12456789,chr2_3726189_3726567
-@9B)
+
+Type of graph to generate (mark ‘Y’ or ’N’):
+	Plot I.I. in gene models
+	@9A)
+	Plot Gene distribution according analysed parameter:
+	@9B)
+
+FOR Plot I.I. in gene models:
+	Location of gene reference:
+	@9C)
+
+	Genes list to analyse (also genomic intervals can be provided):
+		ex: 	gene1,gene2,gene3
+		ex:	chrX_12345619_12456789,chr2_3726189_3726567
+	@9D)
+
+FOR Plot Gene distribution according analysed parameter:
+	Do you want to highlight outliers (mark ‘Y’ or ’N’):
+	@9E)
+	Starting Outlier score to mark as outliers genes (Fill this part just if marked ‘Y’ to the previously task):
+	@9F)
+	
+	Do you want to annotate some gene names in the plot (mark ‘Y’ or ’N’):
+	@9G)
+	Genes list to annotate or Outlier starting value:
+		ex: 	gene1,gene2,gene3
+		ex:	22
+	@9H)
+	
+
+
 
 !!!N.B. Compile the following section just if this is your starting point!!!
 Location of file storing GroupAnalysis informations:
-@9C)
+@9I)
 
 
 
