@@ -25,6 +25,8 @@ class Analysis:
         self.II = pd.DataFrame()
         self.KI = pd.DataFrame()
         self.Bias = pd.DataFrame()
+        self.bias_FW = pd.DataFrame()
+        self.bias_RV = pd.DataFrame()
         self.all = pd.DataFrame()
         self.Outlier = pd.DataFrame()
         
@@ -60,6 +62,10 @@ def performing_analysis(Info):
                     series.append(experiments[exp].reads)
                 elif parameter == 'Bias':
                     series.append(experiments[exp].bias)
+                elif parameter == 'bias_FW':
+                    series.append(experiments[exp].bias_FW)
+                elif parameter == 'bias_RV':
+                    series.append(experiments[exp].bias_RV)
                     
                 
             fusion = pd.concat(series, axis = 1, keys= keys_name)#concatantaion of the different experiments
@@ -67,7 +73,7 @@ def performing_analysis(Info):
             if len(keys_name) > 1:
                 
                 fusion['%s_%s_mean'%(group_name,parameter)] = fusion.mean(axis = 1)
-                fusion['%s_%s_stdev'%(group_name,parameter)] = fusion.std(axis = 1)      
+                fusion['%s_%s_stdev'%(group_name,parameter)] = fusion.std(axis = 1)   
             return fusion
         ####
             
@@ -88,9 +94,11 @@ def performing_analysis(Info):
         if Info.GroupAnalysis.Parameters.KI:
             processing.KI = creating_DataFrame(group_name,experiments,'KI')
         if Info.GroupAnalysis.Parameters.Bias:
-            processing.bias = creating_DataFrame(group_name,experiments,'Bias')
+            processing.Bias = creating_DataFrame(group_name,experiments,'Bias')
+            processing.bias_FW = creating_DataFrame(group_name,experiments,'bias_FW')
+            processing.bias_RV = creating_DataFrame(group_name,experiments,'bias_RV')
         if Info.GroupAnalysis.Parameters.Reads:
-            processing.reads = creating_DataFrame(group_name,experiments,'Reads')
+            processing.Reads = creating_DataFrame(group_name,experiments,'Reads')
         
         return processing
         ####
@@ -183,16 +191,32 @@ def performing_analysis(Info):
             on_going_replicates = {}
             for group in categories:
                 on_going_replicates[group] = categories[group].replicates
-                on_going_experiments[group] = categories[group].bias
+                on_going_experiments[group] = categories[group].Bias
             
-            summary.Bias = fold_ttest(Info,on_going_experiments,on_going_replicates,'Bias') 
+            summary.Bias = fold_ttest(Info,on_going_experiments,on_going_replicates,'Bias')
             
+            on_going_experiments = {}
+            on_going_replicates = {}
+            for group in categories:
+                on_going_replicates[group] = categories[group].replicates
+                on_going_experiments[group] = categories[group].bias_FW
+            
+            summary.bias_FW = fold_ttest(Info,on_going_experiments,on_going_replicates,'bias_FW')
+            
+            on_going_experiments = {}
+            on_going_replicates = {}
+            for group in categories:
+                on_going_replicates[group] = categories[group].replicates
+                on_going_experiments[group] = categories[group].bias_RV
+            
+            summary.bias_RV = fold_ttest(Info,on_going_experiments,on_going_replicates,'bias_RV')
+        
         if Info.GroupAnalysis.Parameters.Reads:    
             on_going_experiments = {}
             on_going_replicates = {}
             for group in categories:
                 on_going_replicates[group] = categories[group].replicates
-                on_going_experiments[group] = categories[group].reads
+                on_going_experiments[group] = categories[group].Reads
             summary.Reads = fold_ttest(Info,on_going_experiments,on_going_replicates,'Reads') 
         summary.replicates = on_going_replicates
         
@@ -272,7 +296,7 @@ def performing_analysis(Info):
             
             summary.Outlier['%s_Outliers'%group] = outliers ['Score']
             
-            summary.Outlier['%s_Score'%group] = outliers ['Score']*trustability['Score']         
+            summary.Outlier['%s_Score'%group] = outliers ['Score']*trustability['Score']        
 
 
             
@@ -380,7 +404,7 @@ def performing_analysis(Info):
     
     
     
-    summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.Reads,summary.Outlier] if not parameter.empty],axis = 1)
+    summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.bias_FW,summary.bias_RV,summary.Reads,summary.Outlier] if not parameter.empty],axis = 1)
     
     
     
