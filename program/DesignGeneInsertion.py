@@ -137,9 +137,9 @@ def start(Info):
                 ax1.axis(xmin =start_pos, xmax = end_pos, ymin = 1, ymax = ymax)
                 
             for i in group_other.FW: # Plotting points according thier value. Devided in two colors: red if sense, green if anti-sense
-                ax1.scatter(i[0].pos,i[1],s = 1, color = 'r')
+                ax1.scatter(i[0].pos,i[1],s = 5, color = 'r')
             for i in group_other.RV:
-                ax1.scatter(i[0].pos,i[1],s = 1, color = 'g')
+                ax1.scatter(i[0].pos,i[1],s = 5, color = 'g')
                 
             
             
@@ -160,9 +160,9 @@ def start(Info):
                 ax3.invert_yaxis()
                 
             for i in group_reference.FW: # Plotting points according thier value. Devided in two colors: red if sense, green if anti-sense
-                ax3.scatter(i[0].pos,i[1],s = 1, color = 'r')
+                ax3.scatter(i[0].pos,i[1],s = , color = 'r')
             for i in group_reference.RV:
-                ax3.scatter(i[0].pos,i[1],s = 1, color = 'g')
+                ax3.scatter(i[0].pos,i[1],s = 5, color = 'g')
             
             #Design gene models
             
@@ -180,22 +180,22 @@ def start(Info):
                 
                 ax2.text((end_pos), # Transcript name starting position x-axis (end of gene)
                         (y_value-0.2), # Transcript name starting position y-axis
-                        ('   ' + transcript),fontsize = 4)
+                        ('   ' + transcript),fontsize = 10)
                         
                 #line rapresenting all the transcript length        
-                ax2.plot([min([exon.start_d for exon in transcripts[transcript]]), max([exon.end_d for exon in transcripts[transcript]])],[y_value,y_value],'b',linewidth = 2./len(transcripts))
+                ax2.plot([min([exon.start_d for exon in transcripts[transcript]]), max([exon.end_d for exon in transcripts[transcript]])],[y_value,y_value],'k',linewidth = 2./len(transcripts))
                 
                 for exon in transcripts[transcript]:
                     ax2.add_patch(patches.Rectangle(
-                    (exon.start,(y_value-0.2)), exon.length,0.4,linewidth = 0.1))
+                    (exon.start,(y_value-0.2)), exon.length,0.4,linewidth = 0.1,facecolor='black'))
                 
         
             fig1.show()
             if genomic_interval:
-                fig1.savefig(os.path.join(storage_loc,'graph','%s_%svs%s.svg'%('interval',group_other.name,group_reference.name)))
+                fig1.savefig(os.path.join(storage_loc,'graph','%s_%svs%s.svg'%('interval',group_other.name,group_reference.name)),dpi=300, bbox_inches='tight')
                 string = '\t\t- %s' %os.path.join(storage_loc,'graph','%s_%svs%s.svg'%('interval',group_other.name,group_reference.name))
             else:
-                fig1.savefig(os.path.join(storage_loc,'graph','%s_%svs%s.svg'%(name,group_other.name,group_reference.name)))
+                fig1.savefig(os.path.join(storage_loc,'graph','%s_%svs%s.svg'%(name,group_other.name,group_reference.name)),dpi=300, bbox_inches='tight')
                 string = '\t\t- %s' %os.path.join(storage_loc,'graph','%s_%svs%s.svg'%(name,group_other.name,group_reference.name))
             print_save_analysis (string, GroupAnalysis.storage_loc)
             ####

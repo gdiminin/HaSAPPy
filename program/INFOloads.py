@@ -131,7 +131,7 @@ class Outlier (Upperlevel):
         self.perform = dictionary[7]['J']
         if self.perform:
             self.Parameters = Parameters(II = dictionary[7]['K'],KI = dictionary[7]['L'],Bias = dictionary[7]['M'],Reads =dictionary[7]['N'])
-            self.Limits = Parameters(II = dictionary[7]['O'],KI = dictionary[7]['P'],Bias = dictionary[7]['Q'],Reads =dictionary[7]['R'])
+            self.trustability = dictionary[7]['O']
                 
         
 class Experiments (Upperlevel):
@@ -148,9 +148,9 @@ class GroupAnalysis (Upperlevel):
         self.Parameters = Parameters(II = dictionary[7]['F'],KI = dictionary[7]['G'],Bias = dictionary[7]['H'],Reads =dictionary[7]['I'])
         self.Outlier = Outlier(dictionary)
         if starting: 
-            self.lib_numb = dictionary[7]['S']
-            self.lib_names = dictionary[7]['T']
-            self.input_files = dictionary[7]['U']
+            self.lib_numb = dictionary[7]['P']
+            self.lib_names = dictionary[7]['Q']
+            self.input_files = dictionary[7]['R']
         else:
             self.lib_numb = int()
             self.lib_names = []
@@ -423,26 +423,11 @@ class Info(Upperlevel):
             print '\t{:20s}:\t'.format('Outlier analysis') + '%s' % self.GroupAnalysis.Outlier.perform
             if self.GroupAnalysis.Outlier.perform:
                 print '\t\t{:20s}'.format('Parameters')
-                print '\t\t\t{:8s}:\t'.format('II') + '%s' % self.GroupAnalysis.Outlier.Parameters.II,
-                if self.GroupAnalysis.Outlier.Parameters.II:
-                    print '=> Value limit: %s' % self.GroupAnalysis.Outlier.Limits.II
-                else:
-                    print ''
-                print '\t\t\t{:8s}:\t'.format('KI') + '%s' % self.GroupAnalysis.Outlier.Parameters.KI,
-                if self.GroupAnalysis.Outlier.Parameters.KI:
-                    print '=> Value limit: %s' % self.GroupAnalysis.Outlier.Limits.KI
-                else:
-                    print ''
-                print '\t\t\t{:8s}:\t'.format('Bias') + '%s' % self.GroupAnalysis.Outlier.Parameters.Bias,
-                if self.GroupAnalysis.Outlier.Parameters.Bias:
-                    print '=> Value limit: %s' % self.GroupAnalysis.Outlier.Limits.Bias
-                else:
-                    print ''
-                print '\t\t\t{:8s}:\t'.format('Reads') + '%s' % self.GroupAnalysis.Outlier.Parameters.Reads,
-                if self.GroupAnalysis.Outlier.Parameters.Reads:
-                    print '=> Value limit: %s' % self.GroupAnalysis.Outlier.Limits.Reads
-                else:
-                    print ''
+                print '\t\t\t{:8s}:\t'.format('II') + '%s' % self.GroupAnalysis.Outlier.Parameters.II
+                print '\t\t\t{:8s}:\t'.format('KI') + '%s' % self.GroupAnalysis.Outlier.Parameters.KI
+                print '\t\t\t{:8s}:\t'.format('Bias') + '%s' % self.GroupAnalysis.Outlier.Parameters.Bias
+                print '\t\t\t{:8s}:\t'.format('Reads') + '%s' % self.GroupAnalysis.Outlier.Parameters.Reads
+                print '\t\t\tTrustability correction: %i' % self.GroupAnalysis.Outlier.trustability
         if self.Type_analysis.Tables:
             print 'Tables'
             print '\t{:20s}:\t'.format('Data_reference') + self.Tables.input_files
@@ -562,9 +547,9 @@ def read_txt(informations,text):
             if value:
                 informations[section][task] = float(value)
             else:
-                informations[section][task] = 'n.d'
+                informations[section][task] = 'n.d.'
         else:
-             informations[section][task] = 'n.d'
+             informations[section][task] = 'n.d.'
         return informations
     
     def get_STRING(section,task,line,informations):
@@ -634,7 +619,7 @@ def read_txt(informations,text):
                 informations = extract_line (section,task,line,informations,true =['B','C','D','E','G'],number =['F'],list_=['H','I'],string=['A'])  
             
             elif section == 7:
-                informations = extract_line (section,task,line,informations,true =['F','G','H','I','J','K','L','M','N'],number =['A','P','O','P','Q','R','S'],list_=['D','T','U'],string =['B'])  
+                informations = extract_line (section,task,line,informations,true =['F','G','H','I','J','K','L','M','N'],number =['A','P','O'],list_=['D','Q','R'],string =['B'])  
                 if task in ['C']:
                     if re.search('^\s*@\d[A-Z]\)\s*(\S+.*\S*)', line):
                         string = [n.lstrip().rstrip() for n in re.findall('^\s*@\d[A-Z]\)\s*(\S+.*\S*)', line)[0].split(',')]

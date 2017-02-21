@@ -271,9 +271,9 @@ def performing_analysis(Info):
                 value = 'mean'
             
                    
-            outlier_fold = outlier_fold[II_selection['%s_II_%s' % (group,value)] >5]
+            outlier_fold = outlier_fold[II_selection['%s_II_%s' % (group,value)] >2]
     
-            outlier_mean = outlier_mean[II_selection['%s_II_%s' % (group,value)] >5]
+            outlier_mean = outlier_mean[II_selection['%s_II_%s' % (group,value)] >2]
             
             
             return outlier_mean, outlier_fold
@@ -283,20 +283,22 @@ def performing_analysis(Info):
         for group in Info.GroupAnalysis.Others.name:        
             outlier_mean,outlier_fold = outlier_InputData (Info,summary,group)
             
-            value_of_trustability = 0.4
-            
-            
-            trustability = LOF.main(outlier_mean,Info,len(outlier_mean.index))
-            trustability = trustability * value_of_trustability
-            trustability = pd.merge(outlier_mean,trustability,left_index=True,right_index=True)
+            correct_for_trustability = False
+            if Info.GroupAnalysis.Outlier.trustability > 0 and Info.GroupAnalysis.Outlier.trustability != 'n.d.':
+               correct_for_trustability = True 
+               trustability = LOF.main(outlier_mean,Info,len(outlier_mean.index))
+               trustability = trustability * (Info.GroupAnalysis.Outlier.trustability/100)
+               trustability = pd.merge(outlier_mean,trustability,left_index=True,right_index=True)
             
 
             outliers =LOF.main(outlier_fold,Info,len(outlier_fold.index))
             outliers=pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
             
             summary.Outlier['%s_Outliers'%group] = outliers ['Score']
-            
-            summary.Outlier['%s_Score'%group] = outliers ['Score']*trustability['Score']        
+            if correct_for_trustability:
+                summary.Outlier['%s_Score'%group] = outliers ['Score']*trustability['Score'] 
+            else:
+                summary.Outlier['%s_Score'%group] = outliers ['Score']
 
 
             
@@ -364,6 +366,9 @@ def performing_analysis(Info):
         string = '\t\t\t{:8s}:\t'.format('Bias') + '%s' % Info.GroupAnalysis.Outlier.Parameters.Bias
         strings.append(string)
         string = '\t\t\t{:8s}:\t'.format('Reads') + '%s' % Info.GroupAnalysis.Outlier.Parameters.Reads
+        strings.append(string)
+        string = '\t\t\tTrustability correction: %i' % Info.GroupAnalysis.Outlier.trustability
+        strings.append(string)
 
     for string in strings:
         print_save_analysis (string, Info.GroupAnalysis.storage_loc)
