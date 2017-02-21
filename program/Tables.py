@@ -126,7 +126,16 @@ def main(Info):
                 
         string = '\n\tColumns:\n\t%s' %(' | ').join(table.columns)
         print_save_analysis (string, GroupAnalysis.storage_loc)
-        string = '\n\tFilters:%s\n\t' % (' | ').join(filters)
+        
+        filter_list = []
+        for n in filters:
+            parameter = '%s_%s_%s' %(n['parameter'][0],n['parameter'][1],n['parameter'][2])
+            if n.has_key('number'):
+                filter_list.append('%s %s %i' % (parameter,n['operation'],n['number']))
+            else:
+                filter_list.append('%s %s' % (parameter,n['operation']))
+        
+        string = '\n\tFilters: %s\n' % (' | ').join(filter_list)
         print_save_analysis (string, GroupAnalysis.storage_loc)
                 
         return table
@@ -163,7 +172,8 @@ def main(Info):
     print_save_analysis (string, GroupAnalysis.storage_loc)
         
     tables = []
-    table_count = 0                
+    table_count = 0
+            
     for table in Info.Tables.names:  
         table_count +=1
         
