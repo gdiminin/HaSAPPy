@@ -83,7 +83,7 @@ Compile LoadModule.txt file according to instructions and save the modified file
 
 Ex.
 ```
-User$ python HaSAPPy_start.py User/HaSAPPy/Commands/LoadModule_170101.txt
+User$ python HaSAPPY_start.py User/HaSAPPy/Commands/LoadModule_170101.txt
 ```
 
 
