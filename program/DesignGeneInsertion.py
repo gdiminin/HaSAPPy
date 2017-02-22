@@ -160,7 +160,7 @@ def start(Info):
                 ax3.invert_yaxis()
                 
             for i in group_reference.FW: # Plotting points according thier value. Devided in two colors: red if sense, green if anti-sense
-                ax3.scatter(i[0].pos,i[1],s = , color = 'r')
+                ax3.scatter(i[0].pos,i[1],s = 5, color = 'r')
             for i in group_reference.RV:
                 ax3.scatter(i[0].pos,i[1],s = 5, color = 'g')
             
