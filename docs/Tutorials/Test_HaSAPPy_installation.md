@@ -1,5 +1,5 @@
 #Test HaSAPPy installation using LoadModule_test.txt files
-In this tutorial, we are going to verify correct installation of HaSAPPy software and all its dependency using a pre-compiled LoadModule.txt file and a Sequence_test file avaiable in the package.
+In this tutorial, we are going to verify correct installation of the HaSAPPy software and all its dependencies using a pre-compiled LoadModule.txt file and a Sequence_test file avaiable in the package.
 It is recommended, after every new installation, to run this test before to start using HaSAPPy for your purposes.
 
 The working directory for this tutorial is :
@@ -11,9 +11,9 @@ The working directory for this tutorial is :
 ##Prerequisites
 1. Installation of HaSAPPy package
 2. Necessary Python packages correctly updated
-3. Installation of Bowtie2 
+3. Installation of bowtie2 
 
-###Create a directory where to store experiments and runs
+###Create a directory for storing experiments and runs
 
 ```
 |- HaSAPPy
@@ -39,7 +39,7 @@ Sequences of many common genomes are provided at:
 
 http://support.illumina.com/sequencing/sequencing_software/igenome.html
 
-Using a web browser download PhiX genome (NCBI 1993-04-28) and mouse genome (GCRm38/mm10) to your ~/HaSAPPy/reference folder. Then unpack the archives in the terminal:
+Using a web browser download the PhiX genome (NCBI 1993-04-28) and the mouse genome (GCRm38/mm10) to your ~/HaSAPPy/reference folder. Then unpack the archives in the terminal:
 
 ```
 tar -xzvf PhiX_NCBI_1993-04-28.tar.gz
@@ -47,7 +47,7 @@ tar -xzvf Mus_musculus_UCSC_mm10.tar.gz
 ```
 
 
-###Make executable the PreprocessReads
+### Self execute permission on PreprocessReads
  
 Enter in the HaSAPPy folder and prepare the program
 
@@ -59,7 +59,7 @@ chmod +x PreprocessReads
 
 ###Build the gene annotation database using GeneReference_built.py
 A gene annotation file for the mouse genome (GCRm38/mm10) is supplied with the source. If you need other genomes suitable annotation files can be obtained from the UCSC genome browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). 
-Read the Generate_human_gene_refernce.md tutorial for details
+Read the Generate_human_gene_refernce.md tutorial for a detailed exemple
 
 ```
 python GeneReference_built.py -i /Users/User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o /Users/User/HaSAPPy/docs/GeneReference_mouse_mm10.pkl
@@ -127,8 +127,6 @@ Now we are ready to start. Your working directory (/Users/User/HaSAPPy) should h
         |- ...
 ```
 
-Perfect!! Now we are ready to start
-
 ##Compile the LoadModule
 In this tutorial, we are going to test all the HaSAPPy packages (starting from the Trim.py module) using the LoadModule_test_from_Trim.txt and the Sequence.fastq files available in the directory
 
@@ -136,9 +134,9 @@ In this tutorial, we are going to test all the HaSAPPy packages (starting from t
 /Users/User/HaSAPPy/docs/test
 ```
 
-Eventually, you can test HaSAPPy performance form the IIdefinition.py module using the LoadModule_test_from_IIdefinition.txt and the Aligned.sam files
+In addition, you can test HaSAPPy performance form the IIdefinition.py module using the LoadModule_test_from_IIdefinition.txt and the Aligned.sam files
 
-Open the LoadModule_test_from_Trim.txt file using a Text editor. As you can see most of the tasks have been already compiled. You need to fill those tasks related to the location of files according to your home directory.
+Open the LoadModule_test_from_Trim.txt file using a text editor. As you can see most of the tasks have already been filled out. You need to fill those tasks related to the location of files according to your home directory.
 
 * Section 1
    * Task 1A and 1B
@@ -193,22 +191,22 @@ FOR Plot I.I. in gene models:
 	@9C)/Users/User/HaSAPPy/docs/GeneReference_mouse_mm10.pkl
 ```
 
-Save the file and copy the file name
+Save the file and copy the file name to the clipboard
 
 ##Run the test
-Move to HaSAPPy program folder
+Move into the HaSAPPy program folder
 
 ```
 cd /Users/User/HaSAPPy/program
 ```
 
-Start HaSAPPy program with HaSAPPY_start.py and provide as input the LoadModule_test_from_Trim.txt
+Start the analysis  HaSAPPY_start.py providing as input the LoadModule_test_from_Trim.txt
 
 ```
 python HaSAPPY_start.py /Users/User/HaSAPPy/docs/test/LoadModule_test_from_Trim.txt
 ```
 
-The program should start and if everything was correctly installed should end rising any issue
+If everything is correctly installed the analysis should finish without any errors
 
 ##Inspect the output
 In the /Users/User/HaSAPPy/experiments/test the following files and folders should have been created
@@ -245,4 +243,4 @@ Exploring the Table_yyyy-mm-dd.xlsx and the Xist_SelectedvsControl.svg files you
 
 ![alt text] (https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Figures/Test_HaSAPPy_installation.png)
 
-Perfect! Your HaSAPPy module is correctly working! Have fun!!!!
+If this is what you see, your HaSAPPy installation is working correctly! Have fun!!!!
