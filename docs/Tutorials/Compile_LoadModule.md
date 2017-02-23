@@ -1,10 +1,12 @@
-#How to compile the LoadModule.txt file
+#Controlling the HaSAPPy workflow throught the command script
 ##General informations
 The HaSAPPy analysis pipeline is controlled by a command script that is provided by the user (the LoadModule.txt file). All the parameters are collected by the INFOloads.py module and stored in an INFO object that organizes software scheduling and stores user defined parameters.
-The file is subdivided in different sections marked by an identification number (0-9); each section is characterized by multiple input fields marked with an ‘@’, the section tag, a letter referring to the task and ‘)’. After the parenthesis user can write.
-	@1A) Anton Wutz  
+The file is subdivided in different sections marked by an identification number (0-9); each section is characterized by multiple input fields marked with an ‘@’, the section tag, a letter referring to the task and ‘)’. After the parenthesis user input can be entered
+```
+@1A) Anton Wutz  
+```
 
-> **NOTE** Avoid modifing the section tags, otherwise INFOloads.py will not be able to load parameters. Spaces between the Task tag and the input are instead fine
+> **NOTE** Avoid modifing the section tags, otherwise INFOloads.py will not be able to load parameters. Spaces between the tag and the input are instead fine
 
 This tutorial goes through all the sections and illustrates how information and parameters should be handled.
 
@@ -185,7 +187,7 @@ Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
 @4A) bowtie2
 ```
 	
-Provide the absolute PATH of reference genome location used by bowtie2 to align reads. For bowtie2 and nvBowtie also the file name without extension must be indicated. For NextGenMap, provide the “xxxxx.fa” file
+Provide the absolute PATH of reference genome location used by bowtie2 to align reads. For bowtie2 and nvBowtie the file name without extension must be indicated. For NextGenMap, provide the “xxxxx.fa” file
 ```
 Location of reference genome:
 @4B) /Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/genome
@@ -232,7 +234,7 @@ If pair-end libraries, do you want to remove PCR-duplicates (mark ‘Y’ or ’
 @5B) N
 ```
 
-For each read, alignment software provide a reliability value of the alignment to the reference genome. In this parameter the number of mismatches and match uniqueness is took into account. Increasing the alignment fidelity parameter can help to reduce noise. Mark ‘Y’ if you want to activate this selection and provide an integer number as limit. Default is ‘0’. 
+For each read, alignment software supply a reliability value of the alignment to the reference genome. In this parameter the number of mismatches and match uniqueness is taken into account. Increasing the alignment fidelity parameter can help to reduce noise. Mark ‘Y’ if you want to activate this selection and provide an integer number as limit. Default is ‘0’. 
 ```
 Do you want to indicate a level of alignment fidelity (mark ‘Y’ or ’N’):
 @5C) Y
@@ -240,7 +242,7 @@ If level of alignment fidelity is requested, provide a limit number:
 @5D) 5
 ```
 
-If this module is the starting point of the analysis, you should provide information on the name and properties of the libraries and the SAM file referring to their alignment
+If this module is the starting point of the analysis, you should supply information on the name and properties of the libraries and the SAM file referring to their alignment
 ```
 !!!N.B. Compile the following section just if this is your starting point!!!
 How many library do you want to analyse?:
@@ -258,14 +260,14 @@ Location of input file 1(add additional lines if necessary):
 ```
 
 # Section 6: Classification of I.I. in genes
-To categorize I.I. according their location in genes, you are requested to provide the gene reference file created with the GeneReference_built.py module. The absolute PATH must be provided
+To categorize I.I. according their location in genes, you are requested to provide the gene reference file created with the GeneReference_built.py module. The absolute PATH must be supplied
 ```
 Location of gene reference:
 @6A) Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
-User can define which parameters should be collected during this process. Mark ‘Y’ or ‘N’ according to your needs. For details on parameter properties refer to HaSAPPy manual.
-> **IMPORTANT** If at this step you are not selecting a parameter, this will not be recorded and will not be available for the following steps of the analysis.
+User can define which parameters should be collected during this process. Mark ‘Y’ or ‘N’ according to your needs. For details on parameter description refer to the HaSAPPy manual.
+> **IMPORTANT** If at this step you are not selecting a parameter, this will not be stored and will not be available for the following steps of the analysis.
 
 ```
 Type of parameters analysed (mark ‘Y’ or ’N’):
