@@ -1,4 +1,4 @@
-#HaSAPPy (Haploid Screening Analysis Python Package)
+#HaSAPPy (Haploid Screening Analysis Package in Python)
 
 
 
