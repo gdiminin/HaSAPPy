@@ -1,7 +1,8 @@
 #Generate Gene Reference file for Human genome
 In this tutorial, I will show you how to download gene annotations from the USCS browser and how to generate the GeneReference.pkl file used by HaSAPPy software.
 ##Preliminary
-HaSAPPy software should be already installed on your computer and all requested Python modules already updated (see README.md file)
+HaSAPPy software should be already installed on your computer and all requested Python modules already updated (see README.md file).
+
 HaSAPPy software was installed in:
 
 ```
