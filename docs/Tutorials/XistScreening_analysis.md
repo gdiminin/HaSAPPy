@@ -105,7 +105,7 @@ cd program
 python HaSAPPY_start.py ../command/myProj.txt
 ```
 
-This will start the HaSAPPy program. The output will be stored under the experiments folder.
+This will start the HaSAPPy program. The output will be stored under the experiments folder. You can compare it with the one present in HaSAPPy manual.
 
 
 ## Using nvBowtie with HaSAPPy
