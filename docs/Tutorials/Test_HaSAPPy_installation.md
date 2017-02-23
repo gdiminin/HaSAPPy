@@ -9,9 +9,9 @@ The working directory for this tutorial is :
 ```
 
 ##Prerequisites
-1- Installation of HaSAPPy package
-2- Necessary Python packages correctly updated
-2- Installation of Bowtie2 
+1. Installation of HaSAPPy package
+2. Necessary Python packages correctly updated
+3. Installation of Bowtie2 
 
 ###Create a directory where to store experiments and runs
 
@@ -217,8 +217,8 @@ In the /Users/User/Analysis/experiments/test should have been created the follow
             |- Table_yyyy-mm-dd.xlsx
 ```
 
-Exploring the Table_yyyy-mm-dd.xlsx and the Xist_SelectedvsControl.svg files you should aspect the following outcome:
+Exploring the Table_yyyy-mm-dd.xlsx and the Xist_SelectedvsControl.svg files you should aspect the following output:
 
-
+![alt text] (https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Figures/Test_HaSAPPy_installation.png)
 
 Perfect! Your HaSAPPy module is correctly working! Have fun!!!!
