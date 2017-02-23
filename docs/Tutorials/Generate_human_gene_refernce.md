@@ -111,7 +111,7 @@ print len(gene_reference.index)
 
 The expected output should be
 
-'''
+```
 >>> for column in gene_reference.columns:
 ...     print column
 ... 
@@ -124,6 +124,6 @@ introns_all
 >>> 
 >>> print len(gene_reference.index)
 32471
-'''
+```
 
 The GeneReference.pkl file was correctly generated and now it is ready to be used in HaSAPPy program
