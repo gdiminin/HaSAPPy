@@ -41,8 +41,11 @@ Compile the page request using the following parameters:
 | *output file* | RefSeq_human_GRCh38-hg38 |
 | *file type returned* | gzip compressed |
 
+The Web browser window should look like that:
+
+![alt-text](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Figures/Generate_human_genome_reference_1.png)
+
 Press ‘get output’
---show picture—
 
 Move downloaded file in:
 
@@ -68,6 +71,11 @@ The GeneReference_Homo.pkl should have been saved in the selected folder. To ver
 
 ```
 python
+```
+
+The Python console started
+
+```
 Python 2.7.12 |Anaconda 4.2.0 (x86_64)| (default, Jul  2 2016, 17:43:17) 
 [GCC 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
@@ -97,7 +105,8 @@ Inspect
 gene_reference.head(10)
 ```
 
---- introduce figure
+![alt-text](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Figures/Generate_human_genome_reference_2.png)
+
   *the columns name
 
 ```python
