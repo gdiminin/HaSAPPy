@@ -267,6 +267,7 @@ Location of gene reference:
 
 User can define which parameters should be collected during this process. Mark ‘Y’ or ‘N’ according to your needs. For details on parameter properties refer to HaSAPPy manual.
 > **IMPORTANT** If at this step you are not selecting a parameter, this will not be recorded and will not be available for the following steps of the analysis.
+
 ```
 Type of parameters analysed (mark ‘Y’ or ’N’):
 	Independent insertions (I.I.):
@@ -405,13 +406,15 @@ Table name representation(add additional lines if necessary):
 ```
 
 The Table.py module collects user information according 3 parameters:
+
 1. Samples : which group you want to represent. If you selects ‘all’, all the group will be represented (following our example: Unselected, Condition_A, Condition_B).If instead you are providing a specific group name, pay attention to correctly report the group as indicated in section 7.
 2. Parameters: which parameter you want to represent for the selected groups among II, KI, Bias, bias_FW, bias_RV, Reads and Score (Outlier analysis). If you mark ‘all’, all available parameters for the indicated group will be presented.
 3. Data type: which information of the selected parameter you want to highlight. You can choose between:
   * ‘raw’: provides parameter values of all the replicates composing selected groups
   * ‘mean’: provides parameter values of the average of the replicates composing selected groups
   * ‘stdev’,’fold’ and ’ttest’: provides parameter information of the comparison of the analysed group respect to the reference. They will be skipped from the analysis if the group selected is the reference.
- the ‘all’ code will provide all the possible combination of Data type. The Score parameter doesn’t take any Data type information.
+
+ The ‘all’ code will provide all the possible combination of Data type. The Score parameter doesn’t take any Data type information.
 
 Using these 3 elements you can generate a selector and design your table format. The selector structure to provide is:
 ```
@@ -473,52 +476,76 @@ Location of file storing GroupAnalysis informations:
 @8D)
 ```
 
-Section 9: Design gene insertions
+##Section 9: Design gene insertions
 For candidate genes that are of interest visualization of insertion patterns is rendered graphically within gene models by the Design.py module. Representation of gene distribution according to analysed parameter can also be performed. Output is provided as high quality graphics in SVG format.
+
 User can define which typology of plot to generate marking ‘Y’ or ‘N’
+```
 Type of graph to generate (mark ‘Y’ or ’N’):
 	Plot I.I. in gene models
 	@9A)
 	Plot Gene distribution according analysed parameter:
 	@9B)
+```
 
 If it has been activated the “Plot I.I. in gene models” option, user should also provide the following information:
+```
 FOR Plot I.I. in gene models:
+```
 
-1) the gene reference file created with the GeneReference_built.py module. The absolute PATH must be provided	
+1. the gene reference file created with the GeneReference_built.py module. The absolute PATH must be provided	
+```
 	Location of gene reference:
 	@9C) Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+```
 
-2) The list of genes or chromosome intervals that you are interested to plot. A .svg file will be generate for each of them. If input is a gene name, just write the correct name as present in the gene reference file and in the generated tables. If you are interested to visualize insertions in a specific chromosome interval provide it following this structure:
+2. The list of genes or chromosome intervals that you are interested to plot. A .svg file will be generate for each of them. If input is a gene name, just write the correct name as present in the gene reference file and in the generated tables. If you are interested to visualize insertions in a specific chromosome interval provide it following this structure:
+```
 “chromosome_startIV_endIV”.
+```
+
 A list of genes/intervals can be provided subdivided by a ‘,’. Spaces between names is managed by HaSAPPy.
+```
 	Genes list to analyse (also genomic intervals can be provided):
 		ex: 	gene1,gene2,gene3
 		ex:	chrX_12345619_12456789,chr2_3726189_3726567
 	@9D) Xist, Trp53, chrX_12345619_12456789
+```
 
 If it has been activated the “Plot Gene distribution according analysed parameters ” option, user should also provide the following information:
+```
 FOR Plot Gene distribution according analysed parameter:
+```
 
 User have the possibility (only if in the GroupAnalysis module the Outlier analysis was performed) to mark into 2 different colors genes with a Score value lower and higher respect a user defined cut-off. Marking ‘Y’, you are activating this function
+```
 	Do you want to highlight outliers (mark ‘Y’ or ’N’):
 	@9E) Y
+```
 
 Provide the Score cut-off as an integer
+```
 	Starting Outlier score to mark as outliers genes (Fill this part just if marked ‘Y’ to the previously task):
 	@9F) 40
+```
 
 User can also highlight the name of a selection of genes in the plot. Marking ‘Y’, you are activating this function
+```
 	Do you want to annotate some gene names in the plot (mark ‘Y’ or ’N’):
 	@9G) Y
+```
 
 The selection of genes to annotate can be defined or providing a gene name list (ex. gene1,gene2,gene3) or a Score value as cut-off.
+```
 	Genes list to annotate or Outlier starting value:
 		ex: 	gene1,gene2,gene3
 		ex:	22
 	@9H) Xist, Trp53
+```
 	
 If this module is the starting point of the analysis, you should provide information on the location of the GroupAnalysis to use for table generation ( “../../Analysis/yyyy-mm-dd /raw/GroupAnalysis.pkl”)
+```
 !!!N.B. Compile the following section just if this is your starting point!!!
 Location of file storing GroupAnalysis informations:
 @9I)
+```
