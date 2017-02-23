@@ -128,7 +128,7 @@ Now we are ready to start. Your working directory (/Users/User/HaSAPPy) should h
 ```
 
 ##Compile the LoadModule
-In this tutorial, we are going to test all the HaSAPPy packages (starting from the Trim.py module) using the LoadModule_test_from_Trim.txt and the Sequence.fastq files available in the directory
+In this tutorial, we are going to test the functionality of the HaSAPPy packages (starting from the Trim.py module) using the LoadModule_test_from_Trim.txt and the Sequence.fastq files available in the docs folder.
 
 ```
 /Users/User/HaSAPPy/docs/test
