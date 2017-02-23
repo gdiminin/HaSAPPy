@@ -99,7 +99,7 @@ with open ('/Users/User/Analysis/HaSAPPy/docs/GeneReference_Homo.pkl', 'rb') as 
 ```
 
 Inspect 
-  *the file structure
+* the file structure
 
 ```python
 gene_reference.head(10)
@@ -107,13 +107,14 @@ gene_reference.head(10)
 
 ![alt-text](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Figures/Generate_human_genome_reference_2.png)
 
-  *the columns name
+* the columns name
 
 ```python
 for column in gene_reference.columns:
-	print column```
+	print column
+```
 
-  *the number of genes
+* the number of genes
 
 ```python
 print len(gene_reference.index)
