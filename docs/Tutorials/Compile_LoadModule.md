@@ -549,3 +549,6 @@ If this module is the starting point of the analysis, you should provide informa
 Location of file storing GroupAnalysis informations:
 @9I)
 ```
+
+##Conclusive remarks
+Save the LoadModule.txt file with a new name and use it with the HaSAPPy_start.py module
