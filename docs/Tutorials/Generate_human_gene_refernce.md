@@ -6,7 +6,7 @@ HaSAPPy software should be already installed on your computer and all requested 
 HaSAPPy software was installed in:
 
 ```
-/Users/User/Analysis
+/Users/User
 ```
 
 The HaSAPPy directory should have this structure:
@@ -24,7 +24,7 @@ The HaSAPPy directory should have this structure:
         |- mm10REFSEQgenes.txt
 ```
 
-#Download the gene reference file form the UCSC browser
+##Download the gene reference file form the UCSC browser
 In a Web browser, go to the UCSC link: http://genome.ucsc.edu/cgi-bin/hgTables?command=start
 Compile the page request using the following parameters:
 
@@ -50,23 +50,23 @@ Press ‘get output’
 Move downloaded file in:
 
 ```
-/Users/User/Analysis/HaSAPPy/docs
+/Users/User/HaSAPPy/docs
 ```
 
 ##Generate the GeneReference.pkl file using GeneReference_built.py module
 Open the terminal and move to HaSAPPy program directory
 
 ```
-cd /Users/User/Analysis/HaSAPPy/program
+cd /Users/User/HaSAPPy/program
 ```
 
 Start the GeneReference_built.py module using as input (-i) the downloaded file. Save the output (-o) in the same directory creating a file with the name GeneReference_Homo.pkl
 
 ```
-python GeneReference_built.py -i  /Users/User/Analysis/HaSAPPy/docs/RefSeq_human_GRCh38-hg38.txt -o /Users/User/Analysis/HaSAPPy/docs/GeneReference_Homo.pkl
+python GeneReference_built.py -i  /Users/User/HaSAPPy/docs/RefSeq_human_GRCh38-hg38.txt -o /Users/User/HaSAPPy/docs/GeneReference_Homo.pkl
 ```
 
-##Inspect the GeneReference.pkl file generatedG
+##Inspect the GeneReference.pkl file generated
 The GeneReference_Homo.pkl should have been saved in the selected folder. To verify the integrity of the file, open the python interface
 
 ```
@@ -91,10 +91,10 @@ import pickle
 import pandas as pd
 ```
 
-Load the data staored in the GeneReference_Homo.pkl file
+Load the data stored in the GeneReference_Homo.pkl file
 
 ```python
-with open ('/Users/User/Analysis/HaSAPPy/docs/GeneReference_Homo.pkl', 'rb') as load:
+with open ('/Users/User/HaSAPPy/docs/GeneReference_Homo.pkl', 'rb') as load:
  	gene_reference = pickle.load(load)
 ```
 
