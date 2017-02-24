@@ -13,7 +13,7 @@ For screening viral gene trap vectors are commonly used as mutagens for their la
 HaSAPPy performs analysis of NGS datasets form pooled haploid mammalian cell screens and is used to identify insertion locations in the whole genome, map them at the level of genes, and classify insertions according to their effects on gene function. Customizable output of all calculated parameters and ranking of candidate genes is performed. The implementation conforms to current Python programming guidelines and is open to be adapted and extended according to experimental setup. The data processing and analysis is performed by the following modules:
 
 **Modules:**
- - Read trimming of adaptor and low quality sequences in **Trim.py** (requires Preprocess reads)
+ - Read trimming of adaptor and low quality sequences in **Trim.py** (requires PreprocessReads)
  - Read alignment to PhiX control and reference genomes in **Align.py** (bowtie2, NextGenMap, or nvBowtie are required)
  - Identification of Independent Insertions (I.I.) in **IIDefinition.py**
  - Counting insertions at the genes level in **GenesDefinition.py**
