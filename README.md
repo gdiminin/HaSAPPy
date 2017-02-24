@@ -100,7 +100,7 @@ python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/H
 To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script. (see RUNNING HaSAPPy Tutorial for details https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Test_HaSAPPy_installation.md).
 
 
-##RUN HaSAPPy SOFTWARE
+##Running HaSAPPy
 
 Running a data analysis requires a command script that is pecified on the command line as input for HaSAPPy. An empty script is provided in docs/LoadModule.txt. Copy this file and enter the experimental parameters in the form (see more detail on how to generate a command script at https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Compile_LoadModule.md).
 
