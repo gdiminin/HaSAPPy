@@ -35,7 +35,7 @@ For the correct functionality of HaSAPPy program the following Python Packages a
  - sklearn
  - xlsxwriter
  
-For using the alignment module requires NGS readmappers are required and should be in the PATH:
+For using the alignment module NGS readmappers are required and should be in the PATH:
 - Bowtie2: to remove Phix sequences from libraries
 - Bowtie2, nvBowtie and Nextgenemap: to align libraries against a reference genome
 
@@ -97,7 +97,7 @@ An example command line for generating an annotation for the mouse genome:
 python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/HaSAPPy/mm10_HaSAPPY_refernce.pkl
 ```
 
-To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script. (see RUNNING HaSAPPy Tutorial for details https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Test_HaSAPPy_installation.md).
+To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script. (see the ["Test HaSAPPy installation"](../blob/master/docs/Tutorials/Test_HaSAPPy_installation.md) tutorial).
 
 
 ##Running HaSAPPy
