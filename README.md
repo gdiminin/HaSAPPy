@@ -98,14 +98,14 @@ An example command line for generating an annotation for the mouse genome:
 python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/HaSAPPy/mm10_HaSAPPY_refernce.pkl
 ```
 
-The "[Generate Gene Reference file for Human genome](../blob/master/docs/Tutorials/Generate_human_gene_reference.md)" tutorial explains how to download annotations for the human genome and generate Genes Annotation Reference.
+The "[Generate Gene Reference file for Human genome](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Generate_human_gene_reference.md)" tutorial explains how to download annotations for the human genome and generate Genes Annotation Reference.
 
-To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script (see the "[Test HaSAPPy installation](../blob/master/docs/Tutorials/Test_HaSAPPy_installation.md)" tutorial).
+To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script (see the "[Test HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Test_HaSAPPy_installation.md)" tutorial).
 
 
 ##Running HaSAPPy
 
-Running a data analysis requires a command script that is pecified on the command line as input for HaSAPPy. An empty script is provided in docs/LoadModule.txt. Copy this file and enter the experimental parameters in the form (see more detail on how to generate a command script in the "[Controlling the HaSAPPy workflow throught the command script](../blob/master/docs/Tutorials/Compile_LoadModule.md)" tutorial).
+Running a data analysis requires a command script that is pecified on the command line as input for HaSAPPy. An empty script is provided in docs/LoadModule.txt. Copy this file and enter the experimental parameters in the form (see more detail on how to generate a command script in the "[Controlling the HaSAPPy workflow throught the command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Complete_LoadModule.md)" tutorial).
 
 The analysis workflow can then be strated using HaSAPPy_start.py with the appropriate command script, see the following example:
 
@@ -113,9 +113,9 @@ The analysis workflow can then be strated using HaSAPPy_start.py with the approp
 python HaSAPPY_start.py User/HaSAPPy/Commands/LoadModule.txt
 ```
 
-After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial "[Test HaSAPPy installation using LoadModule_test.txt files](../blob/master/docs/Tutorials/Test_HaSAPPy_installation.md).
+After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial "[Test HaSAPPy installation using LoadModule_test.txt files](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Test_HaSAPPy_installation.md).
 
-To explore HaSAPPy potentialities and to get experience in pipline managment the tutorial "[Time for a real case: Identify candidates involved in X chromosome inactivation](../blob/master/docs/Tutorials/XistScreening_analysis.md)" guides the user on how performing the analysis on true datasets.
+To explore HaSAPPy potentialities and to get experience in pipline managment the tutorial "[Time for a real case: Identify candidates involved in X chromosome inactivation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/XistScreening_analysis.md)" guides the user on how performing the analysis on true datasets.
 
 
 **REPORTING OF ERRORS, FEATURE REQUEST, AND REQUESTS FOR HELP
