@@ -136,3 +136,7 @@ ngm --local --gpu 0,1 -t 8 -r <reference> -q <read file> -o <output file>
 ```
 
 Specify ngm as the aligner in the comand script and /home/ … /HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa as the path for the target genome.
+
+
+
+[**RETURN TO THE MAIN PAGE**](https://github.com/gdiminin/HaSAPPy/blob/master/README.md)
