@@ -122,6 +122,7 @@ To explore HaSAPPy potentialities and to get experience in pipline managment the
 ## REPORTING OF ERRORS, FEATURE REQUEST, AND REQUESTS FOR HELP
 
 Any issues with using HaSAPPy should be raised at https://github.com/gdiminin/HaSAPPy/issues
+
 Feature requests and pull request are appreciated https://github.com/gdiminin/HaSAPPy/pulls
 and be attended to as quickly as resources allow.
 
