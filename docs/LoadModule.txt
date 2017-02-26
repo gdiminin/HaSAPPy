@@ -108,7 +108,7 @@ Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
 @4A)
 Location of reference genome:
 @4B)
-Would you like to store permanently BAM aligned files  (mark ‘Y’ or ’N’)?
+Would you like to store permanently SAM aligned files  (mark ‘Y’ or ’N’)?
 @4C)
 
 !!!N.B. Compile the following section just if this is your starting point!!!
@@ -226,7 +226,7 @@ Parameters used for Outlier analysis (Fill this part just if marked ‘Y’ to t
 		@7M)
 		Reads:
 		@7N)
-Fidelity value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
+Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
 Provide a value between 0 to 100 (ex. 10)
 @7O)
 
