@@ -26,10 +26,10 @@ The folder structure should look like this:
 /Users/User/
 |
 └── HaSAPPy
-├── ...
-└── experiments
-└── test
-└── ...
+    ├── ...
+    └── experiments
+        └── test
+            └── ...
 ```
 
 ### Download and unpack sequence archives for PhiX and Mus Musculus genomes
@@ -42,12 +42,12 @@ The folder structure should look like this:
 /Users/User/
 |
 └── HaSAPPy
-├── ...
-└── experiments
-|   └── test
-|       └── ...
-└── reference
-└── ...
+    ├── ...
+    └── experiments
+    |   └── test
+    |       └── ...
+    └── reference
+	    └── ...
 ```
 
 Genome sequences and indices for read mapping for common species are available at:
@@ -94,52 +94,52 @@ Now we are ready to start. Your working directory (**/Users/User/HaSAPPy**) shou
 /Users/User/
 |
 └── HaSAPPy
-├── ...
-└── experiments
-|   └── test
-|       └── ...
-└── reference
-|   └── ...
-├── ...
-├── program
-|   └── ...
-└── docs
-├── LoadModule.txt
-├── mm10REFSEQgenes.txt
-├── GeneReference_mouse_mm10.pkl
-├── Tutorials
-|   └── ...
-└── test
-├── Aligned.sam
-├── Sequence.fastq
-├── LoadModule_test_from_Trim.txt
-└── LoadModule_test_from_IIdefinition.txt
+    ├── ...
+    └── experiments
+    |   └── test
+    |       └── ...
+    └── reference
+    |   └── ...
+    ├── ...
+    ├── program
+    |   └── ...
+    └── docs
+        ├── LoadModule.txt
+        ├── mm10REFSEQgenes.txt
+        ├── GeneReference_mouse_mm10.pkl
+        ├── Tutorials
+        |   └── ...
+        └── test
+             ├── Aligned.sam
+             ├── Sequence.fastq
+             ├── LoadModule_test_from_Trim.txt
+             └── LoadModule_test_from_IIdefinition.txt
 ```
 
 * the reference directory
 
 ```
 └── reference
-├── Phix
-|   └── NCBI
-|       └── 1993-04-28
-|           ├── Annotation
-|           |   └── ...
-|           └── Sequence
-|               ├── ...
-|	              └── Bowtie2Index
-|	                  ├── genome.1.ebwt
-|	                  └── ...
-└── Mus_musculus
-    └── UCSC
-        └── mm10
-            ├── Annotation
-            |    └── ...
-            └── Sequence
-                ├── ...
-                └── Bowtie2Index
-                    ├── genome.1.ebwt
-                    └── ...      
+    ├── Phix
+    |   └── NCBI
+    |       └── 1993-04-28
+    |           ├── Annotation
+    |           |   └── ...
+    |           ├── Sequence
+    |           ├── ...
+    |	        └── Bowtie2Index
+    |	            ├── genome.1.ebwt
+    |	            └── ...
+    └── Mus_musculus
+        └── UCSC
+            └── mm10
+                 ├── Annotation
+                 |   └── ...
+                 ├── Sequence
+                 ├── ...
+     	         └── Bowtie2Index
+     	             ├── genome.1.ebwt
+     	             └── ...      
 ```
 
 * the experiments directory
@@ -147,7 +147,7 @@ Now we are ready to start. Your working directory (**/Users/User/HaSAPPy**) shou
 ```
 └── experiments
     └── test
-    └── ...
+         └── ...
 ```
 
 ## Edit the HaSAPPy command script - the LoadModule file
@@ -239,31 +239,30 @@ In the `/Users/User/HaSAPPy/experiments/test` folder the following files and fol
 
 ```
 /Users/User/HaSAPPy/experiments/test
-├── test_1_yyyy-mm-dd
-|   ├──
-|   ├── test_1_info.txt
-|   ├── graph
-|   └── raw
-|       ├── test_1_Aligned.sam
-|       ├── ...
-|       └── test_1_IIRawdata.pkl
-├── test_2_yyyy-mm-dd
-|   ├── test_2_info.txt
-|   ├── graph
-|   └── raw
-|       ├── test_2_Aligned.sam
-|       ├── ...
-|       └── test_2_IIRawdata.pkl
-└── Analysis
-└── yyyy-mm-dd
-├── analysis_info.txt
-├── graph
-|   ├── Xist_SelectedvsControl.svg
-|   └── ...
-├── raw
-|   ├── GroupAnalysis.pkl
-|   └── RawData.pkl
-└── Table_yyyy-mm-dd.xlsx
+    ├── test_1_yyyy-mm-dd
+    |   ├── test_1_info.txt
+    |   ├── graph
+    |   └── raw
+    |       ├── test_1_Aligned.sam
+    |       ├── ...
+    |       └── test_1_IIRawdata.pkl
+    ├── test_2_yyyy-mm-dd
+    |   ├── test_2_info.txt
+    |   ├── graph
+    |   └── raw
+    |       ├── test_2_Aligned.sam
+    |       ├── ...
+    |       └── test_2_IIRawdata.pkl
+    └── Analysis
+        └── yyyy-mm-dd
+            ├── analysis_info.txt
+            ├── graph
+            |   ├── Xist_SelectedvsControl.svg
+            |   └── ...
+            ├── raw
+            |   ├── GroupAnalysis.pkl
+            |   └── RawData.pkl
+            └── Table_yyyy-mm-dd.xlsx
 ```
 
 Open the **Table_yyyy-mm-dd.xlsx** file in a spreadsheet program (eg. LibreOffice Calc, WPS Office Spreadsheet, or Microsoft Excel) and the **Xist_SelectedvsControl.svg** file in a vector graphics program (eg. Adobe Illustratore, or Inkscape). You should see the output in table format and a graphic view of the insertions in the _Xist_ gene similar as following output:
