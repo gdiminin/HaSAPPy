@@ -26,7 +26,8 @@ Output of the program is written in standard .xlsx and .svg file formats and can
 
 ##PREREQUISITES
 
-To use HaSAPPy the Python 2.7 version has to be installed in the local machine (Python 3 is not compatible with some used pakages) 
+To use HaSAPPy the Python 2.7 version has to be installed in the local machine (Python 3 is not compatible with some used pakages).
+
 HaSAPPy program requests the following Python Packages that can be downloaded/updated using the `pip -install` or `pip install --upgrade` command:
  - numpy
  - HTSeq
