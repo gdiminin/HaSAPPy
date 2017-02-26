@@ -211,7 +211,7 @@ Location of reference genome:
 
 Enter `N` in the input field below, if you don’t want to permanently store the output file generated. In this case the file will be used by the IIdefinition module and erased afterwards:
 ```
-Would you like to store permanently BAM aligned files  (mark ‘Y’ or ’N’)?
+Would you like to store permanently SAM aligned files  (mark ‘Y’ or ’N’)?
 @4C)Y
 ```
 
