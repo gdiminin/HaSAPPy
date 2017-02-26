@@ -50,7 +50,7 @@ Instructions how to install these read mappers can be found at:
 
 Fasta files for the PhiX and reference genomes can be obtained from the Illumina browser, for use with HaSAPPy select UCSC as the source:
 
-http://support.illumina.com/sequencing/sequencing_software/igenome.html). 
+http://support.illumina.com/sequencing/sequencing_software/igenome.html 
 
 
 ##INSTALLATION OF HaSAPPy
