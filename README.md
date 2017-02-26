@@ -100,7 +100,7 @@ python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/H
 
 The [Generate Gene Reference file for Human genome](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/CreateHumanGeneAnnotationReference.md) tutorial explains how to download annotations for the human genome and generate Genes Annotation Reference.
 
-To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script (see the [Test HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md) tutorial).
+To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script (see the [Performing a test run of your HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md) tutorial).
 
 
 ##Running HaSAPPy
@@ -113,7 +113,7 @@ The analysis workflow can then be strated using HaSAPPy_start.py with the approp
 python HaSAPPY_start.py User/HaSAPPy/Commands/LoadModule.txt
 ```
 
-After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial [Test HaSAPPy installation using LoadModule_test.txt files](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md).
+After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial [Performing a test run of your HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md).
 
 To explore HaSAPPy potentialities and to get experience in pipline managment the tutorial [Time for a real case: Identify candidates involved in X chromosome inactivation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/XCI_ScreenAnalysis.md) guides the user on how performing the analysis on true datasets.
 
