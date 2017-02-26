@@ -78,7 +78,7 @@ chmod +x PreprocessReads
 A gene annotation file for the mouse genome (GCRm38/mm10) is supplied with the source.
 
 >**NOTE:** If you need other genomes suitable annotation files can be obtained from the UCSC genome browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). 
-Refer to the [Generate a human gene reference](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Generate_human_gene_reference.md) tutorial for a detailed example:
+Refer to the [Generate a human gene reference](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/CreateHumanGeneAnnotationReference.md) tutorial for a detailed example:
 
 ```
 python GeneReference_built.py -i /Users/User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o /Users/User/HaSAPPy/docs/GeneReference_mouse_mm10.pkl
@@ -125,29 +125,29 @@ Now we are ready to start. Your working directory (**/Users/User/HaSAPPy**) shou
 |       └── 1993-04-28
 |           ├── Annotation
 |           |   └── ...
-|           ├── Sequence
-|           ├── ...
-|	        └── Bowtie2Index
-|	            ├── genome.1.ebwt
-|	            └── ...
+|           └── Sequence
+|               ├── ...
+|	              └── Bowtie2Index
+|	                  ├── genome.1.ebwt
+|	                  └── ...
 └── Mus_musculus
-└── UCSC
-└── mm10
-├── Annotation
-|   └── ...
-├── Sequence
-├── ...
-└── Bowtie2Index
-├── genome.1.ebwt
-└── ...      
+    └── UCSC
+        └── mm10
+            ├── Annotation
+            |    └── ...
+            └── Sequence
+                ├── ...
+                └── Bowtie2Index
+                    ├── genome.1.ebwt
+                    └── ...      
 ```
 
 * the experiments directory
 
 ```
 └── experiments
-└── test
-└── ...
+    └── test
+    └── ...
 ```
 
 ## Edit the HaSAPPy command script - the LoadModule file
