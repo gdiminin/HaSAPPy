@@ -29,23 +29,23 @@ Your working directory should look like that:
 │
 └── Analysis
 └── HaSAPPy
-├── reference
-│   ├── Phix
-│   │   └── ...
-│   └── Mus_musculus
-│       └── ...
-├── experiments
-│   └── ...
-├── program
-│   └── ...
-└── docs
-├── LoadModule.txt
-├── mm10REFSEQgenes.txt
-├── GeneReference_mouse_mm10.pkl
-├── Tutorials
-│    └── ...
-└── test
-└── ...
+    ├── reference
+    │   ├── Phix
+    │   │   └── ...
+    │   └── Mus_musculus
+    │       └── ...
+    ├── experiments
+    │   └── ...
+    ├── program
+    │   └── ...
+    └── docs
+        ├── LoadModule.txt
+        ├── mm10REFSEQgenes.txt
+        ├── GeneReference_mouse_mm10.pkl
+        ├── Tutorials
+        │    └── ...
+        └── test
+             └── ...
 ```         
 
 ## Collecting FASTQ file from the SRA repository
@@ -97,7 +97,7 @@ Then download the 7 selected read files to the data/selected/ folder:
 ```
 
 ## Prepare the LoadModule.txt file
-This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. An empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Complete_LoadModule.md)). Copy the **LoadModule.txt** command script template into a new command folder:
+This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. An empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)). Copy the **LoadModule.txt** command script template into a new command folder:
 ```
 cd ..
 mkdir command
