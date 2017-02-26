@@ -16,15 +16,15 @@ The HaSAPPy directory should have this structure:
 /Users/User/
 │
 └── HaSAPPy
-├── LICENSE
-├── README.md
-├── program
-│   └── ...
-└── docs
-├── test
-│   └── ...
-├── LoadModule.txt
-└── mm10REFSEQgenes.txt
+    ├── LICENSE
+    ├── README.md
+    ├── program
+    │   └── ...
+    └── docs
+        ├── test
+        │   └── ...
+        ├── LoadModule.txt
+        └── mm10REFSEQgenes.txt
 ```
 
 ## Download the gene reference file form the UCSC browser
