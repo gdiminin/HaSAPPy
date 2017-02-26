@@ -1,5 +1,6 @@
-# Time for a real case: Identify candidates involved in X chromosome inactivation
-In this tutorial, we are going to perform an anlysis with HaSAPPy software on true datasets derived from an haploid screening in ESCs to identify new modulators of X chromosome inactivation. For the details of the screening refer to Monfort et al. 2015 (https://www.ncbi.nlm.nih.gov/pubmed/26190100)
+# Time for a real case: Using HaSAPPy for analysing a screen for identifying candidates involved in X chromosome inactivation
+
+In this tutorial, we are going to perform an anlysis with HaSAPPy software of a published datasets from a haploid embryonic stem cell screen to identify modulators of X chromosome inactivation. For the details of the screening refer to the paper ([Monfort et al., 2015](https://www.ncbi.nlm.nih.gov/pubmed/26190100)).
 
 ## Prerequisites
 1. Installation of HaSAPPy package
@@ -17,24 +18,34 @@ Users/User/HaSAPPy
 
 Your working directory should look like that:
 ```
-|- HaSAPPy
-    |- reference
-        |- Phix
-            |- ...
-        |- Mus_musculus
-            |- ...
-    |- experiments
-        |- ...
-    |- program
-        |- …
-    |- docs
-        |- LoadModule.txt
-        |- mm10REFSEQgenes.txt
-        |- GeneReference_mouse_mm10.pkl
-        |- Tutorials
-             |- ...
-        |- test
-             |- ...
+/Users/User/HaSAPPy/experiments/
+│
+├── *library*_yyyy-mm-dd
+│   │
+│   ├── graph
+│   │   └── <graphic output of run>
+│   └── raw
+│       └── <intermediary files of data processing>
+│
+└── Analysis
+└── HaSAPPy
+├── reference
+│   ├── Phix
+│   │   └── ...
+│   └── Mus_musculus
+│       └── ...
+├── experiments
+│   └── ...
+├── program
+│   └── ...
+└── docs
+├── LoadModule.txt
+├── mm10REFSEQgenes.txt
+├── GeneReference_mouse_mm10.pkl
+├── Tutorials
+│    └── ...
+└── test
+└── ...
 ```         
 
 ## Collecting FASTQ file from the SRA repository
@@ -51,7 +62,7 @@ mkdir selected
 The SRA database can be accessed at:
 http://www.ncbi.nlm.nih.gov/sra
 
-For the dataset of the unselected cell population enter SRX1060416 into the search box. The selected dataset has the accession number SRX1060407. Download all read files in FASTQ format using the SRA toolkit. Install the SRA toolkit from: https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software
+For the dataset of the unselected cell population enter **SRX1060416** into the search box. The selected dataset has the accession number **SRX1060407**. Download all read files in FASTQ format using the SRA toolkit. Install the SRA toolkit from: https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software
 Choose Ubuntu Linux 64 bit architecture and spcify the ~/Downloads folder as destination. Open a new terminal window, enter the ~/Downloads folder and unzip the toolkit.
 
 ```
@@ -61,7 +72,7 @@ tar -xzvf sratoolkit.2.8.1-2-ubuntu64.tar.gz
 exit
 ```
 
-This closes this terminal window and returns you to the first terminal window. Now run the SRA toolkit fastq-dump command for downloading 7 unselected read files:
+This closes this terminal window and returns you to the first terminal window. Now run the SRA toolkit **fastq-dump** command for downloading 7 unselected read files:
 
 ```
 ~/Downloads/sratoolkit.2.8.1-2-ubuntu64/bin/fastq-dump -O unselected/ --gzip SRR2064917
@@ -86,7 +97,7 @@ Then download the 7 selected read files to the data/selected/ folder:
 ```
 
 ## Prepare the LoadModule.txt file
-This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. An empty template and an example script are supplied with a source (see tutorial Compile_LoadModule). Copy the template into a new command folder:
+This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. An empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/Complete_LoadModule.md)). Copy the **LoadModule.txt** command script template into a new command folder:
 ```
 cd ..
 mkdir command
