@@ -61,7 +61,7 @@ Operator Name:
 @1A) Anton Wutz
 ```
 
-The folder for all files produced by an analysis workflow can be specified through a user selected PATH in the filesystem. The PATH must exist i the file system and point to the top-level folder where the folder structure for HaSAPPy intermedidiary and output files will be stored. It is the responsibility of the user to ensure that enough storage capacity is available to store the entire set of data files, which can be significant depending on the scale of the project:
+The folder for all files produced by an analysis workflow can be specified through a user selected PATH in the filesystem. The PATH must exist in the file system and point to the top-level folder where the folder structure for HaSAPPy intermedidiary and output files will be stored. It is the responsibility of the user to ensure that enough storage capacity is available to store the entire set of data files, which can be significant depending on the scale of the project:
 
 ```
 Storing location (provide a correct path):
@@ -133,7 +133,7 @@ Location of input file 2 (if paired-end) (add additional lines if necessary):
 …
 ```
 
-PCR amplification can lead to reads of a reduced length and consequently the NGS sequencing run might averlap the adaptor sequence on the other side. Provide the adaptor sequence that could be present at the end of the read for removal (on Illumina Sequencers the first sequence run can overlap the p7 adaptor and the second the p5 adaptor):
+PCR amplification can lead to reads of a reduced length and consequently the NGS sequencing run might overlap the adaptor sequence on the other side. Provide the adaptor sequence that could be present at the end of the read for removal (on Illumina Sequencers the first sequence run can overlap the p7 adaptor and the second the p5 adaptor):
 ```
 Adaptor p7 sequence (for trimming 3’ ends of sequence in file 1):
 @2F) ATCTCGTATGCCGTCTTCTGCTT
@@ -141,7 +141,7 @@ Adaptor p5 sequence (for trimming 3’ ends of sequence in file 2):
 @2G)
 ```
 
-Base quality is reported in the FastQ read file. To eliminate low quality sequences from reads PreprocessReads scanns the read for low quality bases that fall below a threshold for `Initial bad quality QA value detected ‘@2H)’`. If the remainder of the read has an average base quality below a `Quality average limit of 3’end sequence ‘@2J)’`, trimming of the read at this position is performed leaving a shorter read of good base quality. If the remainder of the read has sufficiently high average base quality, a low quality position is tolerated and scanning of the remainder of the read proceeds. This ensures that a maximum of sequencing data is retained for data analysis but bad quality reads are eliminated. Reads that become too short after trimming are also discarded, whereby a threshold of 26 bases is used to select reads.
+Base quality is reported in the FastQ read file. To eliminate low quality sequences from reads PreprocessReads scans the read for low quality bases that fall below a threshold for `Initial bad quality QA value detected ‘@2H)’`. If the remainder of the read has an average base quality below a `Quality average limit of 3’end sequence ‘@2J)’`, trimming of the read at this position is performed leaving a shorter read of good base quality. If the remainder of the read has sufficiently high average base quality, a low quality position is tolerated and scanning of the remainder of the read proceeds. This ensures that a maximum of sequencing data is retained for data analysis but bad quality reads are eliminated. Reads that become too short after trimming are also discarded, whereby a threshold of 26 bases is used to select reads.
 ```
 Quality selection parameters:
 Initial bad quality QA value detected:
@@ -164,7 +164,7 @@ Location of Phix reference genome:
 @3A) /Users/User/HaSAPPy/reference/Phix/NCBI/1993-04-28/Sequence/BowtieIndex/genome
 ```
 
-Mark `N` if you don’t want the permanently store the output read file that is generated. In this case the file will be used by the Align module and erased afterwards:
+Mark `N` if you don’t want the permanently store of the output read file that is generated. In this case the file will be used by the Align module and erased afterwards:
 ```
 Would you like to store permanently Phix-cleaned files  (mark ‘Y’ or ’N’)?
 @3B)
@@ -241,7 +241,7 @@ Location of input file 2 (if pair-end) (add additional lines if necessary):
 
 ## Section 5: Identification of Independent Insertions (I.I.)
 
-For the definition of Independent Insertions from read files, a minimal number of read count can be provided. Insertions that have less than this threshold number of reads at positions will be discarded. This parameter can be useful for reducing noise deriving from sequencing procedure or contaminations. In case sequencing depth is not very deep it also could negatively affect library complexity and resolution (particularly in unselected control samples with large numbers of different insertions). An integer number should be provided. The default calue is set at 1, which maintains all insertions.
+For the definition of Independent Insertions from read files, a minimal number of read count can be provided. Insertions that have less than this threshold number of reads at positions will be discarded. This parameter can be useful for reducing noise deriving from sequencing procedure or contaminations. In case sequencing depth is not very deep it also could negatively affect library complexity and resolution (particularly in unselected control samples with large numbers of different insertions). An integer number should be provided. The default value is set at 1, which maintains all insertions.
 ```
 Number of reads to define a I.I.:
 @5A) 2
@@ -265,7 +265,7 @@ If level of alignment fidelity is requested, provide a limit number:
 @5D) 5
 ```
 
-HaSAPPy provides the possibility to enter a workflow at this step. If this module is the starting point of woud analysis, you should supply information on the name and properties of the NGS libraries and the paths to the read alignment files in SAM format:
+HaSAPPy provides the possibility to enter a workflow at this step. If this module is the starting point of your analysis, you should supply information on the name and properties of the NGS libraries and the paths to the read alignment files in SAM format:
 
 > **NOTE:** HaSAPPy does not yet accept BAM files as input at this step in the workflow and SAM format has to be used. This avoids repeated compression and decompression, which decreases processing demand but adds to storage requirements.
 
@@ -330,7 +330,7 @@ Location of input file 1(add additional lines if necessary):
 
 ## Section 7: Comparison of different experiments
 
-The **GroupAnalysis.py** module uses input data that was generated by the **GeneDefinition.py** module for each NGS library. Individual NGS datasets are associated with experiments. One reference (control) and multiple selected groups can be specified. This could for example be useful if a time-coarse screening is performed and selection would be followed by drawing sampled from sequential timepoints. A simple experiment would just have an unselected and a selected group, which each contain several NGS datasets of the replicates. For this reason the minimum number of this comparison is 2 groups.
+The **GroupAnalysis.py** module uses input data that was generated by the **GeneDefinition.py** module for each NGS library. Individual NGS datasets are associated with experiments. One reference (control) and multiple selected groups can be specified. This could for example be useful if a time-course screening is performed and selection would be followed by drawing sampled from sequential timepoints. A simple experiment would just have an unselected and a selected group, which each contain several NGS datasets of the replicates. For this reason the minimum number of this comparison is 2 groups.
 
 All previously calculated parameters (II,KI,Bias,bias_FW,bias_RV,Reads) can be selected for a group analysis. Calculation of the mean and standard deviation for a group from the replicates is supported. Experimental groups are also compared to the reference group and fold difference, ttest, and Outlier analysis are calculated.
 
@@ -340,7 +340,7 @@ Number of groups to be analysed:
 @7A) 3
 ```
 
-The name of the reference group must be provided. This name will be used in table column headings For the reference group mean and standard deviation will be calculated BUT fold difference, ttest, etc will not be available for this group (these parameters are provided only for experimental groups as this is the reference for the comparison). In general, unselected libraries are used as reference.
+The name of the reference group must be provided. This name will be used in table column headings. For the reference group mean and standard deviation will be calculated BUT fold difference, ttest, etc will not be available for this group (these parameters are provided only for experimental groups as this is the reference for the comparison). In general, unselected libraries are used as reference.
 ```
 Reference group name:
 @7B) Unselected
@@ -409,9 +409,9 @@ Reads:
 @7N) N
 ```
 
-Outlier analysis is performed for comparison of the ratio of wpecified parameters between the analysed experimental group and the reference group. A Fold value does not contain information on the absolute number of insertions observed for a gene in the experiment. Therefore, it could happen that genes with very few or no insertions in the reference group would reach a high Outlier value (underrepresentation in the reference group is not uncommon due to undersampling). For correcting for this behavior a Fidelity value can be specified as a percentage (0-100) with which the absolute number of insertions will be used to correct the outlier outcome for the gene (a recommened starting fidelity value is 10). An integer number between 0 to 100 is required:
+Outlier analysis is performed for comparison of the ratio of specified parameters between the analysed experimental group and the reference group. A Fold value does not contain information on the absolute number of insertions observed for a gene in the experiment. Therefore, it could happen that genes with very few or no insertions in the reference group would reach a high Outlier value (underrepresentation in the reference group is not uncommon due to undersampling). For correcting for this behavior a Confidence value can be specified as a percentage (0-100) with which the absolute number of insertions will be used to correct the outlier outcome for the gene (a recommened starting fidelity value is 10). An integer number between 0 to 100 is required:
 ```
-Fidelity value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
+Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
 Provide a value between 0 to 100 (ex. 10)
 @7O) 10
 ```
@@ -470,7 +470,7 @@ In a table you can provide multiple selecting criteria adding selectors marked w
 Construct table representation using following keys (each new line correspond to a table):
 !!!Read Info file to have detailed informations of how to compile this part!!!
 Samples: all, group name
-Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
+Parameters: all, II, KI, Bias, bias_FW, bias_RV, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
 Data type: all, raw, mean, stdev, fold, ttest
 ex. :  	(all,II,raw),(group1,KI,mean)
 (group1,KI,ttest),(all,Score)
@@ -523,15 +523,15 @@ Location of file storing GroupAnalysis informations:
 
 ## Section 9: Design gene insertions
 
-For candidate genes that are of interest visualization of the insertion patterns over the gene model can be graphically rendered by the **Design.py** module. This is useful for assessing if insertions have integrated in specific regions of a gene or to inspect orientation of insertions within introns. Genes for this type of analysis will have been identified from inspecting tables obtained from an earlier run of the workflow, or can be any expected candidates or positiv econntrols of the screen. In addition, plots can be generated for the distribution of genes according to the analysed parameters. Output is provided as high quality vector graphics in SVG format, which can be further processed using common vector graphics programs (eg. Adobe Illustrator, or Inkscape) for scaling and setting font sizes for generating publishable figures.
+For candidate genes that are of interest visualization of the insertion patterns over the gene model can be graphically rendered by the **Design.py** module. This is useful for assessing if insertions have integrated in specific regions of a gene or to inspect orientation of insertions within introns. Genes for this type of analysis will have been identified from inspecting tables obtained from an earlier run of the workflow, or can be any expected candidates or positive controls of the screen. In addition, plots can be generated for the distribution of genes according to the analysed parameters. Output is provided as high quality vector graphics in SVG format, which can be further processed using common vector graphics programs (eg. Adobe Illustrator, or Inkscape) for scaling and setting font sizes for generating publishable figures.
 
 The user can specify which type of plot is generated by entering `Y` or `N`
 ```
 Type of graph to generate (mark ‘Y’ or ’N’):
 Plot I.I. in gene models
-@9A)
+@9A) Y
 Plot Gene distribution according analysed parameter:
-@9B)
+@9B) Y
 ```
 
 If the `Plot I.I. in gene models` option is chosen, the following information is required:
@@ -602,6 +602,6 @@ Save the completed `LoadModule.txt` file with a new name and use it as input for
 
 `python HaSAPPy_start.py <path-to-LoadModule.txt>`
 
-HaSAPPy command scripts are parsed in straight a forward ane simple way. The parser in the the **INFOloads.py** module searches for specific TAGs (eg. `@1A)` and reads the remainder of the line into a Python object. Only TAG lines that correspond to scheduled data processing sections of a workflow are required. All other lines are ignored by HaSAPPy and simply contain text for supporting the user for entering the correct information. This should make it possible to use a line based interface for producing command scripts in an automated or GUI supported way in the future.
+HaSAPPy command scripts are parsed in straight a forward and simple way. The parser in the the **INFOloads.py** module searches for specific TAGs (eg. `@1A)` and reads the remainder of the line into a Python object. Only TAG lines that correspond to scheduled data processing sections of a workflow are required. All other lines are ignored by HaSAPPy and simply contain text for supporting the user for entering the correct information. This should make it possible to use a line based interface for producing command scripts in an automated or GUI supported way in the future.
 
 [**RETURN TO THE MAIN PAGE**](https://github.com/gdiminin/HaSAPPy/blob/master/README.md)
