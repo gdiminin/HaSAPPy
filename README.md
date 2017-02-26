@@ -115,7 +115,7 @@ python HaSAPPY_start.py User/HaSAPPy/Commands/LoadModule.txt
 
 After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial [Performing a test run of your HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md).
 
-To explore HaSAPPy potentialities and to get experience in pipline managment the tutorial [Time for a real case: Identify candidates involved in X chromosome inactivation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/XCI_ScreenAnalysis.md) guides the user on how performing the analysis on true datasets.
+To explore HaSAPPy potentialities and to get experience in pipline managment the tutorial [Time for a real case: Using HaSAPPy for analysing a screen for identifying candidates involved in X chromosome inactivation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/XCI_ScreenAnalysis.md) guides the user on how performing the analysis on true datasets.
 
 
 **REPORTING OF ERRORS, FEATURE REQUEST, AND REQUESTS FOR HELP
