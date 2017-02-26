@@ -88,7 +88,7 @@ Please check out: http://continuum.io/thanks and https://anaconda.org
 >>> 
 ```
 
-Import the **pickle** and **pandas** modules that we are going to use for working with the gene annotation reference file:
+Import the **pickle** and **pandas** modules necessary to use for working with the gene annotation reference file:
 
 ```python
 import pickle
