@@ -119,7 +119,7 @@ After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt fi
 To explore HaSAPPy potentialities and to get experience in pipline managment the tutorial [Time for a real case: Using HaSAPPy for analysing a screen for identifying candidates involved in X chromosome inactivation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/XCI_ScreenAnalysis.md) guides the user on how performing the analysis on true datasets.
 
 
-##REPORTING OF ERRORS, FEATURE REQUEST, AND REQUESTS FOR HELP
+## REPORTING OF ERRORS, FEATURE REQUEST, AND REQUESTS FOR HELP
 
 Any issues with using HaSAPPy should be raised at https://github.com/gdiminin/HaSAPPy/issues
 Feature requests and pull request are appreciated https://github.com/gdiminin/HaSAPPy/pulls
