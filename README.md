@@ -96,7 +96,7 @@ The program requires two variables:
 
 An example command line for generating an annotation for the mouse genome:
 ```
-python GeneReference_built.py -i User/HaSAPPy/Doc/mm10_REFSEQgenes.txt -o User/HaSAPPy/mm10_HaSAPPY_refernce.pkl
+python GeneReference_built.py -i User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 The [Generate Gene Reference file for Human genome](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/CreateHumanGeneAnnotationReference.md) tutorial explains how to download annotations for the human genome and generate Genes Annotation Reference.
@@ -108,7 +108,7 @@ To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is enter
 
 Running a data analysis requires a command script that is pecified on the command line as input for HaSAPPy. An empty script is provided in docs/LoadModule.txt. Copy this file and enter the experimental parameters in the form (see more detail on how to generate a command script in the [Controlling the HaSAPPy workflow throught the command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md) tutorial).
 
-The analysis workflow can then be strated using HaSAPPy_start.py with the appropriate command script, see the following example:
+The analysis workflow can then be strated using HaSAPPY_start.py with the appropriate command script, see the following example:
 
 ```
 python HaSAPPY_start.py User/HaSAPPy/Commands/LoadModule.txt
