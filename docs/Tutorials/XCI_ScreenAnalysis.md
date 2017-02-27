@@ -41,7 +41,7 @@ Your working directory should look like that:
     └── docs
         ├── LoadModule.txt
         ├── mm10REFSEQgenes.txt
-        ├── GeneReference_mouse_mm10.pkl
+        ├── GeneReference_Mouse-MM10.pkl
         ├── Tutorials
         │    └── ...
         └── test
