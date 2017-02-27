@@ -39,7 +39,7 @@ GENERAL INFORMATIONS					section:	1
 Operator Name: 
 @1A)User
 Storing location (provide a correct path):
-@1B)/Users/User/HaSAPPy/experiments/XCI_Tutorial
+@1B)/Users/User/HaSAPPy/experiments/XCI_tutorial
 
 ___________________________________________________________________
 TRIM ADAPTOR AND SEQUENCE				section:	2
