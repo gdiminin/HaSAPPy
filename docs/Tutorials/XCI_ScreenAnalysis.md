@@ -97,12 +97,81 @@ Then download the 7 selected read files to the data/selected/ folder:
 ```
 
 ## Prepare the LoadModule.txt file
-This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. An empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)). Copy the **LoadModule.txt** command script template into a new command folder:
+This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. 
+User can utilize a pre-compiled LoadMoule (find it in ```/Users/User/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or try to use and fill up an empty template. The empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)).
+
+### Create in experiments a folder where to store analysis data
+```
+cd ../HaSAPPy/experiments/
+mkdir XCI_tutorial
+```
+
+### Use the pre-compiled LoadModule
+To use the pre-compiled LoadModule open the LoadModule_XCI-tutorial.txt file in a text editor. As you can see most of the tasks have already been filled out. You need to provide the missing PATH information where files are stored in your file system (absolute PATH from root `/` is required). Complete the input fields of the form in the following sections:
+
+* Section 1
+* Task 1A and 1B
+
+```
+Operator Name: 
+@1A) User
+Storing location (provide a correct path):
+@1B) /Users/User/HaSAPPy/experiments/XCI_tutorial
+```
+* Section 2
+* 2D
+
+```
+Location of input file 1 (add additional lines if necessary):
+@2D) /Users/User/HaSAPPy/data/unselected/SRR2064917.fastq.gz
+@2D) ...
+```
+
+* Section 3
+*  3A
+
+```
+Location of Phix reference genome:
+@3A)/Users/User/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
+```
+
+> **NOTE:** For Bowtie2 the path and filename for the genome index should be provided without the file extension!
+
+* Section 4
+* 4B
+
+```
+Location of reference genome:
+@4B) /Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
+```
+
+* Section 6
+* 6A
+
+```
+Location of gene reference:
+@6A)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+```
+
+* Section 9
+* 9C
+
+```
+FOR Plot I.I. in gene models:
+Location of gene reference:
+@9C)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+```
+
+Save the file and copy the file name to the clipboard.
+
+### Generate a new LoadModule for the analysis
+
+Copy the **LoadModule.txt** command script template into a new command folder:
 ```
 cd ..
 mkdir command
 cd command
-cp ../docs/LoadModule.txt ./myProj.txt
+cp ../docs/LoadModule.txt ./LoadModule_XCI-tutorial.txt
 ```
 
 Use a text editor (eg. gedit or vi) to edit the myProj.txt file in the ~/HaSAPPy/command/ folder. For read trimming before alignment follow the instructions for PreprocessReads, a useful adaptor sequence to trim from the 3'-end is the Ilumina P7 adaptor reverse complement (ATCTCGTATGCCGTCTTCTGCTT). 
@@ -113,7 +182,7 @@ Start the analysis with the following command:
 ```
 cd ..
 cd program
-python HaSAPPY_start.py ../command/myProj.txt
+python HaSAPPY_start.py Users/User/HaSAPPy/../LoadModule_XCI-tutorial.txt
 ```
 
 This will start the HaSAPPy program. The output will be stored under the experiments folder. You can compare it with the one present in HaSAPPy manual.
