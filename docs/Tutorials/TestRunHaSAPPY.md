@@ -187,7 +187,7 @@ Location of input file 1 (add additional lines if necessary):
 
 ```
 Location of Phix reference genome:
-@3A)/Users/User/HaSAPPy/reference/Phix/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
+@3A)/Users/User/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
 ```
 
 > **NOTE:** For Bowtie2 the path and filename for the genome index should be provided without the file extension!
