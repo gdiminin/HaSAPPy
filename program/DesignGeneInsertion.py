@@ -120,7 +120,7 @@ def start(Info):
                 x_all,y_all = zip(*(group_reference.FW + group_reference.RV + group_other.FW +group_other.RV))
                 ymax = max(y_all)
             except ValueError:
-                pass
+                ymax = 10
                 
             
             #Eventually add here log schale if ymax > ...
