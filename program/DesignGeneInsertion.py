@@ -116,8 +116,11 @@ def start(Info):
                 end_pos = gene['genomic_interval'].end_d
             
             #To define max read value in the two libraries for get ymax position
-            x_all,y_all = zip(*(group_reference.FW + group_reference.RV + group_other.FW +group_other.RV))
-            ymax = max(y_all)
+            try:
+                x_all,y_all = zip(*(group_reference.FW + group_reference.RV + group_other.FW +group_other.RV))
+                ymax = max(y_all)
+            except ValueError:
+                pass
                 
             
             #Eventually add here log schale if ymax > ...
