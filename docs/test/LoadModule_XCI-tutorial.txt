@@ -1,0 +1,378 @@
+
+		************************************
+		****	HaSAPPy Load Module	****
+		************************************
+
+
+___________________________________________________________________
+Which analysis would you like to perform? (please mark ‘Y’ or ’N’)
+
+Trim adaptor and sequence quality selection (fill up section 2):
+@0A)Y
+
+Alignment and discharging Phix genome (fill up section 3):
+@0B)Y	
+Alignment to reference genome (fill up section 4):
+@0C)Y	
+
+Identification of Independent Insertions (I.I.) (fill up section 5):
+@0D)Y
+Classification of I.I. in genes	(fill up section 6):
+@0E)Y
+
+Comparison of different experiments (fill up section 7):
+@0F)Y
+
+Generate Tables summarising analysis results (fill up section 8):
+@0G)Y
+
+Visualise insertions by genes representation (fill up section 9):
+@0H)Y
+___________________________________________________________________
+
+According to the type of analysis requested fill up defined sections
+N.B. If the requested Input file derive from a previous step please write: ‘on-going input’
+
+___________________________________________________________________
+GENERAL INFORMATIONS					section:	1
+
+Operator Name: 
+@1A)User
+Storing location (provide a correct path):
+@1B)/Users/User/HaSAPPy/experiments/XCI_Tutorial
+
+___________________________________________________________________
+TRIM ADAPTOR AND SEQUENCE				section:	2
+QUALITY SELECTION
+
+How many libraries do you want to analyse?:
+@2A)14
+Are those libraries sequenced pair-end?:
+@2B)N
+Name of the libraries (add additional lines if necessary):
+@2C)Ctrl1
+@2C)Ctrl2
+@2C)Ctrl3
+@2C)Ctrl4
+@2C)Ctrl5
+@2C)Ctrl6
+@2C)Ctrl7
+
+@2C)Sel1
+@2C)Sel2
+@2C)Sel3
+@2C)Sel4
+@2C)Sel5
+@2C)Sel6
+@2C)Sel7
+
+Location of input file 1 (add additional lines if necessary):
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064917.fastq.gz
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064920.fastq.gz
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064924.fastq.gz
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064927.fastq.gz
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064928.fastq.gz
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064929.fastq.gz
+@2D)/Users/User/HaSAPPy/data/unselected/SRR2064930.fastq.gz
+
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064886.fastq.gz
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064896.fastq.gz
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064898.fastq.gz
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064899.fastq.gz
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064902.fastq.gz
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064905.fastq.gz
+@2D)/Users/User/HaSAPPy/data/selected/SRR2064908.fastq.gz
+
+Location of input file 2 (if pair-end) (add additional lines if necessary):
+@2E)
+@2E)
+…
+Adaptor p7 sequence (for trimming 3’ ends of sequence in file 1):
+@2F)ATCTCGTATGCCGTCTTCTGCTT
+Adaptor p5 sequence (for trimming 3’ ends of sequence in file 2):
+@2G)
+Quality selection parameters:
+	Initial bad quality QA value detected:
+	@2H)20
+	Quality average limit of 3’end sequence after the call of a bad quality base:
+	@2J)25
+Would you like to store quality selected libraries (mark ‘Y’ or ’N’)?
+@2K)Y
+
+___________________________________________________________________
+ALIGNMENT AND DISCHARGING				section:	3
+PHIX GENOME
+
+Location of Phix reference genome:
+@3A)/Users/User/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
+Would you like to store permanently Phix-cleaned files  (mark ‘Y’ or ’N’)?
+@3B)Y
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+How many libraries do you want to analyse?:
+@3C)	
+Are those libraries sequenced pair-end?:
+@3D)	
+Name of the libraries (add additional lines if necessary):
+@3E)
+@3E)
+…
+Location of input file 1(add additional lines if necessary):
+@3F)
+@3F)
+…
+Location of input file 2 (if pair-end) (add additional lines if necessary):
+@3G)
+@3G)
+…
+
+___________________________________________________________________
+ALIGNMENT TO REFERENCE					section:	4
+GENOME
+
+Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
+@4A)bowtie2
+Location of reference genome:
+@4B)/Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
+Would you like to store permanently SAM aligned files  (mark ‘Y’ or ’N’)?
+@4C)Y
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+How many libraries do you want to analyse?:
+@4D)	
+Are those libraries sequenced pair-end?:
+@4E)	
+Name of the library (add additional lines if necessary):
+@4F)
+@4F)
+…
+Location of input file 1(add additional lines if necessary):
+@4G)
+@4G)
+…
+Location of input file 2 (if pair-end) (add additional lines if necessary):
+@4H)
+@4H)
+…
+
+___________________________________________________________________
+IDENTIFICATION OF							section:	5
+INDEPENDENT INSERTIONS (I.I.)
+
+Number of reads to define a I.I.:
+@5A)2
+If pair-end libraries, do you want to remove PCR-duplicates (mark ‘Y’ or ’N’)?
+@5B)N
+Do you want to indicate a level of alignment fidelity (mark ‘Y’ or ’N’):
+@5C)N
+If level of alignment fidelity is requested, provide a limit number:
+@5D)
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+How many library do you want to analyse?:
+@5E)
+Are those libraries sequenced pair-end?:
+@5F)
+Name of the library (add additional lines if necessary):
+@5G)
+@5G)
+…
+Location of input file 1(add additional lines if necessary):
+@5H)
+@5H)
+…
+
+___________________________________________________________________
+CLASSIFICATION OF I.I.						section:	6
+IN GENES
+
+Location of gene reference:
+@6A)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+Type of parameters analysed (mark ‘Y’ or ’N’):
+	Independent insertions (I.I.):
+	@6B)Y
+	Killing insertions (K.I.):
+	@6C)Y
+	Bias insertions:
+	@6D)Y
+	Reads:
+	@6E)Y
+
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+How many library do you want to analyse?:
+@6F)	
+Are those libraries sequenced pair-end?:
+@6G)	
+Name of the library (add additional lines if necessary):
+@6H)
+@6H)
+…
+Location of input file 1(add additional lines if necessary):
+@6I)
+@6I)
+…
+
+___________________________________________________________________
+COMPARISON OF							section:	7
+DIFFERENT EXPERIMENTS
+
+Number of groups to be analysed:
+@7A)2
+
+Reference group name:
+@7B)Control
+
+Reference group data (provide the library names separated by a ‘,’ (ex. ‘lib1,lib2,lib3’)):
+@7C)Ctrl1, Ctrl2,Ctrl3, Ctrl4,Ctrl5,Ctrl6, Ctrl7
+
+Other data group name(add additional lines if necessary):
+@7D)Selected
+
+Other data group (provide the library names separated by a ‘,’ (ex. ‘lib1,lib2,lib3’))(add additional lines if necessary):
+ @7E)Sel1,Sel2,Sel3,Sel4,Sel5,Sel6,Sel7
+
+Type of parameters analysed (mark ‘Y’ or ’N’):
+	Independent insertions (I.I.):
+	@7F)Y
+	Killing insertions (K.I.):
+	@7G)Y
+	Bias insertions:
+	@7H)Y
+	Reads:
+	@7I)Y
+Perform Outlier analysis(mark ‘Y’ or ’N’):
+@7J)Y
+Parameters used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
+	Type of parameters analysed (mark ‘Y’ or ’N’):
+		Independent insertions (I.I.):
+		@7K)Y
+		Killing insertions (K.I.):
+		@7L)Y
+		Bias insertions:
+		@7M)Y
+		Reads:
+		@7N)N
+Trustability value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
+Provide a value between 1 to 100:
+@7O)10
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+How many library do you want to analyse?:
+@7P)	
+@7P)
+…	
+Name of the library (Use the same names provided in section 7C and 7E) (add additional lines if necessary):
+@7Q)	
+@7Q)
+…
+Location of input file (add additional lines if necessary):
+@7R)	
+@7R)
+…
+
+
+___________________________________________________________________
+GENERATE								section:	8
+TABLES
+
+Table name representation(add additional lines if necessary):
+@8A)Insertions
+@8A)KillingInsertions
+@8A)InsertionBias
+@8A)Reads
+@8A)Overview
+… 
+Construct table representation using following keys (each new line correspond to a table):
+	!!!Read Info file to have detailed informations of how to compile this part!!!
+	Samples: all, group name
+	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
+	Data type: all, raw, mean, stdev, fold, ttest
+	ex. :  	(all,II,raw),(group1,KI,mean)
+		(group1,KI,ttest),(all,Score)
+@8B)(all,II,raw),(Control,II,mean),(Selected,II,mean),(all,II,fold)
+@8B)(all,KI,raw),(Control,KI,mean),(Selected,KI,mean),(all,KI,fold)
+@8B)(all,Bias,raw),(Control,Bias,mean),(Selected,Bias,mean),(all,Bias,fold)
+@8B)(all,Reads,raw),(Control,Reads,mean),(Selected,Reads,mean),(all,Reads,fold)
+@8B)(Selected,Score),(Control,II,mean),(Selected,II,mean),(all,II,fold),(Control,KI,mean),(Selected,KI,mean),(all,KI,fold),(Control,Bias,mean),(Selected,Bias,mean),(all,Bias,fold),(Control,Reads,mean),(Selected,Reads,mean),(all,Reads,fold)
+…
+
+Provide a filter parameter to select/sort values displayed (N.B. more than one filter can be defined):
+	Keys: as previously defined (N.B. you can not use as parameter ‘all’) 
+	Symbols: >, >=, < , <= , == , ascending, descending  
+	Number: a float or int value or nothing if (ascending/descending)
+	ex. :  	filter[(group2,KI,mean), >, 3.45]
+		filter[(group1,KI,mean), ==, 3.45],filter[(group2,Bias,mean), ascending]
+@8C)filter[(Selected,II,mean), >, 2]
+@8C)filter[(Selected,II,mean), >, 2]
+@8C)filter[(Selected,II,mean), >, 2]
+@8C)filter[(Selected,II,mean), >, 2]
+@8C)filter[(Selected,II,mean), >, 2]
+…
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+Location of file storing GroupAnalysis informations:
+@8D)
+
+
+___________________________________________________________________
+DESIGN									section:	9
+GENE INSERTIONS
+
+
+Type of graph to generate (mark ‘Y’ or ’N’):
+	Plot I.I. in gene models
+	@9A)Y
+	Plot Gene distribution according analysed parameter:
+	@9B)Y
+
+FOR Plot I.I. in gene models:
+	Location of gene reference:
+	@9C)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+
+	Genes list to analyse (also genomic intervals can be provided):
+		ex: 	gene1,gene2,gene3
+		ex:	chrX_12345619_12456789,chr2_3726189_3726567
+	@9D)Xist,Spen
+
+FOR Plot Gene distribution according analysed parameter:
+	Do you want to highlight outliers (mark ‘Y’ or ’N’):
+	@9E)Y
+	Starting Outlier score to mark as outliers genes (Fill this part just if marked ‘Y’ to the previously task):
+	@9F)50
+	
+	Do you want to annotate some gene names in the plot (mark ‘Y’ or ’N’):
+	@9G)Y
+	Genes list to annotate or Outlier starting value:
+		ex: 	gene1,gene2,gene3
+		ex:	22
+	@9H)Xist,Spen
+	
+
+
+
+!!!N.B. Compile the following section just if this is your starting point!!!
+Location of file storing GroupAnalysis informations:
+@9I)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
