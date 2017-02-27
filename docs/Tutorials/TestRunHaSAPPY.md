@@ -20,6 +20,8 @@ Enter into the HaSAPPy folder and create a new **experiments/** folder:
 ```
 cd HaSAPPy
 mkdir experiments
+cd experiments
+mkdir test
 ```
 The folder structure should look like this:
 ```
@@ -203,7 +205,7 @@ Location of reference genome:
 
 ```
 Location of gene reference:
-@6A)/Users/User/HaSAPPy/docs/GeneReference_mouse_mm10.pkl
+@6A)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 * Section 9
@@ -212,7 +214,7 @@ Location of gene reference:
 ```
 FOR Plot I.I. in gene models:
 Location of gene reference:
-@9C)/Users/User/HaSAPPy/docs/GeneReference_mouse_mm10.pkl
+@9C)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 Save the file and copy the file name to the clipboard.
