@@ -98,16 +98,16 @@ Then download the 7 selected read files to the data/selected/ folder:
 
 ## Prepare the LoadModule.txt file
 This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. 
-User can utilize a pre-compiled LoadMoule (find it in ```/Users/User/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or try to use and fill up an empty template. The empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)).
+User can utilize a pre-filled LoadMoule (find it in ```/Users/User/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or try to use and fill up an empty template. The empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)).
 
 ### Create in experiments a folder where to store analysis data
 ```
-cd ../HaSAPPy/experiments/
+cd /Users/User/HaSAPPy/experiments/
 mkdir XCI_tutorial
 ```
 
-### Use the pre-compiled LoadModule
-To use the pre-compiled LoadModule open the LoadModule_XCI-tutorial.txt file in a text editor. As you can see most of the tasks have already been filled out. You need to provide the missing PATH information where files are stored in your file system (absolute PATH from root `/` is required). Complete the input fields of the form in the following sections:
+### Use the pre-filled LoadModule
+To use the pre-filled LoadModule open the LoadModule_XCI-tutorial.txt file in a text editor. As you can see most of the tasks have already been filled out. You need to provide the missing PATH information where files are stored in your file system (absolute PATH from root `/` is required). Complete the input fields of the form in the following sections:
 
 * Section 1
 * Task 1A and 1B
@@ -182,7 +182,7 @@ Start the analysis with the following command:
 ```
 cd ..
 cd program
-python HaSAPPY_start.py Users/User/HaSAPPy/../LoadModule_XCI-tutorial.txt
+python HaSAPPY_start.py /Users/User/HaSAPPy/../LoadModule_XCI-tutorial.txt
 ```
 
 This will start the HaSAPPy program. The output will be stored under the experiments folder. You can compare it with the one present in HaSAPPy manual.
