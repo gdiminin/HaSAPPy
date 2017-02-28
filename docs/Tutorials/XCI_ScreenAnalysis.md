@@ -174,10 +174,11 @@ cd command
 cp ../docs/LoadModule.txt ./LoadModule_XCI-tutorial.txt
 ```
 
-Use a text editor (eg. gedit or vi) to edit the myProj.txt file in the ~/HaSAPPy/command/ folder. For read trimming before alignment follow the instructions for PreprocessReads, a useful adaptor sequence to trim from the 3'-end is the Ilumina P7 adaptor reverse complement (ATCTCGTATGCCGTCTTCTGCTT). 
+Use a text editor (eg. gedit or vi) to edit the LoadModule_XCI-tutorial.txt file in the ~/HaSAPPy/command/ folder. For read trimming before alignment follow the instructions for PreprocessReads, a useful adaptor sequence to trim from the 3'-end is the Ilumina P7 adaptor reverse complement (ATCTCGTATGCCGTCTTCTGCTT). 
 
 ## Start the analysis
 Start the analysis with the following command:
+> **NOTE:** Provide to HaSAPPY_start.py the correct LoadMoudle_XCI-tutorial.txt path. It is differnt if you are using the pre-filled (```/Users/User/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or a new LoadModule file (```/Users/User/HaSAPPy/command/LoadModule_XCI-tutorial.txt```)
 
 ```
 cd ..
