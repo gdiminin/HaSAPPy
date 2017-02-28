@@ -83,7 +83,7 @@ A gene annotation file for the mouse genome (GCRm38/mm10) is supplied with the s
 Refer to the [Generate a human gene reference](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/CreateHumanGeneAnnotationReference.md) tutorial for a detailed example:
 
 ```
-python GeneReference_built.py -i /Users/User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o /Users/User/HaSAPPy/docs/GeneReference_mouse_mm10.pkl
+python GeneReference_built.py -i /Users/User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o /Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 A new file GeneReference_mouse_mm10.pkl should appear in the current folder.
@@ -108,7 +108,7 @@ Now we are ready to start. Your working directory (**/Users/User/HaSAPPy**) shou
     └── docs
         ├── LoadModule.txt
         ├── mm10REFSEQgenes.txt
-        ├── GeneReference_mouse_mm10.pkl
+        ├── GeneReference_Mouse-MM10.pkl
         ├── Tutorials
         |   └── ...
         └── test
