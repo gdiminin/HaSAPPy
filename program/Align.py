@@ -159,18 +159,19 @@ def load(Info):
             string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
             Info.print_save(exp,string)
 
-    if Info.Type_analysis.AlignPhix:    
-        if not Info.AlignPhix.store:
-            for exp in Info.AlignGenome.lib_names:
-                 os.remove(os.path.join(storing_loc,exp + '_PhixCleaned.fastq'))
-                 if not os.path.exists(os.path.join(storing_loc,exp + '_PhixCleaned.fastq')):
-                     string = "\tCancelled files:\n\t\t-%s" % os.path.join(storing_loc,exp + '_PhixCleaned.fastq')
-                     Info.print_save(exp,string)
-                 if Info.General.pair_ends:
-                     os.remove(os.path.join(storing_loc,exp + '_pairend_PhixCleaned.fastq'))
-                     if not os.path.exists(os.path.join(storing_loc,exp + '_pairend_PhixCleaned.fastq')):
-                         string = "\t\t-%s" % os.path.join(storing_loc,exp + '_pairend_PhixCleaned.fastq')
-                         Info.print_save(exp,string)
+        if Info.Type_analysis.AlignPhix:    
+            if not Info.AlignPhix.store:
+                for exp in Info.AlignGenome.lib_names:
+                    storing_loc = os.path.join(Info.General.storing_loc,exp + '_' +Info.General.date,'raw')
+                    os.remove(os.path.join(storing_loc,exp + '_PhixCleaned.fastq'))
+                    if not os.path.exists(os.path.join(storing_loc,exp + '_PhixCleaned.fastq')):
+                        string = "\tCancelled files:\n\t\t-%s" % os.path.join(storing_loc,exp + '_PhixCleaned.fastq')
+                        Info.print_save(exp,string)
+                    if Info.General.pair_ends:
+                        os.remove(os.path.join(storing_loc,exp + '_pairend_PhixCleaned.fastq'))
+                        if not os.path.exists(os.path.join(storing_loc,exp + '_pairend_PhixCleaned.fastq')):
+                            string = "\t\t-%s" % os.path.join(storing_loc,exp + '_pairend_PhixCleaned.fastq')
+                            Info.print_save(exp,string)
                      
                      
     if Info.Type_analysis.AlignGenome:
