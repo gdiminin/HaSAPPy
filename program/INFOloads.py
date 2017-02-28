@@ -298,6 +298,13 @@ class Info(Upperlevel):
                         new_loc = os.path.join(self.General.storing_loc,new_name + '_' +self.General.date)
                     location = new_loc
                     self.Type_analysis.starting.lib_names = [new_name if x == exp else x for x in self.Type_analysis.starting.lib_names]
+                    if self.Type_analysis.GroupAnalysis:
+                        self.GroupAnalysis.Reference.experiments = [new_name if x == exp else x for x in self.GroupAnalysis.Reference.experiments]
+                        new_groups = []
+                        for group in self.GroupAnalysis.Others.experiments:
+                            new_groups.append([new_name if x == exp else x for x in group])
+                        self.GroupAnalysis.Others.experiments = new_groups
+                        
                                         
                 os.mkdir(location)
                 graph_loc = os.path.join(location, "graph")
