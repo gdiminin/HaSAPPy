@@ -129,11 +129,16 @@ def main(Info):
         
         filter_list = []
         for n in filters:
-            parameter = '%s_%s_%s' %(n['parameter'][0],n['parameter'][1],n['parameter'][2])
+	    if len(n['parameter']) == 3:
+                parameter = '%s_%s_%s' %(n['parameter'][0],n['parameter'][1],n['parameter'][2])
+	    else:
+		parameter = '%s_%s' %(n['parameter'][0],n['parameter'][1])
             if n.has_key('number'):
                 filter_list.append('%s %s %i' % (parameter,n['operation'],n['number']))
             else:
                 filter_list.append('%s %s' % (parameter,n['operation']))
+
+	
         
         string = '\n\tFilters: %s\n' % (' | ').join(filter_list)
         print_save_analysis (string, GroupAnalysis.storage_loc)

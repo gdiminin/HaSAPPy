@@ -277,7 +277,7 @@ def start(Info):
                 files_saved = []
 
                 for comb_columns in itertools.combinations(to_plot,3):
-                    fig=plt.figure(dpi=80, facecolor='w', edgecolor='k')
+                    fig=plt.figure(dpi=600, facecolor='w', edgecolor='k')
                     ax = Axes3D(fig)
                     ax = plt.subplot2grid((1,1), (0,0),projection='3d')
                     if Info.Design.Distribution.outlier and GroupAnalysis.Outlier.perform:
@@ -308,8 +308,8 @@ def start(Info):
                     ax.set_zlabel(comb_columns[2])
                     ax.set_title('Gene Distribution\n%s, %s, %s' %(comb_columns[0],comb_columns[1],comb_columns[2]))
             
-                    fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s-%s).svg' %(comb_columns[0],comb_columns[1],comb_columns[2])))
-                    files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s-%s).svg' %(comb_columns[0],comb_columns[1],comb_columns[2])))
+                    fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s-%s).jpg' %(comb_columns[0],comb_columns[1],comb_columns[2])),dpi= 200)
+                    files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s-%s).jpg' %(comb_columns[0],comb_columns[1],comb_columns[2])))
                 
                 string =  '\t\tFile saved:'
                 print_save_analysis (string, GroupAnalysis.storage_loc)
@@ -323,7 +323,7 @@ def start(Info):
             
             files_saved = []
             for comb_columns in itertools.combinations(to_plot,2):
-                fig=plt.figure(dpi=80, facecolor='w', edgecolor='k')
+                fig=plt.figure(facecolor='w', edgecolor='k')
                 ax = fig.add_subplot(111) 
                 if Info.Design.Distribution.outlier and GroupAnalysis.Outlier.perform:
                     #Outlier design
@@ -352,8 +352,8 @@ def start(Info):
                 ax.set_ylabel(comb_columns[1])
                 ax.set_title('Gene Distribution\n%s, %s' %(comb_columns[0],comb_columns[1]))
                          
-                fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s).svg' %(comb_columns[0],comb_columns[1])))
-                files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s).svg' %(comb_columns[0],comb_columns[1])))
+                fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s).jpg' %(comb_columns[0],comb_columns[1])),dpi= 200)
+                files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s).jpg' %(comb_columns[0],comb_columns[1])))
                 
             string =  '\t\tFile saved:'
             print_save_analysis (string, GroupAnalysis.storage_loc)

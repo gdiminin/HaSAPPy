@@ -229,24 +229,39 @@ def performing_analysis(Info):
         ####
         def outlier_InputData (Info,summary,group):
             ####            
-            def prepare_lists (mean_to_concat,fold_to_concat,summary,group,dataframe,parameter):
+            def prepare_lists (mean_to_concat,summary,group,dataframe,parameter):
                 
                 if summary.replicates[group] == 1:
-                    value = Info.GroupAnalysis.Others.experiments[0][0]
-                    mean_to_concat.append(dataframe['%s_%s_%s'%(group,parameter,value)]-dataframe['%s_%s_%s'%(Info.GroupAnalysis.Reference.name,parameter,Info.GroupAnalysis.Reference.experiments[0])])       
-                else:
-                    mean_to_concat.append(dataframe['%s_%s_mean'%(group,parameter)]-dataframe['%s_%s_mean'%(Info.GroupAnalysis.Reference.name,parameter)])
-                fold_to_concat.append(dataframe['%s_%s_fold'%(group,parameter)])
+                    value_selected = Info.GroupAnalysis.Others.experiments[0][0]
+                    value_control = Info.GroupAnalysis.Reference.experiments[0]
                     
+                    temporary_series = dataframe['%s_%s_%s'%(group,parameter,value_selected)]
+                    temporary_series.name = '%s_%s'%(group,parameter)
+                    mean_to_concat.append(temporary_series)
+                    
+                    temporary_series = dataframe['%s_%s_%s'%(Info.GroupAnalysis.Reference.name,parameter,value_control)]
+                    temporary_series.name = '%s_%s'%(Info.GroupAnalysis.Reference.name,parameter)
+                    mean_to_concat.append(temporary_series)
                 
-                return mean_to_concat,fold_to_concat
+                else:
+                    temporary_series = dataframe['%s_%s_mean'%(group,parameter)]
+                    temporary_series.name = '%s_%s'%(group,parameter)
+                    mean_to_concat.append(temporary_series)
+                
+                    temporary_series = dataframe['%s_%s_mean'%(Info.GroupAnalysis.Reference.name,parameter)]
+                    temporary_series.name = '%s_%s'%(Info.GroupAnalysis.Reference.name,parameter)
+                    mean_to_concat.append(temporary_series)
+                
+
+
+                return mean_to_concat
+            
             ####
                         
             mean_to_concat = []
-            fold_to_concat = []
             II_selection = pd.DataFrame()
             if Info.GroupAnalysis.Outlier.Parameters.II:
-                mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.II,'II')
+                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.II,'II')
                 if summary.replicates[group] == 1:
                     value = Info.GroupAnalysis.Others.experiments[0][0]
                     name = '%s_%s_%s'%(group,'II',value)
@@ -256,59 +271,82 @@ def performing_analysis(Info):
                     II_selection[name] = summary.II[name]
                                               
             if Info.GroupAnalysis.Outlier.Parameters.KI:
-                mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.KI,'KI')
+                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.KI,'KI')
             if Info.GroupAnalysis.Outlier.Parameters.Bias:
-                mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.Bias,'Bias')
+                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.biasFW,'biasFW')
+                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.biasRV,'biasRV')
             if Info.GroupAnalysis.Outlier.Parameters.Reads:
-               mean_to_concat,fold_to_concat = prepare_lists (mean_to_concat,fold_to_concat,summary,group,summary.Reads,'Reads')
-                       
+               mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.Reads,'Reads')
+               
             outlier_mean = pd.concat(mean_to_concat, axis = 1)
-            outlier_mean[outlier_mean < 0] = 0
-            outlier_fold = pd.concat(fold_to_concat, axis = 1)
+            
+
             if summary.replicates[group] == 1:
                 value = Info.GroupAnalysis.Others.experiments[0][0]
             else:
                 value = 'mean'
-            
-                   
-            outlier_fold = outlier_fold[II_selection['%s_II_%s' % (group,value)] >2]
+
     
             outlier_mean = outlier_mean[II_selection['%s_II_%s' % (group,value)] >2]
             
             
-            return outlier_mean, outlier_fold
+            return outlier_mean
 
-            
+
         ####
+        def adjust_fidelity_level(dataframe,column,value):
+            dataframe.loc[outlier_mean[column] < Info.GroupAnalysis.Outlier.trustability, column] = Info.GroupAnalysis.Outlier.trustability
+            return dataframe
+        ####
+        def calculate_outlier_fold(dataframe_input,dataframe_output,reference,group,parameter):
+            dataframe_output['%s_%s_outlier'% (group,parameter)] = dataframe_input['%s_%s'%(group,parameter)]/dataframe_input['%s_%s'%(reference,parameter)]
+            return dataframe_output    
+        ####
+
+        
         for group in Info.GroupAnalysis.Others.name:        
-            outlier_mean,outlier_fold = outlier_InputData (Info,summary,group)
+            outlier_mean = outlier_InputData (Info,summary,group)
             
             correct_for_trustability = False
             if Info.GroupAnalysis.Outlier.trustability > 0 and Info.GroupAnalysis.Outlier.trustability != 'n.d.':
-               correct_for_trustability = True 
-               trustability = LOF.main(outlier_mean,Info,len(outlier_mean.index))
-               trustability = trustability * (Info.GroupAnalysis.Outlier.trustability/100)
-               trustability = pd.merge(outlier_mean,trustability,left_index=True,right_index=True)
+                correct_for_trustability = True
+                for sample in [Info.GroupAnalysis.Reference.name,group]:
+                    if Info.GroupAnalysis.Outlier.Parameters.II:
+                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'II'),Info.GroupAnalysis.Outlier.trustability)
+                    if Info.GroupAnalysis.Outlier.Parameters.KI:
+                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'KI'),Info.GroupAnalysis.Outlier.trustability)
+                    if Info.GroupAnalysis.Outlier.Parameters.Bias:
+                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'biasFW'),(Info.GroupAnalysis.Outlier.trustability/2))
+                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'biasRV'),(Info.GroupAnalysis.Outlier.trustability/2))
+                    
+                    if Info.GroupAnalysis.Outlier.Parameters.Reads:
+                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'Reads'),(Info.GroupAnalysis.Outlier.trustability*5))
+        
+            outlier_fold = pd.DataFrame()
+
             
+            if Info.GroupAnalysis.Outlier.Parameters.II:
+                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'II')
+            if Info.GroupAnalysis.Outlier.Parameters.KI:
+                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'KI')
+            if Info.GroupAnalysis.Outlier.Parameters.Bias:
+                for sample in [Info.GroupAnalysis.Reference.name,group]:
+                    outlier_mean['%s_bias'%sample] = outlier_mean['%s_biasFW'%sample]/outlier_mean['%s_biasRV'%sample]
+                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'bias')
+            if Info.GroupAnalysis.Outlier.Parameters.Reads:
+                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'Reads')
+
 
             outliers =LOF.main(outlier_fold,Info,len(outlier_fold.index))
-            outliers=pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
-            
-            summary.Outlier['%s_Outliers'%group] = outliers ['Score']
-            if correct_for_trustability:
-                summary.Outlier['%s_Score'%group] = outliers ['Score']*trustability['Score'] 
-            else:
-                summary.Outlier['%s_Score'%group] = outliers ['Score']
 
+            outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
+	    outliers = outliers.rename(columns ={'Score':'%s_Score' % group})
 
             
+            summary.Outlier = pd.concat([summary.Outlier,outliers],axis = 1)
+
+
             return summary
-            
-
-                
-            
-
-
     
         ####
         
