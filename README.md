@@ -1,8 +1,8 @@
-#HaSAPPy (Haploid Screening Analysis Package in Python)
+# HaSAPPy (Haploid Screening Analysis Package in Python)
 
 
 
-##INTRODUCTION
+## INTRODUCTION
 
 Forward genetic screens are becoming increasingly useful as approaches to unveil the complexity of cellular mechanisms. Recent introduction of mammalian haploid cells opened the possibility to perform forward genetic screens using insertional mutagenesis in mammals. Haploid cells have originally been obtained from human tumors and subsequently have been established from haploid embryos of several mammals.
 
@@ -24,7 +24,7 @@ HaSAPPy performs analysis of NGS datasets form pooled haploid mammalian cell scr
 Output of the program is written in standard .xlsx and .svg file formats and can be customized in a command script.
 
 
-##PREREQUISITES
+## PREREQUISITES
 
 To use HaSAPPy the Python 2.7 version has to be installed in the local machine (Python 3 is not compatible with some used pakages).
 
@@ -54,7 +54,7 @@ Fasta files for the PhiX and reference genomes can be obtained from the Illumina
 http://support.illumina.com/sequencing/sequencing_software/igenome.html 
 
 
-##INSTALLATION OF HaSAPPy
+## INSTALLATION OF HaSAPPy
 
 To use HaSAPPy program download the package from GitHub repository. If you have git installed you can use the following command:
 ```
@@ -70,7 +70,7 @@ chmod +x PreprocessReads
 This step is not required if adaptor and quality trimming of the reads is not desired.
 
 
-##GENERATE THE GENE ANNOTATION REFERENCE FOR HaSAPPy
+## GENERATE THE GENE ANNOTATION REFERENCE FOR HaSAPPy
 
 After installation of HaSAPPY program, Genes Annotation Reference must be generated using GeneReference_built.py
 The program requires two variables:
@@ -104,7 +104,7 @@ The [Generate Gene Reference file for Human genome](https://github.com/gdiminin/
 To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is entered in the command script (see the [Performing a test run of your HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md) tutorial).
 
 
-##Running HaSAPPy
+## Running HaSAPPy
 
 Running a data analysis requires a command script that is pecified on the command line as input for HaSAPPy. An empty script is provided in docs/LoadModule.txt. Copy this file and enter the experimental parameters in the form (see more detail on how to generate a command script in the [Controlling the HaSAPPy workflow throught the command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md) tutorial).
 
