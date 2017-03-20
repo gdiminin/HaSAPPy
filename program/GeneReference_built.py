@@ -39,6 +39,13 @@ def library_preparation(info):
     ##################
     print '\t- Loading .txt file'
     ref_gene = pd.read_table(info.input,sep = "\t")
+    
+    if info.ensembl:
+        ensembl_gene = pd.read_table(info.ensembl,sep = "\t")
+        ensembl_gene = ensembl_gene.rename(columns = {'#name':'name'})
+        ref_gene = ref_gene.merge(ensembl_gene,on = 'name')
+        ref_gene = ref_gene.rename(columns = {'name2' : 'EnsemblName','value':'name2'})
+    
 
     for index in ref_gene.index:
         ref_gene.ix[index,"interval"] = HTSeq.GenomicInterval(ref_gene.ix[index,"chrom"],ref_gene.ix[index,"txStart"],ref_gene.ix[index,"txEnd"],ref_gene.ix[index,"strand"])
@@ -115,6 +122,9 @@ def library_preparation(info):
         introns = define_introns(index,gene_data)
         gene_data.ix[index,"introns_all"] = introns
 
+    if info.ensembl:
+        gene_names = pd.read_table(info.ensembl,sep = "\t")
+
     print '\t- Saving file in: %s' %(info.output)
 
     with open (info.output,'wb') as write:
@@ -125,12 +135,16 @@ def library_preparation(info):
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-i','--input', help = 'Provide .txt file containing informations on genes model',action = 'store')
+parser.add_argument('-e','--ensembl', help = 'Provide .txt file containing correspondence of ENSEMBL to Official Gene names',action = 'store')
 parser.add_argument('-o','--output', help = 'Provide .pkl file PATH where library will be stored',action = 'store')
+
 
 args = parser.parse_args()
 
 print '\n***Generation of gene models library for HaSAPPY program***'
 print '\tInput file: %s' % args.input
+if args.ensembl:
+    print '\tOfficial gene name list for ENSEMBL mRNAs: %s' %args.ensembl
 
 if ((args.input==None) or (args.output == None)):
     print '\nWARNING: informations provided are not sufficient.\nCheck -h option to have more details on requested parameters'
