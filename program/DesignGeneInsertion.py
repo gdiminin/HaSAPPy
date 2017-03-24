@@ -125,7 +125,6 @@ def start(Info):
             
             #Eventually add here log schale if ymax > ...
             
-            
             #Design Scatter for 1st experiment    
             ax1.axis(xmin =start_pos, xmax = end_pos, ymin = 0, ymax = ymax) #First scatter plot
             ax1.set_ylabel(group_other.name) #Name of the experiment to show in ylabel
@@ -140,9 +139,9 @@ def start(Info):
                 ax1.axis(xmin =start_pos, xmax = end_pos, ymin = 1, ymax = ymax)
                 
             for i in group_other.FW: # Plotting points according thier value. Devided in two colors: red if sense, green if anti-sense
-                ax1.scatter(i[0].pos,i[1],s = 5, color = 'r')
+                ax1.scatter(i[0].pos,i[1],s = 10, color = 'r')
             for i in group_other.RV:
-                ax1.scatter(i[0].pos,i[1],s = 5, color = 'g')
+                ax1.scatter(i[0].pos,i[1],s = 10, color = 'g')
                 
             
             
@@ -163,9 +162,9 @@ def start(Info):
                 ax3.invert_yaxis()
                 
             for i in group_reference.FW: # Plotting points according thier value. Devided in two colors: red if sense, green if anti-sense
-                ax3.scatter(i[0].pos,i[1],s = 5, color = 'r')
+                ax3.scatter(i[0].pos,i[1],s = 10, color = 'r')
             for i in group_reference.RV:
-                ax3.scatter(i[0].pos,i[1],s = 5, color = 'g')
+                ax3.scatter(i[0].pos,i[1],s = 10, color = 'g')
             
             #Design gene models
             
@@ -394,16 +393,28 @@ def start(Info):
             to_plot = []
             if GroupAnalysis.Parameters.II:
                 to_plot.append('II')
-                data['II'] = GroupAnalysis_table['%s_%s_fold' %(group,'II')]
+                if GroupAnalysis.Outlier.perform and GroupAnalysis.Outlier.Parameters.II:
+                    data['II'] = GroupAnalysis_table['%s_%s_outlier' %(group,'II')]
+                else:
+                    data['II'] = GroupAnalysis_table['%s_%s_fold' %(group,'II')]
             if GroupAnalysis.Parameters.KI:
                 to_plot.append('KI')
-                data['KI'] = GroupAnalysis_table['%s_%s_fold' %(group,'KI')]
+                if GroupAnalysis.Outlier.perform and GroupAnalysis.Outlier.Parameters.KI:
+                    data['KI'] = GroupAnalysis_table['%s_%s_outlier' %(group,'KI')]
+                else:
+                    data['KI'] = GroupAnalysis_table['%s_%s_fold' %(group,'KI')]
             if GroupAnalysis.Parameters.Bias:
                 to_plot.append('Bias')
-                data['Bias'] = GroupAnalysis_table['%s_%s_fold' %(group,'Bias')]
+                if GroupAnalysis.Outlier.perform and GroupAnalysis.Outlier.Parameters.Bias:
+                    data['Bias'] = GroupAnalysis_table['%s_%s_outlier' %(group,'Bias')]
+                else:
+                    data['Bias'] = GroupAnalysis_table['%s_%s_fold' %(group,'Bias')]
             if GroupAnalysis.Parameters.Reads:
                 to_plot.append('Reads')
-                data['Reads'] = GroupAnalysis_table['%s_%s_fold' %(group,'Reads')]
+                if GroupAnalysis.Outlier.perform and GroupAnalysis.Outlier.Parameters.Reads:
+                    data['Reads'] = GroupAnalysis_table['%s_%s_outlier' %(group,'Reads')]
+                else:
+                    data['Reads'] = GroupAnalysis_table['%s_%s_fold' %(group,'Reads')]
             if GroupAnalysis.Outlier.perform:
                 data['Score'] = GroupAnalysis_table['%s_%s' %(group,'Score')]
 

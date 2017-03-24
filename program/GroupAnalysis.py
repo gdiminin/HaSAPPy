@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 import os
 from scipy.stats  import ttest_ind
+from scipy.stats  import fisher_exact
+
 import re
 from HaSAPPY_time import *
 ############################################################
@@ -67,14 +69,20 @@ def performing_analysis(Info):
                 elif parameter == 'biasRV':
                     series.append(experiments[exp].bias_RV)
                     
-                
+            
+            #Calculation of sum and mean and stdv (if replicates >1)
             fusion = pd.concat(series, axis = 1, keys= keys_name)#concatantaion of the different experiments
+            if parameter != 'Bias':
+                fusion['%s_%s_sum'%(group_name,parameter)] = fusion.sum(axis = 1)
+            else:
+                fusion['%s_%s_sum'%(group_name,parameter)] = fusion.mean(axis = 1)
             
             if len(keys_name) > 1:
-                
                 fusion['%s_%s_mean'%(group_name,parameter)] = fusion.mean(axis = 1)
-                fusion['%s_%s_stdev'%(group_name,parameter)] = fusion.std(axis = 1)   
-            return fusion
+                fusion['%s_%s_stdev'%(group_name,parameter)] = fusion.std(axis = 1)
+                
+                
+            return fusion #DataFrame containing for a parameter for a group all the replicates, sum, mean and stdev
         ####
             
         processing = Analysis(group_name,date_today) #Generation of Analysis class for each group
@@ -111,43 +119,24 @@ def performing_analysis(Info):
             
             control = experiments[Info.GroupAnalysis.Reference.name]
             list_to_concat.append(control)
-            control_replicates = replicates[Info.GroupAnalysis.Reference.name]
             
             for exp in Info.GroupAnalysis.Others.name:
                 list_to_concat.append(experiments[exp])
-                exp_replicates = replicates[exp]
-                temporary_dataframe = pd.DataFrame()
-                substitution = 1/float(control_replicates)
-                if control_replicates > 1:
-                    control_series = control['%s_%s_mean' %(Info.GroupAnalysis.Reference.name,parameter)]
-                else:
-                    control_series = control
-                if exp_replicates > 1:
-                    exp_series = experiments[exp]['%s_%s_mean' %(exp,parameter)]
-                else:
-                    exp_series = experiments[exp]
-                                       
+                control_series = control['%s_%s_sum' %(Info.GroupAnalysis.Reference.name,parameter)]
+                exp_series = experiments[exp]['%s_%s_sum' %(exp,parameter)]                    
                 temporary_dataframe = pd.concat([control_series,exp_series],axis = 1)
-                temporary_dataframe.columns = ['control','exp']  
-                grouped = temporary_dataframe.groupby(by= [temporary_dataframe.control == 0, temporary_dataframe.exp == 0])
-                if (True,True)in grouped.groups:
-                    for index in grouped.groups[(True,True)]:
-                        temporary_dataframe.ix[index,'control'] = 1
-                if (False,True)in grouped.groups:
-                    for index in grouped.groups[(False,True)]:
-                        temporary_dataframe.ix[index,'exp'] = substitution
-                if (True,False)in grouped.groups:
-                    for index in grouped.groups[(True,False)]:
-                        temporary_dataframe.ix[index,'control'] = substitution
+                temporary_dataframe.columns = ['control','exp']
+
+                temporary_dataframe['control'][temporary_dataframe['control']==0] = 1
 
                 temporary_dataframe['fold'] =  temporary_dataframe['exp'] / temporary_dataframe['control']
-
-                
+          
                 fold_series = pd.DataFrame(temporary_dataframe['fold'])
                 fold_series.columns = ["%s_%s_fold" %(exp,parameter)]
                 list_to_concat.append(fold_series)
                 
-                if control_replicates >2 and exp_replicates >2:
+                #Calculate pvalue
+                if replicates[Info.GroupAnalysis.Reference.name] >2 and replicates[exp] >2:
                     replicates_control = []
                     replicates_exp = []
                     for column in control.columns:
@@ -156,6 +145,7 @@ def performing_analysis(Info):
                     for column in experiments[exp].columns:
                         if column.find('_stdev') == -1 and column.find('_mean') == -1:
                             replicates_exp.append(experiments[exp][column])
+
                     x,p = ttest_ind (replicates_control, replicates_exp)
                     ttest_series = pd.DataFrame(p,index = control.index,columns =["%s_%s_ttest" %(exp,parameter)])
                     list_to_concat.append(ttest_series)
@@ -229,73 +219,39 @@ def performing_analysis(Info):
         ####
         def outlier_InputData (Info,summary,group):
             ####            
-            def prepare_lists (mean_to_concat,summary,group,dataframe,parameter):
+            def prepare_lists (sum_to_concat,summary,group,dataframe,parameter):
                 
-                if summary.replicates[group] == 1:
-                    value_selected = Info.GroupAnalysis.Others.experiments[0][0]
-                    value_control = Info.GroupAnalysis.Reference.experiments[0]
-                    
-                    temporary_series = dataframe['%s_%s_%s'%(group,parameter,value_selected)]
-                    temporary_series.name = '%s_%s'%(group,parameter)
-                    mean_to_concat.append(temporary_series)
-                    
-                    temporary_series = dataframe['%s_%s_%s'%(Info.GroupAnalysis.Reference.name,parameter,value_control)]
-                    temporary_series.name = '%s_%s'%(Info.GroupAnalysis.Reference.name,parameter)
-                    mean_to_concat.append(temporary_series)
+                temporary_series = dataframe['%s_%s_sum'%(group,parameter)]
+                temporary_series.name = '%s_%s'%(group,parameter)
+                sum_to_concat.append(temporary_series)
                 
-                else:
-                    temporary_series = dataframe['%s_%s_mean'%(group,parameter)]
-                    temporary_series.name = '%s_%s'%(group,parameter)
-                    mean_to_concat.append(temporary_series)
+                temporary_series = dataframe['%s_%s_sum'%(Info.GroupAnalysis.Reference.name,parameter)]
+                temporary_series.name = '%s_%s'%(Info.GroupAnalysis.Reference.name,parameter)
+                sum_to_concat.append(temporary_series)
                 
-                    temporary_series = dataframe['%s_%s_mean'%(Info.GroupAnalysis.Reference.name,parameter)]
-                    temporary_series.name = '%s_%s'%(Info.GroupAnalysis.Reference.name,parameter)
-                    mean_to_concat.append(temporary_series)
-                
-
-
-                return mean_to_concat
+                return sum_to_concat
             
             ####
                         
-            mean_to_concat = []
-            II_selection = pd.DataFrame()
+            sum_to_concat = []
             if Info.GroupAnalysis.Outlier.Parameters.II:
-                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.II,'II')
-                if summary.replicates[group] == 1:
-                    value = Info.GroupAnalysis.Others.experiments[0][0]
-                    name = '%s_%s_%s'%(group,'II',value)
-                    II_selection[name] = summary.II[name]
-                else:
-                    name = '%s_%s_mean'%(group,'II')
-                    II_selection[name] = summary.II[name]
-                                              
+                sum_to_concat = prepare_lists(sum_to_concat,summary,group,summary.II,'II')                                             
             if Info.GroupAnalysis.Outlier.Parameters.KI:
-                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.KI,'KI')
+                sum_to_concat = prepare_lists (sum_to_concat,summary,group,summary.KI,'KI')
             if Info.GroupAnalysis.Outlier.Parameters.Bias:
-                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.biasFW,'biasFW')
-                mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.biasRV,'biasRV')
+                sum_to_concat = prepare_lists (sum_to_concat,summary,group,summary.biasFW,'biasFW')
+                sum_to_concat = prepare_lists (sum_to_concat,summary,group,summary.biasRV,'biasRV')
             if Info.GroupAnalysis.Outlier.Parameters.Reads:
-               mean_to_concat = prepare_lists (mean_to_concat,summary,group,summary.Reads,'Reads')
+               sum_to_concat = prepare_lists (sum_to_concat,summary,group,summary.Reads,'Reads')
                
-            outlier_mean = pd.concat(mean_to_concat, axis = 1)
+            outlier_sum = pd.concat(sum_to_concat, axis = 1)
+            outlier_sum = outlier_sum[outlier_sum['%s_II' % group] > 4] #!!!Selection of genes with at least 3 II in the selected libraries
             
-
-            if summary.replicates[group] == 1:
-                value = Info.GroupAnalysis.Others.experiments[0][0]
-            else:
-                value = 'mean'
-
-    
-            outlier_mean = outlier_mean[II_selection['%s_II_%s' % (group,value)] >2]
-            
-            
-            return outlier_mean
-
+            return outlier_sum
 
         ####
         def adjust_fidelity_level(dataframe,column,value):
-            dataframe.loc[outlier_mean[column] < Info.GroupAnalysis.Outlier.trustability, column] = Info.GroupAnalysis.Outlier.trustability
+            dataframe.loc[outlier_sum[column] < Info.GroupAnalysis.Outlier.fidelity, column] = Info.GroupAnalysis.Outlier.fidelity
             return dataframe
         ####
         def calculate_outlier_fold(dataframe_input,dataframe_output,reference,group,parameter):
@@ -305,50 +261,56 @@ def performing_analysis(Info):
 
         
         for group in Info.GroupAnalysis.Others.name:        
-            outlier_mean = outlier_InputData (Info,summary,group)
+            outlier_sum = outlier_InputData (Info,summary,group)
             
-            correct_for_trustability = False
-            if Info.GroupAnalysis.Outlier.trustability > 0 and Info.GroupAnalysis.Outlier.trustability != 'n.d.':
-                correct_for_trustability = True
+            if Info.GroupAnalysis.Outlier.fidelity > 0 and Info.GroupAnalysis.Outlier.fidelity != 'n.d.':
                 for sample in [Info.GroupAnalysis.Reference.name,group]:
                     if Info.GroupAnalysis.Outlier.Parameters.II:
-                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'II'),Info.GroupAnalysis.Outlier.trustability)
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'II'),Info.GroupAnalysis.Outlier.fidelity)
                     if Info.GroupAnalysis.Outlier.Parameters.KI:
-                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'KI'),Info.GroupAnalysis.Outlier.trustability)
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'KI'),Info.GroupAnalysis.Outlier.fidelity)
                     if Info.GroupAnalysis.Outlier.Parameters.Bias:
-                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'biasFW'),(Info.GroupAnalysis.Outlier.trustability/2))
-                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'biasRV'),(Info.GroupAnalysis.Outlier.trustability/2))
-                    
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'biasFW'),(Info.GroupAnalysis.Outlier.fidelity/2))
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'biasRV'),(Info.GroupAnalysis.Outlier.fidelity/2))
                     if Info.GroupAnalysis.Outlier.Parameters.Reads:
-                        outlier_mean= adjust_fidelity_level(outlier_mean,'%s_%s' % (sample,'Reads'),(Info.GroupAnalysis.Outlier.trustability*5))
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'Reads'),(Info.GroupAnalysis.Outlier.fidelity*5))
         
             outlier_fold = pd.DataFrame()
-
             
             if Info.GroupAnalysis.Outlier.Parameters.II:
-                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'II')
+                outlier_fold = calculate_outlier_fold(outlier_sum,outlier_fold,Info.GroupAnalysis.Reference.name,group,'II')
             if Info.GroupAnalysis.Outlier.Parameters.KI:
-                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'KI')
+                outlier_fold = calculate_outlier_fold(outlier_sum,outlier_fold,Info.GroupAnalysis.Reference.name,group,'KI')
             if Info.GroupAnalysis.Outlier.Parameters.Bias:
                 for sample in [Info.GroupAnalysis.Reference.name,group]:
-                    outlier_mean['%s_bias'%sample] = outlier_mean['%s_biasFW'%sample]/outlier_mean['%s_biasRV'%sample]
-                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'bias')
+                    outlier_sum['%s_Bias'%sample] = outlier_sum['%s_biasFW'%sample]/outlier_sum['%s_biasRV'%sample]
+                outlier_fold = calculate_outlier_fold(outlier_sum,outlier_fold,Info.GroupAnalysis.Reference.name,group,'Bias')
             if Info.GroupAnalysis.Outlier.Parameters.Reads:
-                outlier_fold = calculate_outlier_fold(outlier_mean,outlier_fold,Info.GroupAnalysis.Reference.name,group,'Reads')
-
+                outlier_fold = calculate_outlier_fold(outlier_sum,outlier_fold,Info.GroupAnalysis.Reference.name,group,'Reads')
 
             outliers =LOF.main(outlier_fold,Info,len(outlier_fold.index))
-
-            outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
-	    outliers = outliers.rename(columns ={'Score':'%s_Score' % group})
-
             
+            outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
+            outliers = outliers.rename(columns ={'Score':'%s_Score' % group})            
             summary.Outlier = pd.concat([summary.Outlier,outliers],axis = 1)
 
-
             return summary
-    
+   
         ####
+    ####
+    def fisher_test(Info,summary):
+        for group in Info.GroupAnalysis.Others.name:
+            name_control = '%s_KI_sum' %Info.GroupAnalysis.Reference.name
+            name_selected = '%s_KI_sum' %group
+            total_KI_control = summary[name_control].sum() - summary.ix['_no_feature',name_control]
+            total_KI_selected = summary[name_selected].sum() - summary.ix['_no_feature',name_selected]
+            temporary_dataframe = summary.copy()
+            temporary_dataframe.ix['_no_feature',name_control] =1
+            temporary_dataframe.ix['_no_feature',name_selected] =1
+
+            summary['%s_Fisher'% group] =  temporary_dataframe.apply(lambda r: fisher_exact([[r[name_selected], r[name_control]],[(total_KI_selected-r[name_selected]),(total_KI_control-r[name_control])]],alternative = 'greater')[1],axis=1)
+            summary.ix['_no_feature','%s_Fisher'% group] = 1
+        return summary
         
     
     
@@ -405,7 +367,7 @@ def performing_analysis(Info):
         strings.append(string)
         string = '\t\t\t{:8s}:\t'.format('Reads') + '%s' % Info.GroupAnalysis.Outlier.Parameters.Reads
         strings.append(string)
-        string = '\t\t\tTrustability correction: %i' % Info.GroupAnalysis.Outlier.trustability
+        string = '\t\t\tFidelity correction: %i' % Info.GroupAnalysis.Outlier.fidelity
         strings.append(string)
 
     for string in strings:
@@ -431,6 +393,8 @@ def performing_analysis(Info):
     string = '\nStatistycal analysis of the groups\n\tStarted: %s' % startTime
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     summary = comparing_experiments(Info,categories,date_today)
+    if Info.GroupAnalysis.Parameters.KI:
+        summary.KI = fisher_test(Info,summary.KI)
     string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
     print_save_analysis (string, Info.GroupAnalysis.storage_loc) 
     

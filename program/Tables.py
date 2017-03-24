@@ -61,6 +61,7 @@ def main(Info):
                     parameter.append('II')
                 if GroupAnalysis.Parameters.KI:
                     parameter.append('KI')
+                    parameter.append('Fisher')
                 if GroupAnalysis.Parameters.Bias:
                     parameter.append('Bias')
                     parameter.append('biasFW')
@@ -68,10 +69,9 @@ def main(Info):
                 if GroupAnalysis.Parameters.Reads:
                     parameter.append('Reads')
                 if GroupAnalysis.Outlier.perform:
-                    parameter.append('Outliers')
                     parameter.append('Score')
                             
-            if instruction[1]  != 'Score' and instruction[1]  != 'Outliers':
+            if instruction[1]  != 'Score' and instruction[1]  != 'Fisher':
                 value = instruction[2]
                 if value == 'raw' or value == 'all':
                     values = {}
@@ -84,10 +84,10 @@ def main(Info):
                     
                     if value == 'all':
                         if GroupAnalysis.Reference.name in group:
-                            values[GroupAnalysis.Reference.name]+=['mean','stdev']
+                            values[GroupAnalysis.Reference.name]+=['sum','mean','stdev']
                         for group_exp in GroupAnalysis.Others.name:
                             if group_exp in group:
-                                values[group_exp]+=['mean','stdev','fold','ttest']
+                                values[group_exp]+=['sum','mean','stdev','fold','ttest']
                     
                     
                 else:
@@ -102,15 +102,15 @@ def main(Info):
             for a in group:
                 if not a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        if b != 'Score' and b != 'Outliers':
+                        if b != 'Score' and b != 'Fisher':
                             for c in values[a]:
                                 columns_name.append('%s_%s_%s'%(a,b,c))
-                        elif b == 'Score' or b == 'Outliers':
+                        elif b == 'Score' or b == 'Fisher':
                             columns_name.append('%s_%s'%(a,b))
                             
                 elif a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        if b != 'Score' and b != 'Outliers':
+                        if b != 'Score' and b != 'Fisher':
                             for c in values[a]:
                                 if not c == 'fold' and not c == 'ttest':
                                     columns_name.append('%s_%s_%s'%(a,b,c))

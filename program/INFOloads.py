@@ -131,7 +131,7 @@ class Outlier (Upperlevel):
         self.perform = dictionary[7]['J']
         if self.perform:
             self.Parameters = Parameters(II = dictionary[7]['K'],KI = dictionary[7]['L'],Bias = dictionary[7]['M'],Reads =dictionary[7]['N'])
-            self.trustability = dictionary[7]['O']
+            self.fidelity = dictionary[7]['O']
                 
         
 class Experiments (Upperlevel):
@@ -434,7 +434,7 @@ class Info(Upperlevel):
                 print '\t\t\t{:8s}:\t'.format('KI') + '%s' % self.GroupAnalysis.Outlier.Parameters.KI
                 print '\t\t\t{:8s}:\t'.format('Bias') + '%s' % self.GroupAnalysis.Outlier.Parameters.Bias
                 print '\t\t\t{:8s}:\t'.format('Reads') + '%s' % self.GroupAnalysis.Outlier.Parameters.Reads
-                print '\t\t\tTrustability correction: %i' % self.GroupAnalysis.Outlier.trustability
+                print '\t\t\tFidelity correction: %i' % self.GroupAnalysis.Outlier.fidelity
         if self.Type_analysis.Tables:
             print 'Tables'
             print '\t{:20s}:\t'.format('Data_reference') + self.Tables.input_files
@@ -649,10 +649,10 @@ def read_txt(informations,text):
                         variable = tuple(n.lstrip().rstrip() for n in param.split(',') if n != '')
                         if len(variable) == 3:
                             key.append(variable)
-                        elif variable[1] == 'Score' or variable[1] == 'Outliers':
+                        elif variable[1] == 'Score' or variable[1] == 'Fisher':
                             key.append(variable)
                         else:
-                            print "ERROR! Line %d Section %s Task %d: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,param)
+                            print "ERROR! Line %i Section %s Task %i: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,param)
                     informations[section][task].append(key)
                 elif task == 'C':
                     if not informations[section].has_key(task):

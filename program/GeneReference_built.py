@@ -110,20 +110,25 @@ def library_preparation(info):
         transcripts = gene_data.ix[index,"variants"]
         gene_exon = HTSeq.GenomicArray("auto",stranded = True)
         gene_all_exon = []
+        gene_all_intron = [] #Modified 21-03-17
         for transcript in transcripts:
             for interval in transcripts[transcript]:
                 gene_exon[interval]+=1
         for interval in gene_exon.steps():
             if interval[1] == len(transcripts):
                 gene_all_exon.append(interval[0])
+            if interval[1] == 0: #Modified 21-03-17
+                if interval[0].is_contained_in(gene_data.ix[index,"genomic_interval"]):#Modified 21-03-17
+                    gene_all_intron.append(interval[0]) #Modified 21-03-17
+
         gene_data.set_value(index,"exon_specific",gene_all_exon)
+        gene_data.set_value(index,"introns_all",gene_all_intron) #Modified 21-03-17
 
-    for index in gene_data.index:
-        introns = define_introns(index,gene_data)
-        gene_data.ix[index,"introns_all"] = introns
+#Modified 21-03-17
+#    for index in gene_data.index:
+#        introns = define_introns(index,gene_data)
+#        gene_data.ix[index,"introns_all"] = introns
 
-    if info.ensembl:
-        gene_names = pd.read_table(info.ensembl,sep = "\t")
 
     print '\t- Saving file in: %s' %(info.output)
 
