@@ -230,10 +230,12 @@ def performing_analysis(Info):
                 sum_to_concat.append(temporary_series)
                 
                 return sum_to_concat
-            
+
             ####
                         
             sum_to_concat = []
+
+
             if Info.GroupAnalysis.Outlier.Parameters.II:
                 sum_to_concat = prepare_lists(sum_to_concat,summary,group,summary.II,'II')                                             
             if Info.GroupAnalysis.Outlier.Parameters.KI:
@@ -270,8 +272,8 @@ def performing_analysis(Info):
                     if Info.GroupAnalysis.Outlier.Parameters.KI:
                         outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'KI'),Info.GroupAnalysis.Outlier.fidelity)
                     if Info.GroupAnalysis.Outlier.Parameters.Bias:
-                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'biasFW'),(Info.GroupAnalysis.Outlier.fidelity/2))
-                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'biasRV'),(Info.GroupAnalysis.Outlier.fidelity/2))
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'biasFW'),(Info.GroupAnalysis.Outlier.fidelity))
+                        outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'biasRV'),(Info.GroupAnalysis.Outlier.fidelity))
                     if Info.GroupAnalysis.Outlier.Parameters.Reads:
                         outlier_sum= adjust_fidelity_level(outlier_sum,'%s_%s' % (sample,'Reads'),(Info.GroupAnalysis.Outlier.fidelity*5))
         
@@ -287,7 +289,14 @@ def performing_analysis(Info):
                 outlier_fold = calculate_outlier_fold(outlier_sum,outlier_fold,Info.GroupAnalysis.Reference.name,group,'Bias')
             if Info.GroupAnalysis.Outlier.Parameters.Reads:
                 outlier_fold = calculate_outlier_fold(outlier_sum,outlier_fold,Info.GroupAnalysis.Reference.name,group,'Reads')
+            
+            IIadjust = outlier_sum['%s_II'%sample].copy()
+            IIadjust = IIadjust.apply(lambda r: 1/(1+np.exp(-(r-30)/10)))
 
+            outlier_fold = outlier_fold.mul(IIadjust,axis = 0)
+            
+    
+            
             outliers =LOF.main(outlier_fold,Info,len(outlier_fold.index))
             
             outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
