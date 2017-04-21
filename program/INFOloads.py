@@ -434,7 +434,7 @@ class Info(Upperlevel):
                 print '\t\t\t{:8s}:\t'.format('KI') + '%s' % self.GroupAnalysis.Outlier.Parameters.KI
                 print '\t\t\t{:8s}:\t'.format('Bias') + '%s' % self.GroupAnalysis.Outlier.Parameters.Bias
                 print '\t\t\t{:8s}:\t'.format('Reads') + '%s' % self.GroupAnalysis.Outlier.Parameters.Reads
-                print '\t\t\tFidelity correction: %i' % self.GroupAnalysis.Outlier.fidelity
+                print '\t\t\tFidelity correction: %s' % str(self.GroupAnalysis.Outlier.fidelity)
         if self.Type_analysis.Tables:
             print 'Tables'
             print '\t{:20s}:\t'.format('Data_reference') + self.Tables.input_files

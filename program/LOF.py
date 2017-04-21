@@ -34,7 +34,7 @@ def lof(Ird,MinPts,dsts):
        lof.append(tempIrd.sum()/MinPts)
     return lof
 
-def main (data,Info,m):
+def main (data,m):
     #m = MinPoints
     data = (data-data.mean())/data.std()
     knndist, knnindices = knn(data,1)
