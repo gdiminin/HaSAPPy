@@ -17,7 +17,6 @@ import re
 from HaSAPPY_time import *
 ############################################################
 
-
 class Analysis:
     
     def __init__(self,classifier,date_today):
@@ -62,8 +61,6 @@ def performing_analysis(Info):
                     series.append(experiments[exp].KI)
                 elif parameter == 'Reads':
                     series.append(experiments[exp].reads)
-                elif parameter == 'Bias':
-                    series.append(experiments[exp].bias)
                 elif parameter == 'biasFW':
                     series.append(experiments[exp].bias_FW)
                 elif parameter == 'biasRV':
@@ -72,14 +69,12 @@ def performing_analysis(Info):
             
             #Calculation of sum and mean and stdv (if replicates >1)
             fusion = pd.concat(series, axis = 1, keys= keys_name)#concatantaion of the different experiments
-            if parameter != 'Bias':
-                fusion['%s_%s_sum'%(group_name,parameter)] = fusion.sum(axis = 1)
-            else:
-                fusion['%s_%s_sum'%(group_name,parameter)] = fusion.mean(axis = 1)
+            ongoing = fusion.copy()
+            fusion['%s_%s_sum'%(group_name,parameter)] = fusion.sum(axis = 1)
             
             if len(keys_name) > 1:
-                fusion['%s_%s_mean'%(group_name,parameter)] = fusion.mean(axis = 1)
-                fusion['%s_%s_stdev'%(group_name,parameter)] = fusion.std(axis = 1)
+                fusion['%s_%s_mean'%(group_name,parameter)] = ongoing.mean(axis = 1)
+                fusion['%s_%s_stdev'%(group_name,parameter)] = ongoing.std(axis = 1)
                 
                 
             return fusion #DataFrame containing for a parameter for a group all the replicates, sum, mean and stdev
@@ -102,7 +97,6 @@ def performing_analysis(Info):
         if Info.GroupAnalysis.Parameters.KI:
             processing.KI = creating_DataFrame(group_name,experiments,'KI')
         if Info.GroupAnalysis.Parameters.Bias:
-            processing.Bias = creating_DataFrame(group_name,experiments,'Bias')
             processing.biasFW = creating_DataFrame(group_name,experiments,'biasFW')
             processing.biasRV = creating_DataFrame(group_name,experiments,'biasRV')
         if Info.GroupAnalysis.Parameters.Reads:
@@ -119,7 +113,7 @@ def performing_analysis(Info):
             
             control = experiments[Info.GroupAnalysis.Reference.name]
             list_to_concat.append(control)
-            
+
             for exp in Info.GroupAnalysis.Others.name:
                 list_to_concat.append(experiments[exp])
                 control_series = control['%s_%s_sum' %(Info.GroupAnalysis.Reference.name,parameter)]
@@ -134,7 +128,7 @@ def performing_analysis(Info):
                 fold_series = pd.DataFrame(temporary_dataframe['fold'])
                 fold_series.columns = ["%s_%s_fold" %(exp,parameter)]
                 list_to_concat.append(fold_series)
-                
+
                 #Calculate pvalue
                 if replicates[Info.GroupAnalysis.Reference.name] >2 and replicates[exp] >2:
                     replicates_control = []
@@ -145,20 +139,14 @@ def performing_analysis(Info):
                     for column in experiments[exp].columns:
                         if column.find('_stdev') == -1 and column.find('_mean') == -1:
                             replicates_exp.append(experiments[exp][column])
-
                     x,p = ttest_ind (replicates_control, replicates_exp)
                     ttest_series = pd.DataFrame(p,index = control.index,columns =["%s_%s_ttest" %(exp,parameter)])
                     list_to_concat.append(ttest_series)
                        
             return pd.concat(list_to_concat,axis =1)                
         ####
-
-
-
             
         summary = Analysis('Summary',date_today)
-        
-        
         if Info.GroupAnalysis.Parameters.II:
             on_going_experiments = {}
             on_going_replicates = {}
@@ -175,55 +163,19 @@ def performing_analysis(Info):
                 on_going_experiments[group] = categories[group].KI
             summary.KI = fold_ttest(Info,on_going_experiments,on_going_replicates,'KI')
             
-            
-        if Info.GroupAnalysis.Parameters.Bias:    
-            on_going_experiments = {}
-            on_going_replicates = {}
-            for group in categories:
-                on_going_replicates[group] = categories[group].replicates
-                on_going_experiments[group] = categories[group].Bias
-            
-            summary.Bias = fold_ttest(Info,on_going_experiments,on_going_replicates,'Bias')
-            
+        if Info.GroupAnalysis.Parameters.Bias:
             on_going_experiments = {}
             on_going_replicates = {}
             for group in categories:
                 on_going_replicates[group] = categories[group].replicates
                 on_going_experiments[group] = categories[group].biasFW
-            
             summary.biasFW = fold_ttest(Info,on_going_experiments,on_going_replicates,'biasFW')
-            
             on_going_experiments = {}
             on_going_replicates = {}
             for group in categories:
                 on_going_replicates[group] = categories[group].replicates
                 on_going_experiments[group] = categories[group].biasRV
-            
             summary.biasRV = fold_ttest(Info,on_going_experiments,on_going_replicates,'biasRV')
-
-            
-            
-            bias_calculation = pd.DataFrame()
-
-
-            
-
-            
-            for group in categories:
-                limit = categories[group].replicates
-                if limit > 4:
-                    limit = 4               
-                temporary_FW = summary.biasFW['%s_biasFW_sum'%group].copy()
-                temporary_FW[temporary_FW < limit] = limit
-                temporary_RV = summary.biasRV['%s_biasRV_sum'%group].copy()
-                temporary_RV[temporary_RV < limit] = limit
-                
-                bias_calculation[group] = temporary_FW/temporary_RV
-            
-            for group in Info.GroupAnalysis.Others.name:
-                summary.Bias['%s_Bias_fold'%group] = bias_calculation[group]/bias_calculation[Info.GroupAnalysis.Reference.name]
-                
-
         
         if Info.GroupAnalysis.Parameters.Reads:    
             on_going_experiments = {}
@@ -235,13 +187,76 @@ def performing_analysis(Info):
         summary.replicates = on_going_replicates
         
         return summary
+    
+    ####
+    def define_Bias(DATA,Info):
+        ####
+        def analyase_Bias_categories(DATA,Bias,Info,group_name, group_experiments):
+            for exp in group_experiments:
+                ongoing = pd.DataFrame([DATA.biasFW['%s_biasFW_%s'%(group_name,exp)],DATA.biasRV['%s_biasRV_%s'%(group_name,exp)]])
+                Bias['%s_Bias_%s'%(group_name,exp)] = ongoing.apply(lambda r: '%d/%d'%(r['%s_biasFW_%s'%(group_name,exp)],r['%s_biasRV_%s'%(group_name,exp)]))
+            if len(group_experiments) > 1:
+                for factor in ['sum','mean']:
+                    ongoing = pd.DataFrame([DATA.biasFW['%s_biasFW_%s'% (group_name,factor)],DATA.biasRV['%s_biasRV_%s'% (group_name,factor)]])
+                    Bias['%s_Bias_%s'%(group_name,factor)] = ongoing.apply(lambda r: '%d/%d'%(r['%s_biasFW_%s'%(group_name,factor)],r['%s_biasRV_%s'%(group_name,factor)]))
+            else:
+                for factor in ['sum']:
+                    ongoing = pd.DataFrame([DATA.biasFW['%s_biasFW_%s'% (group_name,factor)],DATA.biasRV['%s_biasRV_%s'% (group_name,factor)]])
+                    Bias['%s_Bias_%s'%(group_name,factor)] = ongoing.apply(lambda r: '%d/%d'%(r['%s_biasFW_%s'%(group_name,factor)],r['%s_biasRV_%s'%(group_name,factor)]))
+            return Bias
+        ####
+        def calculate_Bias_fold (DATA,reference,group):
+            ####
+            def adjust_Bias_reference(index):
+                total_Bias  = index.FW + index.RV
+                if total_Bias == 0:
+                    return 0
+                if index.RV == 0:
+                    index.RV = 1
+                ratio = float(index.FW)/index.RV
+                if total_Bias < 15:
+                    if ratio <1:
+                        ratio = 1
+                return ratio
 
+            ####
+            def adjust_Bias_selected(index):
+                total_Bias  = index.FW + index.RV
+                if total_Bias == 0:
+                    return 0
+                elif total_Bias < 15:
+                    return 1
+                else:
+                    if index.RV <1:
+                        index.RV = 1
+                    return float(index.FW) / index.RV
+            ####
+#            ongoing = pd.DataFrame([DATA.biasFW['%s_biasFW_sum'%group],DATA.biasRV['%s_biasRV_sum'%group],DATA.biasFW['%s_biasFW_sum'%reference],DATA.biasRV['%s_biasRV_sum'%reference]])
+            reference = pd.DataFrame({'FW':DATA.biasFW['%s_biasFW_sum'%reference],'RV':DATA.biasRV['%s_biasRV_sum'%reference]})
+
+            reference['reference_fold'] = reference.apply(adjust_Bias_reference,axis = 1)
+            reference['reference_fold'][reference['reference_fold']==0] = 1
+            
+            group = pd.DataFrame({'FW':DATA.biasFW['%s_biasFW_sum'%group],'RV':DATA.biasRV['%s_biasRV_sum'%group]})
+            
+            group['group_fold'] = group.apply(adjust_Bias_selected,axis = 1)
+            return group['group_fold']/reference['reference_fold']
+        
+        ####
+                                                                           
+        Bias = pd.DataFrame()
+        
+        Bias = analyase_Bias_categories(DATA,Bias,Info,Info.GroupAnalysis.Reference.name, Info.GroupAnalysis.Reference.experiments)
+        for group in Info.GroupAnalysis.Others.name:
+            Bias = analyase_Bias_categories(DATA,Bias,Info,group, Info.GroupAnalysis.Others.experiments[Info.GroupAnalysis.Others.name.index(group)])
+            Bias['%s_Bias_fold'%group] = calculate_Bias_fold(DATA,Info.GroupAnalysis.Reference.name,group)
+        return Bias
 
     #### Running commands ####
 
     date_today = getDay()   
     
-    #Printing statements    
+    ###Printing statements
     
     strings = []    
     strings.append('\n***\tPerform Group Analysis\t***\t\tDate: %s' % date_today)
@@ -293,8 +308,11 @@ def performing_analysis(Info):
 
     for string in strings:
         print_save_analysis (string, Info.GroupAnalysis.storage_loc)
-    
-            
+
+    ###
+
+
+    ### Run Commands:
     
     categories = {}
     
@@ -316,6 +334,10 @@ def performing_analysis(Info):
     string = '\nStatistycal analysis of the groups\n\tStarted: %s' % startTime
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     summary = comparing_experiments(Info,categories,date_today)
+
+    if Info.GroupAnalysis.Parameters.Bias:
+        summary.Bias = define_Bias(summary,Info)
+
     if Info.GroupAnalysis.Parameters.KI:
         import Fisher
         summary.KI = Fisher.main(Info.GroupAnalysis,summary.KI)
@@ -328,14 +350,9 @@ def performing_analysis(Info):
         print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
-    
-    
-    
+
     summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.biasFW,summary.biasRV,summary.Reads,summary.Outlier] if not parameter.empty],axis = 1)
-    
-    
-    
-    
+
     string = '\nColumns: \n\t%s' %(' | ').join(summary.all.columns)
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     
@@ -351,16 +368,16 @@ def performing_analysis(Info):
     string = 'Saved GroupAnalysis file (necessary for table generation) in : %s' %(os.path.join(Info.GroupAnalysis.storage_loc,'raw', 'GroupAnalysis.pkl'))
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)       
     
-    for exp in Info.GroupAnalysis.input_files:
-        location = re.findall('^(.+)/raw/(.+)_GenesData.pkl',exp)[0]
-        with open (os.path.join(location[0],location[1] + '_info.txt'),'a') as write:
-            string = '\t%s :\t %s' % (date_today,Info.GroupAnalysis.storage_loc)
-            print >> write,string
-    string = 'Writing in Input Info files their usage for this analysis'
-    print string
-            
-    string = '***\tEND Perform Group Analysis\t***' 
-    print_save_analysis (string, Info.GroupAnalysis.storage_loc)
+#    for exp in Info.GroupAnalysis.input_files:
+#        location = re.findall('^(.+)/raw/(.+)_GenesData.pkl',exp)[0]
+#        with open (os.path.join(location[0],location[1] + '_info.txt'),'a') as write:
+#            string = '\t%s :\t %s' % (date_today,Info.GroupAnalysis.storage_loc)
+#            print >> write,string
+#    string = 'Writing in Input Info files their usage for this analysis'
+#    print string
+#            
+#    string = '***\tEND Perform Group Analysis\t***' 
+#    print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     
 
     

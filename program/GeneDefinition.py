@@ -64,7 +64,8 @@ def library_analysis(Info):
             if Info.GeneDefinition.Parameters.Reads: #Counting all Genes Insertions to be added to library.reads if paired-end
                 gene_ids = set(genes[i_nosense])
                 if gene_ids == set([]):
-                    library.reads["_no_feature"] += raw_data.raw[i]
+		    continue
+#                    library.reads["_no_feature"] += raw_data.raw[i]
                 else:
                     for gene_id in gene_ids: 
                         library.reads[gene_id] += raw_data.raw[i]

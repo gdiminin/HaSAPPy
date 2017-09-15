@@ -53,8 +53,15 @@ def start(Info):
                         else:
                             iv = genes_ref.loc[gene,'genomic_interval'].copy()#genomic interval of the gene of intersts
                             iv.strand = '.' #remove the strand parameter (for the moment)
-                        
-                        selected_ins= [(i,insertions[i]) for i in insertions.index if iv.contains(i)] #list of insertions in the replicate experiment containined in gene
+			selected_ins  = []
+			insertion_list = zip(insertions.index,insertions.values)                     
+			for n in insertion_list:
+			    i = n[0]
+			    if iv.contains(i):
+				selected_ins.append((i,n[1]))
+				
+
+#                        selected_ins= [(i,insertions[i]) for i in insertions.index if iv.contains(i)] #list of insertions in the replicate experiment containined in gene
                         for i in selected_ins: #divide in sense and anti-sense insertions
                             if type(gene) == HTSeq._HTSeq.GenomicInterval:
                                 if i[0].strand == '+':

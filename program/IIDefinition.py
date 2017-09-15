@@ -12,6 +12,7 @@ import pandas as pd
 from collections import Counter 
 import os
 from HaSAPPY_time import *
+import itertools
 ############################################################
 #1) Defining the Class Library
 class Library():
@@ -34,71 +35,38 @@ def library_generation (exp, Info):
     startTime = getCurrTime()
     string = '\tSelection of Insertions (I.): %s' %startTime
     Info.print_save(exp,string)
-    aligned_file = HTSeq.SAM_Reader(library.input)    
+    aligned_file = HTSeq.SAM_Reader(library.input)
+
+    #aligned_file = [seq for seq in itertools.islice(aligned_file,100000)]
+    
     insertions_counts = Counter()
 
-    if not Info.IIDefinition.reads_duplicate: # single_end sequencing!!!!
-        count_aligned = 0
-        count_GoodQualityAlignment = 0
-        count_total = 0
-	for algnt in aligned_file:
-		if algnt.aligned:
-			if algnt.iv.chrom.startswith('chr'):
-				chromosome_style = ''
-			else:
-				chromosome_style = 'chr'
-			break
+    count_aligned = 0
+    count_GoodQualityAlignment = 0
+    count_total = 0
+    for algnt in aligned_file:
+	if algnt.aligned:
+	    if algnt.iv.chrom.startswith('chr'):
+		chromosome_style = ''
+	    else:
+		chromosome, _style = 'chr'
+	    break
 	
 	
-        for algnt in aligned_file:
-            if algnt.aligned:
-                if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-		    ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
-                    insertions_counts[ins] +=1
-                    count_GoodQualityAlignment +=1                    
-                count_aligned +=1                    
-            count_total +=1
-            
-        string = '\t-Total reads: %i\n\t-Aligned reads: %i\n\t-Aligned Reads trusted: %i\n\t-Insertions identified: %i' %(count_total,count_aligned,count_GoodQualityAlignment, len(insertions_counts.keys()))
-        Info.print_save(exp,string)
-      
-    else: # pair_end sequencing = Allow analysis of number of reads       
-        insertions = {}
-        count_total = 0
-        count_aligned = 0
-        count_position = 0
-        count_duplicates = 0
-        count_GoodQualityAlignment = 0
+    for algnt in aligned_file:
+        if algnt.aligned:
+            if algnt.aQual >= Info.IIDefinition.fidelity_limit:
+		ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
+                insertions_counts[ins] +=1
+                count_GoodQualityAlignment +=1                    
+            count_aligned +=1                    
+        count_total +=1
 
-        for algnt in aligned_file:
-            count_total +=1 #all the read in file
+    del aligned_file
             
-            if algnt.pe_which == "first" and algnt.proper_pair:#just consider sequenced 1)aligned, 2)for which a paired_end has been identified, 3) coming from the "first" file (in theory p5 strand)
-                if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-                    count_GoodQualityAlignment +=1
-                    i_p5 = HTSeq.GenomicPosition('chr%s'%str(algnt.iv.chrom),algnt.iv.start_d,algnt.iv.strand) # Viral insertion genomic position
-                    if insertions.has_key(i_p5):
-                        if algnt.inferred_insert_size in insertions[i_p5]:#where algnt.mate_start is the starting genomic position of the reverse paired read (that for us..is the LAM_PCR end)
-                            count_duplicates +=1 # Discard sequence (PCR artifact)      
-                        else:
-                            insertions[i_p5].add(algnt.inferred_insert_size) #Add a new element to the insertion's list (=no redoundant read)
-                    else: #Identification of a new insertion
-                        count_position +=1
-                        insertions[i_p5] = set() #Creation of a list were to store length of different reads
-                        insertions[i_p5].add(algnt.inferred_insert_size)
-                        
-                count_aligned +=1 #all the reads with pair_end alignment and coming from the p5 file
-                        
-        
-        count_reads = 0        
-        for ins in insertions:
-            length = len(insertions[ins])
-            insertions_counts[ins] = length
-            count_reads += length
-            
-        string = '\t-Total reads: %i\n\t-Aligned reads: %i\n\t-Aligned Reads trusted: %i\n\t-Detected duplicates: %i\n\tInsertions identified: %i' %(count_total,count_aligned,count_GoodQualityAlignment,count_duplicates,len(insertions_counts.keys()))
-        Info.print_save(exp,string)
-        
+    string = '\t-Total reads: %i\n\t-Aligned reads: %i\n\t-Aligned Reads trusted: %i\n\t-Insertions identified: %i' %(count_total,count_aligned,count_GoodQualityAlignment, len(insertions_counts.keys()))
+    Info.print_save(exp,string)
+          
     string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
     Info.print_save(exp,string)
                     
@@ -109,19 +77,25 @@ def library_generation (exp, Info):
     string = 'Define Independent Insertions\n\tStarted: %s' %startTime
     Info.print_save(exp,string)
     insertions_series = pd.Series(insertions_counts, index = insertions_counts.keys())
-    insertions_series = insertions_series.order(ascending = False)
+    del insertions_counts
+    
+    insertions_series = insertions_series.sort_values(ascending = False)
     insertions_genomicarray = HTSeq.GenomicArray("auto",stranded = True)
     
     count_indipendent_insertions = 0
     count_indipendent_insertions_aborted = 0
-    
-    for ins in insertions_series.index:
-        insertions_genomicarray[ins] = insertions_series[ins]
+
+    insertions_tuple = zip(insertions_series.index,insertions_series.values)
+    del insertions_series
+
+    for ins in insertions_tuple:
+        insertions_genomicarray[ins[0]] = ins[1]	    
+
         
     insertions_collapsed = {}
     
-    for i in insertions_series.index:
-        
+    for n in insertions_tuple:
+        i = n[0]
         if insertions_genomicarray[i]>0:
             counted = 0
             iv_i = HTSeq.GenomicInterval(i.chrom,i.start-2,i.start+2,i.strand)
