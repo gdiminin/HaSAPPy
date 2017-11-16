@@ -74,7 +74,7 @@ def main (GroupAnalysis,DATA):
     
         outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
         outliers = outliers.rename(columns ={'Score':'%s_Score' % group})            
-    DATA.Outlier = pd.concat([DATA.Outlier,outliers],axis = 1)
+    	DATA.Outlier = pd.concat([DATA.Outlier,outliers],axis = 1)
 
     return DATA
     

@@ -78,14 +78,15 @@ def library_generation (exp, Info):
     Info.print_save(exp,string)
     insertions_series = pd.Series(insertions_counts, index = insertions_counts.keys())
     del insertions_counts
-    
-    insertions_series = insertions_series.sort_values(ascending = False)
+    insertions_order = insertions_series.copy()
+    insertions_order.sort(ascending = False)
     insertions_genomicarray = HTSeq.GenomicArray("auto",stranded = True)
     
     count_indipendent_insertions = 0
     count_indipendent_insertions_aborted = 0
 
-    insertions_tuple = zip(insertions_series.index,insertions_series.values)
+    insertions_tuple = zip(insertions_order.index,insertions_order.values)
+    del insertions_order
     del insertions_series
 
     for ins in insertions_tuple:

@@ -265,7 +265,7 @@ def start(Info):
     ####
     def design_insertions_distribution(Info,GroupAnalysis):
         ####
-        def plot_distribution(GroupaAnalysis,data,to_plot):
+        def plot_distribution(GroupaAnalysis,data,to_plot,group):
             ####    
             def scatter3D(dataframe,comb_columns,color):
                 ax.scatter(dataframe[comb_columns[0]],dataframe[comb_columns[1]],dataframe[comb_columns[2]],c =color)
@@ -314,8 +314,8 @@ def start(Info):
                     ax.set_zlabel(comb_columns[2])
                     ax.set_title('Gene Distribution\n%s, %s, %s' %(comb_columns[0],comb_columns[1],comb_columns[2]))
             
-                    fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s-%s).jpg' %(comb_columns[0],comb_columns[1],comb_columns[2])),dpi= 200)
-                    files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s-%s).jpg' %(comb_columns[0],comb_columns[1],comb_columns[2])))
+                    fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers3D_%s(%s-%s-%s).jpg' %(group,comb_columns[0],comb_columns[1],comb_columns[2])),dpi= 200)
+                    files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers3D_%s(%s-%s-%s).jpg' %(group,comb_columns[0],comb_columns[1],comb_columns[2])))
                 
                 string =  '\t\tFile saved:'
                 print_save_analysis (string, GroupAnalysis.storage_loc)
@@ -358,8 +358,8 @@ def start(Info):
                 ax.set_ylabel(comb_columns[1])
                 ax.set_title('Gene Distribution\n%s, %s' %(comb_columns[0],comb_columns[1]))
                          
-                fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s).jpg' %(comb_columns[0],comb_columns[1])),dpi= 200)
-                files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers_Vs_Rest(%s-%s).jpg' %(comb_columns[0],comb_columns[1])))
+                fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers2D_%s(%s-%s).jpg' %(group,comb_columns[0],comb_columns[1])),dpi= 200)
+                files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers2D_%s(%s-%s).jpg' %(group,comb_columns[0],comb_columns[1])))
                 
             string =  '\t\tFile saved:'
             print_save_analysis (string, GroupAnalysis.storage_loc)
@@ -425,8 +425,8 @@ def start(Info):
             if GroupAnalysis.Outlier.perform:
                 data['Score'] = GroupAnalysis_table['%s_%s' %(group,'Score')]
 
-        data = data[data['II']>0]
-        plot_distribution(GroupAnalysis,data,to_plot)
+            data = data[data['II']>0]
+            plot_distribution(GroupAnalysis,data,to_plot,group)
         
         string = '\tRunTime: %s' % computeRunTime(startTime,getCurrTime())
         print_save_analysis (string, GroupAnalysis.storage_loc)

@@ -47,7 +47,7 @@ def library_preparation(info):
     gene_collection = pd.Series(gene_collection.groups)
       
 
-    columns = ["reference","genomic_interval","variants","exon_specific","introns_all"]
+    columns = ["reference","genomic_interval","variants","exons","exon_specific","introns_all"]
  
     
     gene_data = pd.DataFrame(columns= columns)
@@ -103,13 +103,17 @@ def library_preparation(info):
         transcripts = gene_data.ix[index,"variants"]
         gene_exon = HTSeq.GenomicArray("auto",stranded = True)
         gene_all_exon = []
+	gene_specific_exon = []
         for transcript in transcripts:
             for interval in transcripts[transcript]:
                 gene_exon[interval]+=1
         for interval in gene_exon.steps():
-            if interval[1] == len(transcripts):
-                gene_all_exon.append(interval[0])
-        gene_data.set_value(index,"exon_specific",gene_all_exon)
+	    if interval[1] > 0:
+		gene_all_exon.append(interval[0])
+                if interval[1] == len(transcripts):
+                    gene_specific_exon.append(interval[0])
+	gene_data.set_value(index,"exons",gene_all_exon)
+        gene_data.set_value(index,"exon_specific",gene_specific_exon)
 
     for index in gene_data.index:
         introns = define_introns(index,gene_data)
