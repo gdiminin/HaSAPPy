@@ -30,6 +30,7 @@ class Analysis:
         self.biasRV = pd.DataFrame()
         self.all = pd.DataFrame()
         self.Outlier = pd.DataFrame()
+        self.Rank = pd.DataFrame()
         
         
 def performing_analysis(Info):
