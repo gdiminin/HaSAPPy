@@ -125,13 +125,19 @@ class GeneDefinition (Upperlevel):
             self.reads_norm = False
             self.lib_names = []
             self.input_files = []
-            
+
+class Approach (Upperlevel):
+    def __init__(self,fold,rank):
+        self.fold = fold
+        self.rank = rank
+           
 class Outlier (Upperlevel):
     def __init__(self,dictionary):
         self.perform = dictionary[7]['J']
         if self.perform:
-            self.Parameters = Parameters(II = dictionary[7]['K'],KI = dictionary[7]['L'],Bias = dictionary[7]['M'],Reads =dictionary[7]['N'])
-            self.fidelity = dictionary[7]['O']
+	    self.Approach = Approach(fold = dictionary[7][‘K’],rank› = dictionary[7][‘L’])
+            self.Parameters = Parameters(II = dictionary[7][‘M’],KI = dictionary[7][’N’],Bias = dictionary[7][‘O’],Reads =dictionary[7][‘P’])
+            self.fidelity = dictionary[7][‘Q’]
                 
         
 class Experiments (Upperlevel):
@@ -148,9 +154,9 @@ class GroupAnalysis (Upperlevel):
         self.Parameters = Parameters(II = dictionary[7]['F'],KI = dictionary[7]['G'],Bias = dictionary[7]['H'],Reads =dictionary[7]['I'])
         self.Outlier = Outlier(dictionary)
         if starting: 
-            self.lib_numb = dictionary[7]['P']
-            self.lib_names = dictionary[7]['Q']
-            self.input_files = dictionary[7]['R']
+            self.lib_numb = dictionary[7][‘R’]
+            self.lib_names = dictionary[7][’S’]
+            self.input_files = dictionary[7][’T’]
         else:
             self.lib_numb = int()
             self.lib_names = []
@@ -429,6 +435,9 @@ class Info(Upperlevel):
             print '\t\t{:8s}:\t'.format('Reads') + '%s' % self.GroupAnalysis.Parameters.Reads
             print '\t{:20s}:\t'.format('Outlier analysis') + '%s' % self.GroupAnalysis.Outlier.perform
             if self.GroupAnalysis.Outlier.perform:
+		print '\t\t{:20s}'.format(‘Approach’)
+                print '\t\t\t{:8s}:\t'.format(‘Fold’) + '%s' % self.GroupAnalysis.Outlier.Approach.fold
+                print '\t\t\t{:8s}:\t'.format(‘Rank’) + '%s' % self.GroupAnalysis.Outlier.Approach.rank
                 print '\t\t{:20s}'.format('Parameters')
                 print '\t\t\t{:8s}:\t'.format('II') + '%s' % self.GroupAnalysis.Outlier.Parameters.II
                 print '\t\t\t{:8s}:\t'.format('KI') + '%s' % self.GroupAnalysis.Outlier.Parameters.KI
@@ -626,7 +635,7 @@ def read_txt(informations,text):
                 informations = extract_line (section,task,line,informations,true =['B','C','D','E','G'],number =['F'],list_=['H','I'],string=['A'])  
             
             elif section == 7:
-                informations = extract_line (section,task,line,informations,true =['F','G','H','I','J','K','L','M','N'],number =['A','P','O'],list_=['D','Q','R'],string =['B'])  
+                informations = extract_line (section,task,line,informations,true =[‘F’,’G’,’H’,’I’,’J’,’K’,’L’,’M’,’N’,’O’,’P’],number =[‘A’,’Q’,’R’],list_=[‘D’,’S’,’T’],string =['B'])  
                 if task in ['C']:
                     if re.search('^\s*@\d[A-Z]\)\s*(\S+.*\S*)', line):
                         string = [n.lstrip().rstrip() for n in re.findall('^\s*@\d[A-Z]\)\s*(\S+.*\S*)', line)[0].split(',')]

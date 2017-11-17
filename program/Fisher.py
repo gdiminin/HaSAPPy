@@ -10,6 +10,6 @@ def main(GroupAnalysis,DATA):
         temporary_dataframe.ix['_no_feature',name_control] =1
         temporary_dataframe.ix['_no_feature',name_selected] =1
 
-        DATA['%s_Fisher'% group] =  temporary_dataframe.apply(lambda r: fisher_exact([[r[name_selected], r[name_control]],[(total_KI_selected-r[name_selected]),(total_KI_control-r[name_control])]],alternative = 'greater')[1],axis=1)
-        DATA.ix['_no_feature','%s_Fisher'% group] = 1
+        DATA[‘%s_Score_fisher’% group] =  temporary_dataframe.apply(lambda r: fisher_exact([[r[name_selected], r[name_control]],[(total_KI_selected-r[name_selected]),(total_KI_control-r[name_control])]],alternative = 'greater')[1],axis=1)
+        DATA.ix['_no_feature’,’%s_Score_fisher’% group] = 1
     return DATA

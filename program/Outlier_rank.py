@@ -14,12 +14,12 @@ import cPickle as pickle
 
 
 ###TEST
-
-with open ('/home/giulio/BIGDATA/Data/Analysis/WNT/Analysis/2017-11-16/raw/GroupAnalysis.pkl','rb') as load:
-    GroupAnalysis = pickle.load(load)
-with open('/home/giulio/BIGDATA/Data/Analysis/WNT/Analysis/2017-11-16/raw/RawData.pkl','rb') as load:
-    dataframe = pickle.load(load)
-dataframe.Rank = pd.DataFrame()
+#
+#with open ('/home/giulio/BIGDATA/Data/Analysis/WNT/Analysis/2017-11-16/raw/#GroupAnalysis.pkl','rb') as load:
+#    GroupAnalysis = pickle.load(load)
+#with open('/home/giulio/BIGDATA/Data/Analysis/WNT/Analysis/2017-11-16/raw/#RawData.pkl','rb') as load:
+#    dataframe = pickle.load(load)
+#dataframe.Rank = pd.DataFrame()
 ###
 
 
@@ -90,5 +90,3 @@ def main (GroupAnalysis,DATA):
 
     return DATA
 
-a = main(GroupAnalysis,dataframe)
-a.Rank.sort_index(by = 'Negative_Score_rank',ascending = False).head()

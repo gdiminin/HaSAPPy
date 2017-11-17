@@ -345,14 +345,20 @@ def performing_analysis(Info):
         string = '\t-Fisher\'s exact test on KI insertion'
         print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     if Info.GroupAnalysis.Outlier.perform:
-        import Outlier
-        summary = Outlier.main(Info.GroupAnalysis,summary)
-        string = '\t-Outlier analysis'
-        print_save_analysis (string, Info.GroupAnalysis.storage_loc)
+	if Info.GroupAnalysis.Outlier.Approach.fold:
+            import Outlier_fold
+            summary = Outlier_fold.main(Info.GroupAnalysis,summary)
+            string = '\t-Outlier_fold analysis'
+            print_save_analysis (string, Info.GroupAnalysis.storage_loc)
+	if Info.GroupAnalysis.Outlier.Approach.rank:
+            import Outlier_rank
+            summary = Outlier_rank.main(Info.GroupAnalysis,summary)
+            string = '\t-Outlier_rank analysis'
+            print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
 
-    summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.biasFW,summary.biasRV,summary.Reads,summary.Outlier] if not parameter.empty],axis = 1)
+    summary.all = pd.concat([ parameter for parameter in [summary.II,summary.KI,summary.Bias,summary.biasFW,summary.biasRV,summary.Reads,summary.Outlier,summary.Rank] if not parameter.empty],axis = 1)
 
     string = '\nColumns: \n\t%s' %(' | ').join(summary.all.columns)
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)
@@ -369,16 +375,17 @@ def performing_analysis(Info):
     string = 'Saved GroupAnalysis file (necessary for table generation) in : %s' %(os.path.join(Info.GroupAnalysis.storage_loc,'raw', 'GroupAnalysis.pkl'))
     print_save_analysis (string, Info.GroupAnalysis.storage_loc)       
     
-#    for exp in Info.GroupAnalysis.input_files:
-#        location = re.findall('^(.+)/raw/(.+)_GenesData.pkl',exp)[0]
-#        with open (os.path.join(location[0],location[1] + '_info.txt'),'a') as write:
-#            string = '\t%s :\t %s' % (date_today,Info.GroupAnalysis.storage_loc)
-#            print >> write,string
-#    string = 'Writing in Input Info files their usage for this analysis'
-#    print string
-#            
-#    string = '***\tEND Perform Group Analysis\t***' 
-#    print_save_analysis (string, Info.GroupAnalysis.storage_loc)
+    for exp in Info.GroupAnalysis.input_files:
+        location = re.findall('^(.+)/raw/(.+)_GenesData.pkl',exp)[0]
+	if os.path.isfile(os.path.join(location[0],location[1] + '_info.txt'):
+            with open (os.path.join(location[0],location[1] + '_info.txt'),'a') as write:
+                string = '\t%s :\t %s' % (date_today,Info.GroupAnalysis.storage_loc)
+                print >> write,string
+    string = 'Writing in Input Info files their usage for this analysis'
+    print string
+            
+    string = '***\tEND Perform Group Analysis\t***' 
+    print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     
 
     

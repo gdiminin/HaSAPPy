@@ -21,10 +21,8 @@ def main(Info):
     def create_table(Info,GroupAnalysis,summary,keys,filters,name):
         
         for instruction in filters:
-            if instruction['parameter'][1] != 'Score' and instruction['parameter'][1] != 'Outliers':
-                key  = '%s_%s_%s' %(instruction['parameter'][0],instruction['parameter'][1],instruction['parameter'][2])
-            else:
-                key = '%s_%s' % (instruction['parameter'][0],instruction['parameter'][1])
+            key  = '%s_%s_%s' %(instruction['parameter'][0],instruction['parameter'][1],instruction['parameter'][2])
+
             operation  = instruction['operation']
             if not operation == 'ascending' and not operation == 'descending':
                 number = float(instruction['number'])
@@ -61,17 +59,15 @@ def main(Info):
                     parameter.append('II')
                 if GroupAnalysis.Parameters.KI:
                     parameter.append('KI')
-                    parameter.append('Fisher')
                 if GroupAnalysis.Parameters.Bias:
                     parameter.append('Bias')
                     parameter.append('biasFW')
                     parameter.append('biasRV')
                 if GroupAnalysis.Parameters.Reads:
                     parameter.append('Reads')
-                if GroupAnalysis.Outlier.perform:
-                    parameter.append('Score')
+             
                             
-            if instruction[1]  != 'Score' and instruction[1]  != 'Fisher':
+            if instruction[1]  != 'Score':
                 value = instruction[2]
                 if value == 'raw' or value == 'all':
                     values = {}
@@ -84,10 +80,10 @@ def main(Info):
                     
                     if value == 'all':
                         if GroupAnalysis.Reference.name in group:
-                            values[GroupAnalysis.Reference.name]+=['sum','mean','stdev']
+                            values[GroupAnalysis.Reference.name]+=['sum','mean','stdev’,rank]
                         for group_exp in GroupAnalysis.Others.name:
                             if group_exp in group:
-                                values[group_exp]+=['sum','mean','stdev','fold','ttest']
+                                values[group_exp]+=['sum','mean','stdev','fold','ttest’,rank]
                     
                     
                 else:
@@ -97,20 +93,24 @@ def main(Info):
                     for group_exp in GroupAnalysis.Others.name:
                         if group_exp in group:
                             values[group_exp] = [value]
+
+	    elif instruction[1]  == 'Score':
+		if value == ‘all’:
+		    for group_exp in GroupAnalysis.Others.name:
+                        if group_exp in group:
+                            values[group_exp]+=['fold’,’rank’,’fisher’]
+			
             
             
             for a in group:
                 if not a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        if b != 'Score' and b != 'Fisher':
-                            for c in values[a]:
-                                columns_name.append('%s_%s_%s'%(a,b,c))
-                        elif b == 'Score' or b == 'Fisher':
-                            columns_name.append('%s_%s'%(a,b))
+                        for c in values[a]:
+                            columns_name.append('%s_%s_%s'%(a,b,c))
                             
                 elif a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        if b != 'Score' and b != 'Fisher':
+			if b != ’Score’:
                             for c in values[a]:
                                 if not c == 'fold' and not c == 'ttest':
                                     columns_name.append('%s_%s_%s'%(a,b,c))
@@ -121,7 +121,7 @@ def main(Info):
                 table[name] = summary[name]
                 
             else:
-                string = "\tWarning!!! %s is not among avaiable columns" % (name)
+                string = "\tWarning!!! %s is not among available columns" % (name)
                 print_save_analysis (string, GroupAnalysis.storage_loc)
                 
         string = '\n\tColumns:\n\t%s' %(' | ').join(table.columns)
@@ -129,10 +129,7 @@ def main(Info):
         
         filter_list = []
         for n in filters:
-	    if len(n['parameter']) == 3:
-                parameter = '%s_%s_%s' %(n['parameter'][0],n['parameter'][1],n['parameter'][2])
-	    else:
-		parameter = '%s_%s' %(n['parameter'][0],n['parameter'][1])
+            parameter = '%s_%s_%s' %(n['parameter'][0],n['parameter'][1],n['parameter'][2])
             if n.has_key('number'):
                 filter_list.append('%s %s %i' % (parameter,n['operation'],n['number']))
             else:

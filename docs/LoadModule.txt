@@ -104,7 +104,7 @@ ___________________________________________________________________
 ALIGNMENT TO REFERENCE					section:	4
 GENOME
 
-Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
+Alignment program to be used (bowtie2, nvBowtie, ngm):
 @4A)
 Location of reference genome:
 @4B)
@@ -216,32 +216,36 @@ Type of parameters analysed (mark ‘Y’ or ’N’):
 	@7I)
 Perform Outlier analysis(mark ‘Y’ or ’N’):
 @7J)
+Approach used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
+	Type of approach used(mark ‘Y’ or ’N’):
+		Fold:
+		@7K) 
+		Rank:
+		@7L) 	
 Parameters used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
 	Type of parameters analysed (mark ‘Y’ or ’N’):
 		Independent insertions (I.I.):
-		@7K)
-		Killing insertions (K.I.):
-		@7L)
-		Bias insertions:
 		@7M)
-		Reads:
+		Killing insertions (K.I.):
 		@7N)
-Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
-Provide a value between 0 to 100 (ex. 10)
-@7O)
+		Bias insertions:
+		@7O)
+		Reads:
+		@7P)
+Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task)(ex. 10):
+@7Q)
 
 !!!N.B. Compile the following section just if this is your starting point!!!
 How many library do you want to analyse?:
-@7P)	
-@7P)
-…	
+@7R)	
+
 Name of the library (Use the same names provided in section 7C and 7E) (add additional lines if necessary):
-@7Q)	
-@7Q)
+@7S)	
+@7S)
 …
 Location of input file (add additional lines if necessary):
-@7R)	
-@7R)
+@7T)	
+@7T)
 …
 
 
@@ -256,10 +260,10 @@ Table name representation(add additional lines if necessary):
 Construct table representation using following keys (each new line correspond to a table):
 	!!!Read Info file to have detailed informations of how to compile this part!!!
 	Samples: all, group name
-	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
-	Data type: all, raw, mean, stdev, fold, ttest
+	Parameters: all, II, KI, Bias, Reads, Score
+	Data type: all, raw, mean, stdev, fold, rank, ttest /Score: all, fold, rank, fisher
 	ex. :  	(all,II,raw),(group1,KI,mean)
-		(group1,KI,ttest),(all,Score)
+		(group1,KI,ttest)
 @8B)
 @8B)
 …
