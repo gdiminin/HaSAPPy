@@ -377,7 +377,7 @@ def performing_analysis(Info):
     
     for exp in Info.GroupAnalysis.input_files:
         location = re.findall('^(.+)/raw/(.+)_GenesData.pkl',exp)[0]
-	if os.path.isfile(os.path.join(location[0],location[1] + '_info.txt'):
+	if os.path.isfile(os.path.join(location[0],location[1] + '_info.txt')):
             with open (os.path.join(location[0],location[1] + '_info.txt'),'a') as write:
                 string = '\t%s :\t %s' % (date_today,Info.GroupAnalysis.storage_loc)
                 print >> write,string

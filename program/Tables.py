@@ -80,10 +80,10 @@ def main(Info):
                     
                     if value == 'all':
                         if GroupAnalysis.Reference.name in group:
-                            values[GroupAnalysis.Reference.name]+=['sum','mean','stdev’,rank]
+                            values[GroupAnalysis.Reference.name]+=['sum','mean','stdev','rank']
                         for group_exp in GroupAnalysis.Others.name:
                             if group_exp in group:
-                                values[group_exp]+=['sum','mean','stdev','fold','ttest’,rank]
+                                values[group_exp]+=['sum','mean','stdev','fold','ttest','rank']
                     
                     
                 else:
@@ -95,10 +95,12 @@ def main(Info):
                             values[group_exp] = [value]
 
 	    elif instruction[1]  == 'Score':
-		if value == ‘all’:
+		value = instruction[2]
+		if value == 'all':
+		    values = {}
 		    for group_exp in GroupAnalysis.Others.name:
                         if group_exp in group:
-                            values[group_exp]+=['fold’,’rank’,’fisher’]
+                            values[group_exp] = ['fold','rank','fisher']
 			
             
             
@@ -110,7 +112,7 @@ def main(Info):
                             
                 elif a == GroupAnalysis.Reference.name:
                     for b in parameter:
-			if b != ’Score’:
+			if b != 'Score':
                             for c in values[a]:
                                 if not c == 'fold' and not c == 'ttest':
                                     columns_name.append('%s_%s_%s'%(a,b,c))
