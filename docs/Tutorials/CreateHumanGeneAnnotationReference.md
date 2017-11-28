@@ -71,7 +71,7 @@ python GeneReference_built.py -i  <DATA PATH>:/HaSAPPy/docs/RefSeq_human_GRCh38-
 ```
 
 ## Inspect the GeneReference.pkl file generated
-The **GeneReference_Homo.pkl** should have been saved in the selected folder. To verify the integrity of the file, open the python console:
+The **GeneReference_Homo-HG38.pkl** should have been saved in the selected folder. To verify the integrity of the file, open the python console:
 
 ```
 python
