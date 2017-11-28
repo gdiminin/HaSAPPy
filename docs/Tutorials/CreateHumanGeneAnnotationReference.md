@@ -7,13 +7,13 @@ The HaSAPPy software should be already installed on your computer with all depen
 This tutorial assumes that HaSAPPy was installed in:
 
 ```
-/Users/User
+<DATA PATH>:
 ```
 
 The HaSAPPy directory should have this structure:
 
 ```
-/Users/User/
+<DATA PATH>:
 │
 └── HaSAPPy
     ├── LICENSE
@@ -54,20 +54,20 @@ Press ‘get output’
 Move the downloaded annotation file into the HaSAPPy/docs folder:
 
 ```
-/Users/User/HaSAPPy/docs
+<DATA PATH>:/HaSAPPy/docs
 ```
 
 ## Generate the GeneReference.pkl file using GeneReference_built.py
 Open the terminal and move to the HaSAPPy program folder
 
 ```
-cd /Users/User/HaSAPPy/program
+cd <DATA PATH>:/HaSAPPy/program
 ```
 
 Start the **GeneReference_built.py** module using as input (option `-i`) the downloaded file. Save the output (option `-o`) in the same folder creating a file with the name GeneReference_Homo.pkl
 
 ```
-python GeneReference_built.py -i  /Users/User/HaSAPPy/docs/RefSeq_human_GRCh38-hg38.txt -o /Users/User/HaSAPPy/docs/GeneReference_Homo.pkl
+python GeneReference_built.py -i  <DATA PATH>:/HaSAPPy/docs/RefSeq_human_GRCh38-hg38.txt -o <DATA PATH>:/HaSAPPy/docs/GeneReference_Homo-HG38.pkl
 ```
 
 ## Inspect the GeneReference.pkl file generated
@@ -98,7 +98,7 @@ import pandas as pd
 Load the data stored in the **GeneReference_Homo.pkl** file with the following command:
 
 ```python
-with open ('/Users/User/HaSAPPy/docs/GeneReference_Homo.pkl', 'rb') as load:
+with open ('<DATA PATH>:/HaSAPPy/docs/GeneReference_Homo-HG38.pkl', 'rb') as load:
 gene_reference = pickle.load(load)
 ```
 
