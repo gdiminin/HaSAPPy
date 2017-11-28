@@ -1,4 +1,4 @@
-#Controlling the HaSAPPy workflow with command scripts
+# Controlling the HaSAPPy workflow with command scripts
 
 
 The HaSAPPy analysis pipeline is controlled by a command script that is provided by the user (the LoadModule.txt file). All the parameters are collected by the **INFOloads.py** module and stored in an **INFO object** that organizes software scheduling and stores user defined parameters.
@@ -13,7 +13,7 @@ This tutorial explains all sections of a HaSAPPy command script and illustrates 
 For this purpose, it will be assumed that all files are under a HaSAPPy folder within the user home directors, abbreviated as:
 
 ```
-Users/User
+<DATA PATH>:
 ```
 
 A HaSAPPy command script is separated into 9 sections corresponding to the steps of data processing, analysis, and output customization.
@@ -65,13 +65,13 @@ The folder for all files produced by an analysis workflow can be specified throu
 
 ```
 Storing location (provide a correct path):
-@1B) /Users/User/HaSAPPy/experiments
+@1B) <DATA PATH>:/data/experiments
 ```
 
 The **INFOloads.py** module will generate the following folder structure for the analysis:
 
 ```
-/Users/User/HaSAPPy/experiments/
+<DATA PATH>:/data/experiments
 │
 ├── *library*_yyyy-mm-dd
 │   │
@@ -118,8 +118,8 @@ Name of the libraries (add additional lines if necessary):
 Specify the absolute PATH (from the system root `/`) to the NGS read files in FastQ format. It is important to specify the file paths in the same order as the corresponding names of the experiments in `@2C)`. Compressed files (`.fastq.gz`) can also be processed:
 ```
 Location of input file 1 (add additional lines if necessary):
-@2D) /Users/User/HaSAPPy/experiments/raw_data/file1.fastq
-@2D) /Users/User/HaSAPPy/experiments/raw_data/file2.fastq
+@2D) <DATA PATH>:/data/experiments/raw_data/file1.fastq
+@2D) <DATA PATH>:/data/experiments/raw_data/file2.fastq
 …
 ```
 
@@ -161,7 +161,7 @@ Would you like to store quality selected libraries (mark ‘Y’ or ’N’)?
 If NGS sequence libraries were spiked with PhiX control fragments removal of the corresponding PhiX reads is required. Provide the absolute PATH to the Phix genome index for Bowtie2. The file name of the index without file extension should be provided (see Bowtie2 reference):
 ```
 Location of Phix reference genome:
-@3A) /Users/User/HaSAPPy/reference/Phix/NCBI/1993-04-28/Sequence/BowtieIndex/genome
+@3A) <DATA PATH>:/data/reference/Phix/NCBI/1993-04-28/Sequence/BowtieIndex/genome
 ```
 
 Mark `N` if you don’t want the permanently store of the output read file that is generated. In this case the file will be used by the Align module and erased afterwards:
@@ -198,7 +198,7 @@ Location of input file 2 (if pair-end) (add additional lines if necessary):
 
 For mapping reads to the reference genome (mouse or human, etc) HaSAPPy comes preconfigured for use of Bowtie2, NextGenMap (ngm), and nvBowtie. Enter the read alignment program you want to use for read mapping to the reference genome.
 ```
-Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
+Alignment program to be used (bowtie2, nvBowtie, ngm):
 @4A) bowtie2
 ```
 >**NOTE:** The selected read aligner must be installed on your system and reachable form the PATH.
@@ -206,7 +206,7 @@ Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
 Provide the absolute PATH of reference genome index for the selected read mapper. For bowtie2 and nvBowtie the path and file name of the genome index without file extension must be entered. For NextGenMap, provide the path to the genome sequence Fasta file (“xxxxx.fa” file):
 ```
 Location of reference genome:
-@4B) /Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/genome
+@4B) <DATA PATH>:/data/reference/Mus_musculus/UCSC/mm10/Sequence/BowtieIndex/genome
 ```
 
 Enter `N` in the input field below, if you don’t want to permanently store the output file generated. In this case the file will be used by the IIdefinition module and erased afterwards:
@@ -293,7 +293,7 @@ To categorize I.I. according their location in genes, you are requested to provi
 
 ```
 Location of gene reference:
-@6A) Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@6A) <DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 User can define which parameters should be collected during this process. Mark ‘Y’ or ‘N’ according to your needs. For details on parameter description refer to the HaSAPPy manual.
@@ -395,41 +395,50 @@ Perform Outlier analysis(mark ‘Y’ or ’N’):
 @7J) Y
 ```
 
+Gene enrichment between a selected and a reference group for the analysed parameters can be evaluated using 2 approaches: evaluating the value fold enrichment (**Fold**) or analysing its rank position increase (**Rank**). Entering `Y` in the inputs field below activate these features.
+> **NOTE:** To perform the Outlier analysis at least one of these options must be selected
+```
+Approach used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
+	Type of approach used(mark ‘Y’ or ’N’):
+		Fold:
+		@7K) 
+		Rank:
+		@7L)
+```
+
 Among the parameters selected for the GroupAnalyis, you can mark those one that you want to use for derivation of the Outlier value. These input fields are only required if the Outlier option was activated:
 ```
 Parameters used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
 Type of parameters analysed (mark ‘Y’ or ’N’):
 Independent insertions (I.I.):
-@7K) Y
-Killing insertions (K.I.):
-@7L) Y
-Bias insertions:
 @7M) Y
+Killing insertions (K.I.):
+@7N) Y
+Bias insertions:
+@7O) Y
 Reads:
-@7N) N
+@7P) N
 ```
 
-Outlier analysis is performed for comparison of the ratio of specified parameters between the analysed experimental group and the reference group. A Fold value does not contain information on the absolute number of insertions observed for a gene in the experiment. Therefore, it could happen that genes with very few or no insertions in the reference group would reach a high Outlier value (underrepresentation in the reference group is not uncommon due to undersampling). For correcting for this behavior a Confidence value can be specified as a percentage (0-100) with which the absolute number of insertions will be used to correct the outlier outcome for the gene (a recommened starting fidelity value is 10). An integer number between 0 to 100 is required:
+Outlier analysis is performed for comparison of the ratio of specified parameters between the analysed experimental group and the reference group. A Fold value does not contain information on the absolute number of insertions observed for a gene in the experiment. Therefore, it could happen that genes with very few or no insertions in the reference group would reach a high Outlier value (underrepresentation in the reference group is not uncommon due to undersampling). For correcting for this behavior a Confidence value can be specified. This value correspond to an user cut-off on the insertion number detected in a gene necessary to evaluate it trustable for further investigation.
 ```
-Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
-Provide a value between 0 to 100 (ex. 10)
-@7O) 10
+Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task) (ex. 10):
+@7Q) 10
 ```
 
 If this module is the **starting point of the analysis**, you should provide information on the name and locations of the database files for the NGS libraries ( “../../library_dddd-mm-yy/raw/library.GenesData.pkl”) generated by the **GeneDefinition.py** module. One line is added for each library. Pay attention to the name correspondence with the one used in section `@7C)` and `@7E)`:
 ```
 !!!N.B. Compile the following section just if this is your starting point!!!
 How many library do you want to analyse?:
-@7P)	
-@7P)
+@7R)	
 …	
 Name of the library (Use the same names provided in section 7C and 7E) (add additional lines if necessary):
-@7Q)	
-@7Q)
+@7S)	
+@7S)
 …
 Location of input file (add additional lines if necessary):
-@7R)	
-@7R)
+@7T)	
+@7T)
 …
 ```
 
@@ -455,8 +464,9 @@ The **Table.py** module collects user information for 3 parameters:
 * ‘raw’: provides parameter values for all individual replicates of the selected groups (each as a column in the table)
 * ‘mean’: provides parameter values of the average of the replicates of the selected groups (one column per group)
 * ‘stdev’,’fold’ and ’ttest’: provides parameter information of the comparison of the analysed group respect to the reference. These are skipped from the analysis for the reference group (eg unselected or control group)
+For the Score parameter the following data types can be selected: 'fold','rank','fisher' and 'all'
 
-Entering ‘all’ for any of the parameters will include all possible combinations of the data types for this parameter in the output table. The Score parameter doesn’t take any Data type information.
+Entering ‘all’ for any of the parameters will include all possible combinations of the data types for this parameter in the output table.
 
 Using these 3 elements you can generate a selector and design your table format. The selector structure to provide is:
 ```
@@ -470,10 +480,10 @@ In a table you can provide multiple selecting criteria adding selectors marked w
 Construct table representation using following keys (each new line correspond to a table):
 !!!Read Info file to have detailed informations of how to compile this part!!!
 Samples: all, group name
-Parameters: all, II, KI, Bias, bias_FW, bias_RV, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
-Data type: all, raw, mean, stdev, fold, ttest
-ex. :  	(all,II,raw),(group1,KI,mean)
-(group1,KI,ttest),(all,Score)
+	Parameters: all, II, KI, Bias, Reads, Score
+	Data type: all, raw, mean, stdev, fold, rank, ttest /Score: all, fold, rank, fisher
+	ex. :  	(all,II,raw),(group1,KI,mean)
+		(group1,KI,ttest)
 @8B)(all,all,all)
 @8B)(all,all,mean)
 @8B)(all,all,fold),(all,all,stdev)
@@ -542,7 +552,7 @@ FOR Plot I.I. in gene models:
 1. The absolute PATH must be provided for the gene reference file created by the GeneReference_built.py module.	
 ```
 Location of gene reference:
-@9C) Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@9C) <DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 2. A list of genes or chromosome intervals that you are interested. A plot contained in a separate .svg file will be generate for each of the items of the list. For including a gene name, enter the same name as the gene name appears in the gene annotation reference file or the generated tables. If you are interested to visualize insertions in a specific chromosome interval provide the following information:
@@ -590,7 +600,7 @@ ex:	22
 @9H) Xist, Trp53
 ```
 
-If this module is the starting point of the analysis, you should provide absolute PATH to the database file from the GroupAnalysis ( `../../Analysis/yyyy-mm-dd /raw/GroupAnalysis.pkl`) to be used for the generation of plots:
+If this module is the starting point of the analysis, you should provide absolute PATH to the database file from the GroupAnalysis ( `../../Analysis/yyyy-mm-dd/raw/GroupAnalysis.pkl`) to be used for the generation of plots:
 ```
 !!!N.B. Compile the following section just if this is your starting point!!!
 Location of file storing GroupAnalysis informations:
@@ -601,7 +611,7 @@ Location of file storing GroupAnalysis informations:
 
 Save the completed `LoadModule.txt` file with a new name and use it as input for runnning the HaSAPPy_start.py module from the command line.
 
-`python HaSAPPy_start.py <path-to-LoadModule.txt>`
+`python HaSAPPy.py <path-to-LoadModule.txt>`
 
 HaSAPPy command scripts are parsed in straight a forward and simple way. The parser in the the **INFOloads.py** module searches for specific TAGs (eg. `@1A)` and reads the remainder of the line into a Python object. Only TAG lines that correspond to scheduled data processing sections of a workflow are required. All other lines are ignored by HaSAPPy and simply contain text for supporting the user for entering the correct information. This should make it possible to use a line based interface for producing command scripts in an automated or GUI supported way in the future.
 
