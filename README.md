@@ -111,7 +111,7 @@ Running a data analysis requires a command script that is pecified on the comman
 The analysis workflow can then be strated using HaSAPPY_start.py with the appropriate command script, see the following example:
 
 ```
-python HaSAPPY_start.py User/HaSAPPy/Commands/LoadModule.txt
+python HaSAPPY.py User/HaSAPPy/Commands/LoadModule.txt
 ```
 
 After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial [Performing a test run of your HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md).
