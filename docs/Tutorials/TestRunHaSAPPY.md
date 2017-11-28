@@ -16,7 +16,7 @@ The working directory for this tutorial is:
 3. Installation of bowtie2 
 
 ### Create a folder where the experiments and run information will be stored
-Enter into the HaSAPPy folder and create a new **experiments/** folder:
+In the <DATA PATH>: create a new **data/experiments/test** folder:
 ```
 mkdir data
 cd data
