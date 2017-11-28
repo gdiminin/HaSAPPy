@@ -13,48 +13,35 @@ In this tutorial, we are going to perform an anlysis with HaSAPPy software of a 
 
 The working directory is
 ```
-Users/User/HaSAPPy
+<DATA PATH>:
 ```
 
 Your working directory should look like that:
 ```
-/Users/User/HaSAPPy/experiments/
-│
-├── *library*_yyyy-mm-dd
-│   │
-│   ├── graph
-│   │   └── <graphic output of run>
-│   └── raw
-│       └── <intermediary files of data processing>
-│
-└── Analysis
+<DATA PATH>
 └── HaSAPPy
-    ├── reference
-    │   ├── Phix
-    │   │   └── ...
-    │   └── Mus_musculus
-    │       └── ...
-    ├── experiments
-    │   └── ...
-    ├── program
-    │   └── ...
-    └── docs
-        ├── LoadModule.txt
-        ├── mm10REFSEQgenes.txt
-        ├── GeneReference_Mouse-MM10.pkl
-        ├── Tutorials
-        │    └── ...
-        └── test
-             └── ...
+|   ├── program
+|   │   └── ...
+|   └── docs
+|       ├── LoadModule.txt
+|       ├── mm10REFSEQgenes.txt
+|       ├── GeneReference_Mouse-MM10.pkl
+|       ├── Tutorials
+|       │    └── ...
+|       └── test
+|            └── ...
+└── data
+    └── reference
+        └── ... 
 ```         
 
 ## Collecting FASTQ file from the SRA repository
-We will use data from the SRA database associated with the haploid ES cell screen and store the read FASTQ files in a data folder in a selected/ and unselected/ subfolder.
+We will use data from the SRA database associated with the haploid ES cell screen and store the read FASTQ files in a Monfort_2015 folder in a selected/ and unselected/ subfolder.
 
 ```
-cd ..
-mkdir data
-cd data
+cd <DATA PATH>:/data/
+mkdir Monfort_2015
+cd Monfort_2015
 mkdir unselected
 mkdir selected
 ```
@@ -84,7 +71,7 @@ This closes this terminal window and returns you to the first terminal window. N
 ~/Downloads/sratoolkit.2.8.1-2-ubuntu64/bin/fastq-dump -O unselected/ --gzip SRR2064930
 ```
 
-Then download the 7 selected read files to the data/selected/ folder:
+Then download the 7 selected read files to the Monfort_2015/selected/ folder:
 
 ```
 ~/Downloads/sratoolkit.2.8.1-2-ubuntu64/bin/fastq-dump -O selected/ --gzip SRR2064886
@@ -98,12 +85,12 @@ Then download the 7 selected read files to the data/selected/ folder:
 
 ## Prepare the LoadModule.txt file
 This script will specify the reference and sequence files, as well as the processing steps and analysis that HaSAPPy will perform. 
-User can utilize a pre-filled LoadMoule (find it in ```/Users/User/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or try to use and fill up an empty template. The empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)).
+User can utilize a pre-filled LoadMoule (find it in ```<DATA PATH>:/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or try to use and fill up an empty template. The empty template and an example script are supplied with a source (see the tutorial [Controlling the Workflow of HaSAPPy with a command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md)).
 
 ### Create in experiments a folder where to store analysis data
 ```
-cd /Users/User/HaSAPPy/experiments/
-mkdir XCI_tutorial
+cd <DATA PATH>:/data/Monfort_2015/
+mkdir experiments
 ```
 
 ### Use the pre-filled LoadModule
@@ -116,14 +103,14 @@ To use the pre-filled LoadModule open the LoadModule_XCI-tutorial.txt file in a 
 Operator Name: 
 @1A) User
 Storing location (provide a correct path):
-@1B) /Users/User/HaSAPPy/experiments/XCI_tutorial
+@1B) <DATA PATH>:/data/Monfort_2015/experiments
 ```
 * Section 2
 * 2D
 
 ```
 Location of input file 1 (add additional lines if necessary):
-@2D) /Users/User/HaSAPPy/data/unselected/SRR2064917.fastq.gz
+@2D) <DATA PATH>:/data/Monfort_2015/unselected/SRR2064917.fastq.gz
 @2D) ...
 ```
 
@@ -132,7 +119,7 @@ Location of input file 1 (add additional lines if necessary):
 
 ```
 Location of Phix reference genome:
-@3A)/Users/User/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
+@3A) <DATA PATH>:/data/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
 ```
 
 > **NOTE:** For Bowtie2 the path and filename for the genome index should be provided without the file extension!
@@ -142,7 +129,7 @@ Location of Phix reference genome:
 
 ```
 Location of reference genome:
-@4B) /Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
+@4B) <DATA PATH>:/data/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
 ```
 
 * Section 6
@@ -150,7 +137,7 @@ Location of reference genome:
 
 ```
 Location of gene reference:
-@6A)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@6A) <DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 * Section 9
@@ -159,7 +146,7 @@ Location of gene reference:
 ```
 FOR Plot I.I. in gene models:
 Location of gene reference:
-@9C)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@9C)<DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 Save the file and copy the file name to the clipboard.
@@ -168,22 +155,21 @@ Save the file and copy the file name to the clipboard.
 
 Copy the **LoadModule.txt** command script template into a new command folder:
 ```
-cd ..
+cd <DATA PATH>:/data
 mkdir command
 cd command
 cp ../docs/LoadModule.txt ./LoadModule_XCI-tutorial.txt
 ```
 
-Use a text editor (eg. gedit or vi) to edit the LoadModule_XCI-tutorial.txt file in the ~/HaSAPPy/command/ folder. For read trimming before alignment follow the instructions for PreprocessReads, a useful adaptor sequence to trim from the 3'-end is the Ilumina P7 adaptor reverse complement (ATCTCGTATGCCGTCTTCTGCTT). 
+Use a text editor (eg. gedit or vi) to edit the LoadModule_XCI-tutorial.txt file in the ~/data/command/ folder. For read trimming before alignment follow the instructions for PreprocessReads, a useful adaptor sequence to trim from the 3'-end is the Ilumina P7 adaptor reverse complement (ATCTCGTATGCCGTCTTCTGCTT). 
 
 ## Start the analysis
 Start the analysis with the following command:
-> **NOTE:** Provide to HaSAPPY_start.py the correct LoadMoudle_XCI-tutorial.txt path. It is differnt if you are using the pre-filled (```/Users/User/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or a new LoadModule file (```/Users/User/HaSAPPy/command/LoadModule_XCI-tutorial.txt```)
+> **NOTE:** Provide to HaSAPPY_start.py the correct LoadMoudle_XCI-tutorial.txt path. It is differnt if you are using the pre-filled (```<DATA PATH>:/HaSAPPy/docs/test/LoadModule_XCI-tutorial.txt```) or a new LoadModule file (```<DATA PATH>:/data/command/LoadModule_XCI-tutorial.txt```)
 
 ```
-cd ..
-cd program
-python HaSAPPY_start.py /Users/User/HaSAPPy/../LoadModule_XCI-tutorial.txt
+cd <DATA PATH>:/HaSAPPy/program
+python HaSAPPY.py <DATA PATH>:/data/command/LoadModule_XCI-tutorial.txt
 ```
 
 This will start the HaSAPPy program. The output will be stored under the experiments folder. You can compare it with the one present in HaSAPPy manual.
@@ -194,14 +180,14 @@ This will start the HaSAPPy program. The output will be stored under the experim
 GPU accelerated alignment can speedup the alignment of the reads to the target genome. For using nvBowtie from NVIDIA specify nvBowtie in the command file as the aligner for the target reference genome. Both the nvBowtie and nvBWT executables will need to be installed on your system and in the path. You can generate the genome index for nvBowtie using nvBWT as follows:
 ```
 cd
-cd HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence
+cd data/reference/Mus_musculus/UCSC/mm10/Sequence
 mkdir nvBowtieIndex
 nvBWT WholeGenomeFasta/genome.fa nvBowtieIndex/mm10
 ```
 
 In the command script provide for the Mus musculus genome reference the following path: 
 ```
-/home/anton/HaSAPPy/rereference/Mus_musculus/UCSC/mm10/Sequence/nvBowtieIndex/mm10
+<DATA PATH>:/data/reference/Mus_musculus/UCSC/mm10/Sequence/nvBowtieIndex/mm10
 ```
 
 That is it! You can now run the analysis as before and might experience a reduction of the overall runtime of the analysis depending on the prowess of your GPU.
@@ -216,7 +202,8 @@ NextGenMap is an aligner that supports the OpenCL API for using graphic processo
 ngm --local --gpu 0,1 -t 8 -r <reference> -q <read file> -o <output file>
 ```
 
-Specify ngm as the aligner in the comand script and /home/ … /HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa as the path for the target genome.
+Specify ngm as the aligner in the comand script and 
+<DATA PATH>:/data/reference/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa as the path for the target genome.
 
 
 
