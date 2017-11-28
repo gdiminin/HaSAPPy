@@ -6,7 +6,7 @@ It is recommended to run this text for a new installation before starting to use
 The working directory for this tutorial is:
 
 ```
-/Users/User
+<DATA PATH>:
 ```
 
 ## Prerequisites
@@ -18,17 +18,19 @@ The working directory for this tutorial is:
 ### Create a folder where the experiments and run information will be stored
 Enter into the HaSAPPy folder and create a new **experiments/** folder:
 ```
-cd HaSAPPy
+mkdir data
+cd data
 mkdir experiments
 cd experiments
 mkdir test
 ```
 The folder structure should look like this:
 ```
-/Users/User/
+<DATA PATH>:
 |
 └── HaSAPPy
-    ├── ...
+|   └── ...
+└── data
     └── experiments
         └── test
             └── ...
@@ -41,10 +43,11 @@ mkdir reference
 ```
 The folder structure should look like this:
 ```
-/Users/User/
+<DATA PATH>:
 |
 └── HaSAPPy
-    ├── ...
+|   └── ...
+└── data
     └── experiments
     |   └── test
     |       └── ...
@@ -56,7 +59,7 @@ Genome sequences and indices for read mapping for common species are available a
 
 http://support.illumina.com/sequencing/sequencing_software/igenome.html
 
-Using a web browser download the PhiX genome (NCBI 1993-04-28) and the mouse genome (GCRm38/mm10) to your ~/HaSAPPy/reference folder. Then unpack the archives in the terminal:
+Using a web browser download the PhiX genome (NCBI 1993-04-28) and the mouse genome (GCRm38/mm10) to your <DATA PATH>:/data/reference folder. Then unpack the archives in the terminal:
 
 ```
 cd reference
@@ -70,8 +73,7 @@ tar -xzvf Mus_musculus_UCSC_mm10.tar.gz
 PreprocessReads is a precompiled executable file for read trimming (the source code is available at [github](https://github.com/zanton123/PreprocessReads). You need to set the execute permission on Linux based file systems to be able to run the program. Enter the /HaSAPPy/program/** folder and set the execute property with the following commands:
 
 ```
-cd ..
-cd program
+cd <DATA PATH>:/HaSAPPy/program
 chmod +x PreprocessReads 
 ```
 
@@ -83,39 +85,40 @@ A gene annotation file for the mouse genome (GCRm38/mm10) is supplied with the s
 Refer to the [Generate a human gene reference](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/CreateHumanGeneAnnotationReference.md) tutorial for a detailed example:
 
 ```
-python GeneReference_built.py -i /Users/User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o /Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+python GeneReference_built.py -i <DATA PATH>:/HaSAPPy/docs/mm10_REFSEQgenes.txt -o <DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 A new file GeneReference_mouse_mm10.pkl should appear in the current folder.
 
 Now we are ready to start. Your working directory (**/Users/User/HaSAPPy**) should have this structure:
 
-* the HaSAPPy directory
+* the <DATA PATH>:
 
 ```
-/Users/User/
+<DATA PATH>:
 |
 └── HaSAPPy
-    ├── ...
-    └── experiments
+|   ├── ...
+|   ├── program
+|   |   └── ...
+|   └── docs
+|       ├── LoadModule.txt
+|       ├── mm10REFSEQgenes.txt
+|       ├── GeneReference_Mouse-MM10.pkl
+|       ├── Tutorials
+|       |   └── ...
+|       └── test
+|            ├── Aligned.sam
+|            ├── Sequence.fastq
+|            ├── LoadModule_test_from_Trim.txt
+|            └── LoadModule_test_from_IIdefinition.txt
+|
+└── data
+    ├── experiments
     |   └── test
     |       └── ...
     └── reference
-    |   └── ...
-    ├── ...
-    ├── program
-    |   └── ...
-    └── docs
-        ├── LoadModule.txt
-        ├── mm10REFSEQgenes.txt
-        ├── GeneReference_Mouse-MM10.pkl
-        ├── Tutorials
-        |   └── ...
-        └── test
-             ├── Aligned.sam
-             ├── Sequence.fastq
-             ├── LoadModule_test_from_Trim.txt
-             └── LoadModule_test_from_IIdefinition.txt
+        └── ...
 ```
 
 * the reference directory
@@ -157,7 +160,7 @@ Now we are ready to start. Your working directory (**/Users/User/HaSAPPy**) shou
 In this tutorial, we are going to test the functionality of the HaSAPPy packages (starting from the **Trim.py** module) using the **LoadModule_test_from_Trim.txt** and the **Sequence.fastq** files in the `docs/test` folder.
 
 ```
-/Users/User/HaSAPPy/docs/test
+<DATA PATH>:/HaSAPPy/docs/test
 ```
 
 In addition, you can test HaSAPPy function from the **IIdefinition.py** module using the **LoadModule_test_from_IIdefinition.txt** and the **Aligned.sam** files.
@@ -171,15 +174,15 @@ Open the LoadModule_test_from_Trim.txt file in a text editor. As you can see mos
 Operator Name: 
 @1A) User
 Storing location (provide a correct path):
-@1B) /Users/User/HaSAPPy/experiments/test
+@1B) <DATA PATH>:/data/experiments/test
 ```
 * Section 2
 * 2D
 
 ```
 Location of input file 1 (add additional lines if necessary):
-@2D) /Users/User/HaSAPPy/docs/test/Sequence.fastq
-@2D) /Users/User/HaSAPPy/docs/test/Sequence.fastq
+@2D) <DATA PATH>:/HaSAPPy/docs/test/Sequence.fastq
+@2D) <DATA PATH>:/HaSAPPy/docs/test/Sequence.fastq
 ```
 
 * Section 3
@@ -187,7 +190,7 @@ Location of input file 1 (add additional lines if necessary):
 
 ```
 Location of Phix reference genome:
-@3A)/Users/User/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
+@3A)<DATA PATH>:/data/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
 ```
 
 > **NOTE:** For Bowtie2 the path and filename for the genome index should be provided without the file extension!
@@ -197,7 +200,7 @@ Location of Phix reference genome:
 
 ```
 Location of reference genome:
-@4B) /Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
+@4B) <DATA PATH>:/data/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
 ```
 
 * Section 6
@@ -205,7 +208,7 @@ Location of reference genome:
 
 ```
 Location of gene reference:
-@6A)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@6A)<DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 * Section 9
@@ -214,7 +217,7 @@ Location of gene reference:
 ```
 FOR Plot I.I. in gene models:
 Location of gene reference:
-@9C)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@9C)<DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 Save the file and copy the file name to the clipboard.
@@ -224,23 +227,23 @@ Save the file and copy the file name to the clipboard.
 Move into the HaSAPPy/program folder:
 
 ```
-cd /Users/User/HaSAPPy/program
+cd <DATA PATH>:/HaSAPPy/program
 ```
 
 Start the analysis using **HaSAPPY_start.py**  with the **LoadModule_test_from_Trim.txt** file path as command line argument:
 
 ```
-python HaSAPPY_start.py /Users/User/HaSAPPy/docs/test/LoadModule_test_from_Trim.txt
+python HaSAPPY.py <DATA PATH>:/HaSAPPy/docs/test/LoadModule_test_from_Trim.txt
 ```
 
 If everything is correctly installed the analysis should finish without any errors.
 
 ## Inspect the output
 
-In the `/Users/User/HaSAPPy/experiments/test` folder the following files and folders should have been created
+In the `<DATA PATH>:/data/experiments/test` folder the following files and folders should have been created
 
 ```
-/Users/User/HaSAPPy/experiments/test
+<DATA PATH>:/data/experiments/test
     ├── test_1_yyyy-mm-dd
     |   ├── test_1_info.txt
     |   ├── graph
