@@ -39,7 +39,7 @@ GENERAL INFORMATIONS					section:	1
 Operator Name: 
 @1A)User
 Storing location (provide a correct path):
-@1B)/Users/User/HaSAPPy/experiments/XCI_tutorial
+@1B)<DATA PATH>:/data/Monfort_2015
 
 ___________________________________________________________________
 TRIM ADAPTOR AND SEQUENCE				section:	2
@@ -67,21 +67,21 @@ Name of the libraries (add additional lines if necessary):
 @2C)Sel7
 
 Location of input file 1 (add additional lines if necessary):
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064917.fastq.gz
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064920.fastq.gz
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064924.fastq.gz
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064927.fastq.gz
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064928.fastq.gz
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064929.fastq.gz
-@2D)/Users/User/HaSAPPy/data/unselected/SRR2064930.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064917.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064920.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064924.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064927.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064928.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064929.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064930.fastq.gz
 
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064886.fastq.gz
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064896.fastq.gz
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064898.fastq.gz
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064899.fastq.gz
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064902.fastq.gz
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064905.fastq.gz
-@2D)/Users/User/HaSAPPy/data/selected/SRR2064908.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064886.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064896.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064898.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064899.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064902.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064905.fastq.gz
+@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064908.fastq.gz
 
 Location of input file 2 (if pair-end) (add additional lines if necessary):
 @2E)
@@ -104,7 +104,7 @@ ALIGNMENT AND DISCHARGING				section:	3
 PHIX GENOME
 
 Location of Phix reference genome:
-@3A)/Users/User/HaSAPPy/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
+@3A)<DATA PATH>:data/reference/PhiX/NCBI/1993-04-28/Sequence/Bowtie2Index/genome
 Would you like to store permanently Phix-cleaned files  (mark ‘Y’ or ’N’)?
 @3B)Y
 
@@ -133,7 +133,7 @@ GENOME
 Alignment program to be used (bowtie2, nvBowtie, NextGenMap):
 @4A)bowtie2
 Location of reference genome:
-@4B)/Users/User/HaSAPPy/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
+@4B)<DATA PATH>:/data/reference/Mus_musculus/UCSC/mm10/Sequence/Bowtie2Index/genome
 Would you like to store permanently SAM aligned files  (mark ‘Y’ or ’N’)?
 @4C)Y
 
@@ -187,7 +187,7 @@ CLASSIFICATION OF I.I.						section:	6
 IN GENES
 
 Location of gene reference:
-@6A)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+@6A)<DATA PATH>:/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 Type of parameters analysed (mark ‘Y’ or ’N’):
 	Independent insertions (I.I.):
 	@6B)Y
@@ -230,7 +230,7 @@ Other data group name(add additional lines if necessary):
 @7D)Selected
 
 Other data group (provide the library names separated by a ‘,’ (ex. ‘lib1,lib2,lib3’))(add additional lines if necessary):
- @7E)Sel1,Sel2,Sel3,Sel4,Sel5,Sel6,Sel7
+@7E)Sel1,Sel2,Sel3,Sel4,Sel5,Sel6,Sel7
 
 Type of parameters analysed (mark ‘Y’ or ’N’):
 	Independent insertions (I.I.):
@@ -243,32 +243,36 @@ Type of parameters analysed (mark ‘Y’ or ’N’):
 	@7I)Y
 Perform Outlier analysis(mark ‘Y’ or ’N’):
 @7J)Y
+Approach used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
+	Type of approach used(mark ‘Y’ or ’N’):
+		Fold:
+		@7K) Y
+		Rank:
+		@7L) N	
 Parameters used for Outlier analysis (Fill this part just if marked ‘Y’ to the previously task):
 	Type of parameters analysed (mark ‘Y’ or ’N’):
 		Independent insertions (I.I.):
-		@7K)Y
-		Killing insertions (K.I.):
-		@7L)Y
-		Bias insertions:
 		@7M)Y
+		Killing insertions (K.I.):
+		@7N)Y
+		Bias insertions:
+		@7O)Y
 		Reads:
-		@7N)N
-Trustability value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task):
-Provide a value between 1 to 100:
-@7O)10
+		@7P)N
+Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task)(ex. 10):
+@7Q)25
 
 !!!N.B. Compile the following section just if this is your starting point!!!
 How many library do you want to analyse?:
-@7P)	
-@7P)
-…	
+@7R)	
+
 Name of the library (Use the same names provided in section 7C and 7E) (add additional lines if necessary):
-@7Q)	
-@7Q)
+@7S)	
+@7S)
 …
 Location of input file (add additional lines if necessary):
-@7R)	
-@7R)
+@7T)	
+@7T)
 …
 
 
@@ -286,15 +290,15 @@ Table name representation(add additional lines if necessary):
 Construct table representation using following keys (each new line correspond to a table):
 	!!!Read Info file to have detailed informations of how to compile this part!!!
 	Samples: all, group name
-	Parameters: all, II, KI, Bias, Reads, Score (N.B. Score parameter doesn’t need any 'Data type')
-	Data type: all, raw, mean, stdev, fold, ttest
+	Parameters: all, II, KI, Bias, Reads, Score
+	Data type: all, raw, mean, stdev, fold, rank, ttest /Score: all, fold, rank, fisher
 	ex. :  	(all,II,raw),(group1,KI,mean)
-		(group1,KI,ttest),(all,Score)
-@8B)(all,II,raw),(Control,II,mean),(Selected,II,mean),(all,II,fold)
-@8B)(all,KI,raw),(Control,KI,mean),(Selected,KI,mean),(all,KI,fold)
-@8B)(all,Bias,raw),(Control,Bias,mean),(Selected,Bias,mean),(all,Bias,fold)
-@8B)(all,Reads,raw),(Control,Reads,mean),(Selected,Reads,mean),(all,Reads,fold)
-@8B)(Selected,Score),(Control,II,mean),(Selected,II,mean),(all,II,fold),(Control,KI,mean),(Selected,KI,mean),(all,KI,fold),(Control,Bias,mean),(Selected,Bias,mean),(all,Bias,fold),(Control,Reads,mean),(Selected,Reads,mean),(all,Reads,fold)
+		(group1,KI,ttest)
+@8B)(all,II,raw),(Control,II,sum),(Selected,II,sum),(all,II,fold)
+@8B)(all,KI,raw),(Control,KI,sum),(Selected,KI,sum),(all,KI,fold)
+@8B)(all,Bias,raw),(Control,Bias,sum),(Selected,Bias,sum),(all,Bias,fold)
+@8B)(all,Reads,raw),(Control,Reads,sum),(Selected,Reads,sum),(all,Reads,fold)
+@8B)(Selected,Score,all),(Control,II,sum),(Selected,II,sum),(all,II,fold),(Control,KI,sum),(Selected,KI,sum),(all,KI,fold),(Control,Bias,sum),(Selected,Bias,sum),(all,Bias,fold),(Control,Reads,sum),(Selected,Reads,sum),(all,Reads,fold)
 …
 
 Provide a filter parameter to select/sort values displayed (N.B. more than one filter can be defined):
@@ -303,11 +307,11 @@ Provide a filter parameter to select/sort values displayed (N.B. more than one f
 	Number: a float or int value or nothing if (ascending/descending)
 	ex. :  	filter[(group2,KI,mean), >, 3.45]
 		filter[(group1,KI,mean), ==, 3.45],filter[(group2,Bias,mean), ascending]
-@8C)filter[(Selected,II,mean), >, 2]
-@8C)filter[(Selected,II,mean), >, 2]
-@8C)filter[(Selected,II,mean), >, 2]
-@8C)filter[(Selected,II,mean), >, 2]
-@8C)filter[(Selected,II,mean), >, 2]
+@8C)filter[(Selected,II,sum), >, 2],filter[(Selected,Score,fold), descending]
+@8C)filter[(Selected,II,sum), >, 2],filter[(Selected,Score,fold), descending]
+@8C)filter[(Selected,II,sum), >, 2],filter[(Selected,Score,fold), descending]
+@8C)filter[(Selected,II,sum), >, 2],filter[(Selected,Score,fold), descending]
+@8C)filter[(Selected,II,sum), >, 2],filter[(Selected,Score,fold), descending]
 …
 
 !!!N.B. Compile the following section just if this is your starting point!!!
@@ -322,24 +326,24 @@ GENE INSERTIONS
 
 Type of graph to generate (mark ‘Y’ or ’N’):
 	Plot I.I. in gene models
-	@9A)Y
+	@9A)N
 	Plot Gene distribution according analysed parameter:
 	@9B)Y
 
 FOR Plot I.I. in gene models:
 	Location of gene reference:
-	@9C)/Users/User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+	@9C)
 
 	Genes list to analyse (also genomic intervals can be provided):
 		ex: 	gene1,gene2,gene3
 		ex:	chrX_12345619_12456789,chr2_3726189_3726567
-	@9D)Xist,Spen
+	@9D)
 
 FOR Plot Gene distribution according analysed parameter:
 	Do you want to highlight outliers (mark ‘Y’ or ’N’):
 	@9E)Y
 	Starting Outlier score to mark as outliers genes (Fill this part just if marked ‘Y’ to the previously task):
-	@9F)50
+	@9F)20
 	
 	Do you want to annotate some gene names in the plot (mark ‘Y’ or ’N’):
 	@9G)Y
@@ -354,6 +358,7 @@ FOR Plot Gene distribution according analysed parameter:
 !!!N.B. Compile the following section just if this is your starting point!!!
 Location of file storing GroupAnalysis informations:
 @9I)
+
 
 
 
