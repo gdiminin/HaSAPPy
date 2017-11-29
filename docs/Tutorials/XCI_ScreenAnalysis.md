@@ -19,27 +19,30 @@ The working directory is
 Your working directory should look like that:
 ```
 <DATA PATH>
-└── HaSAPPy
-|   ├── program
-|   │   └── ...
-|   └── docs
-|       ├── LoadModule.txt
-|       ├── mm10REFSEQgenes.txt
-|       ├── GeneReference_Mouse-MM10.pkl
-|       ├── Tutorials
-|       │    └── ...
-|       └── test
+├── HaSAPPy
+│   ├── program
+│   │   └── ...
+│   └── docs
+│       ├── LoadModule.txt
+│       ├── mm10REFSEQgenes.txt
+│       ├── GeneReference_Mouse-MM10.pkl
+│       ├── Tutorials
+│       │    └── ...
+│       └── test
 |            └── ...
 └── data
-    └── reference
-        └── ... 
+    ├── reference
+    │   └── ...
+    └── experiments
+	└── ...
+
 ```         
 
 ## Collecting FASTQ file from the SRA repository
-We will use data from the SRA database associated with the haploid ES cell screen and store the read FASTQ files in a Monfort_2015 folder in a selected/ and unselected/ subfolder.
+We will use data from the SRA database associated with the haploid ES cell screen and store the read FASTQ files in a /data/experiments/Monfort_2015 folder in a selected/ and unselected/ subfolder.
 
 ```
-cd <DATA PATH>:/data/
+cd <DATA PATH>:/data/experiments
 mkdir Monfort_2015
 cd Monfort_2015
 mkdir unselected
@@ -89,8 +92,8 @@ User can utilize a pre-filled LoadMoule (find it in ```<DATA PATH>:/HaSAPPy/docs
 
 ### Create in experiments a folder where to store analysis data
 ```
-cd <DATA PATH>:/data/Monfort_2015/
-mkdir experiments
+cd <DATA PATH>:/data/experiments/Monfort_2015/
+mkdir HaSAPPyRUN
 ```
 
 ### Use the pre-filled LoadModule
@@ -103,14 +106,14 @@ To use the pre-filled LoadModule open the LoadModule_XCI-tutorial.txt file in a 
 Operator Name: 
 @1A) User
 Storing location (provide a correct path):
-@1B) <DATA PATH>:/data/Monfort_2015/experiments
+@1B) <DATA PATH>:/data/experiments/Monfort_2015/HaSAPPyRUN
 ```
 * Section 2
 * 2D
 
 ```
 Location of input file 1 (add additional lines if necessary):
-@2D) <DATA PATH>:/data/Monfort_2015/unselected/SRR2064917.fastq.gz
+@2D) <DATA PATH>:/data/experiments//Monfort_2015/unselected/SRR2064917.fastq.gz
 @2D) ...
 ```
 

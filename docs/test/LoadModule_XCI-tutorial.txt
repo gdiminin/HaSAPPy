@@ -39,7 +39,7 @@ GENERAL INFORMATIONS					section:	1
 Operator Name: 
 @1A)User
 Storing location (provide a correct path):
-@1B)<DATA PATH>:/data/Monfort_2015
+@1B)<DATA PATH>:/data/experiments/Monfort_2015/HaSAPPyRUN
 
 ___________________________________________________________________
 TRIM ADAPTOR AND SEQUENCE				section:	2
@@ -67,21 +67,21 @@ Name of the libraries (add additional lines if necessary):
 @2C)Sel7
 
 Location of input file 1 (add additional lines if necessary):
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064917.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064920.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064924.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064927.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064928.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064929.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/unselected/SRR2064930.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064917.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064920.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064924.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064927.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064928.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064929.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/unselected/SRR2064930.fastq.gz
 
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064886.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064896.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064898.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064899.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064902.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064905.fastq.gz
-@2D)<DATA PATH>:/data/Monfort_2015/data/selected/SRR2064908.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064886.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064896.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064898.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064899.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064902.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064905.fastq.gz
+@2D)<DATA PATH>:/data/experiments/Monfort_2015/selected/SRR2064908.fastq.gz
 
 Location of input file 2 (if pair-end) (add additional lines if necessary):
 @2E)

@@ -16,7 +16,7 @@ For this purpose, it will be assumed that all files are under a HaSAPPy folder w
 <DATA PATH>:
 ```
 
-A HaSAPPy command script is separated into 9 sections corresponding to the steps of data processing, analysis, and output customization.
+A HaSAPPy command script is separated into 9 sections corresponding to the steps of data processing, analysis, and output customisation.
 
 ## Section 0: Which analysis would you like to perform?
 
@@ -65,13 +65,13 @@ The folder for all files produced by an analysis workflow can be specified throu
 
 ```
 Storing location (provide a correct path):
-@1B) <DATA PATH>:/data/experiments
+@1B) <DATA PATH>:/data/experiments/test
 ```
 
 The **INFOloads.py** module will generate the following folder structure for the analysis:
 
 ```
-<DATA PATH>:/data/experiments
+<DATA PATH>:/data/experiments/test
 │
 ├── *library*_yyyy-mm-dd
 │   │
@@ -81,13 +81,13 @@ The **INFOloads.py** module will generate the following folder structure for the
 │       └── <intermediary files of data processing>
 │
 └── Analysis
-│
-├── yyyy-mm-dd_info.txt
-│
-├── graph
-│   └── <graphic output when specified>
-└── raw
-└── <data bases>
+    │
+    └── yyyy-mm-dd
+        │    
+        ├── graph
+        │   └── <graphic output when specified>
+        └── raw
+            └── <data bases>
 ```
 
 For each NGS read dataset analyzed a specific folder will be generated using as reference the library name provided by the user in the following section. If a similar folder already exists, HaSAPPy will request an alternative name for library name/destination. Output files from section 1 to section 6 will be written to this folder. The library_info.txt file records all information of the run and of the selected parameters.
@@ -118,8 +118,8 @@ Name of the libraries (add additional lines if necessary):
 Specify the absolute PATH (from the system root `/`) to the NGS read files in FastQ format. It is important to specify the file paths in the same order as the corresponding names of the experiments in `@2C)`. Compressed files (`.fastq.gz`) can also be processed:
 ```
 Location of input file 1 (add additional lines if necessary):
-@2D) <DATA PATH>:/data/experiments/raw_data/file1.fastq
-@2D) <DATA PATH>:/data/experiments/raw_data/file2.fastq
+@2D) <DATA PATH>:/data/experiments/test/raw_data/file1.fastq
+@2D) <DATA PATH>:/data/experiments/test/raw_data/file2.fastq
 …
 ```
 
@@ -420,7 +420,7 @@ Reads:
 @7P) N
 ```
 
-Outlier analysis is performed for comparison of the ratio of specified parameters between the analysed experimental group and the reference group. A Fold value does not contain information on the absolute number of insertions observed for a gene in the experiment. Therefore, it could happen that genes with very few or no insertions in the reference group would reach a high Outlier value (underrepresentation in the reference group is not uncommon due to undersampling). For correcting for this behavior a Confidence value can be specified. This value correspond to an user cut-off on the insertion number detected in a gene necessary to evaluate it trustable for further investigation.
+Outlier analysis is performed for comparison of the ratio of specified parameters between the analysed experimental group and the reference group. A Fold value does not contain information on the absolute number of insertions observed for a gene in the experiment. Therefore, it could happen that genes with very few or no insertions in the reference group would reach a high Outlier value (underrepresentation in the reference group is not uncommon due to undersampling). For correcting for this behavior a Confidence value can be specified. This value correspond to an user cut-off on the insertions number detected in a gene necessary to evaluate it trustable for further investigation.
 ```
 Confidence value for Outlier analysis(Fill this part just if marked ‘Y’ to the 7J task) (ex. 10):
 @7Q) 10
