@@ -6,7 +6,7 @@ Created on Mon Mar 21 19:26:59 2016
 @author: GDM
 """
 
-import INFOloads
+import HaSAPPy.INFOloads as INFOloads
 import argparse
 
 parser = argparse.ArgumentParser(description='Launching command of HaSAPPy program')
@@ -34,31 +34,31 @@ analysis.fill_up()
 analysis.print_info()
 
 if analysis.Type_analysis.Trim:
-    import Trim
+    import HaSAPPy.Trim as Trim
     Trim.load(analysis)
 
 if analysis.Type_analysis.AlignPhix or analysis.Type_analysis.AlignGenome:
-    import Align
+    import HaSAPPy.Align as Align
     Align.load(analysis)
 
 if analysis.Type_analysis.IIDefinition:
-    import IIDefinition
+    import HaSAPPy.IIDefinition as IIDefinition
     IIDefinition.load(analysis)
 
 if analysis.Type_analysis.GeneDefinition:
-    import GeneDefinition
+    import HaSAPPy.GeneDefinition as GeneDefinition
     GeneDefinition.library_analysis(analysis)
 
 if analysis.Type_analysis.GroupAnalysis:
-    import GroupAnalysis
+    import HaSAPPy.GroupAnalysis as GroupAnalysis
     GroupAnalysis.performing_analysis(analysis)
 
 if analysis.Type_analysis.Tables:
-    import Tables
+    import HaSAPPy.Tables as Tables
     Tables.main(analysis)
 
 if analysis.Type_analysis.Design:
-    import DesignGeneInsertion as Design
+    import HaSAPPy.DesignGeneInsertion as Design
     Design.start(analysis)
 
 

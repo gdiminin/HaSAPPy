@@ -8,7 +8,7 @@ Created on Fri Apr  8 20:09:08 2016
 import pandas as pd
 import cPickle as pickle
 import os
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 #########################
 
 

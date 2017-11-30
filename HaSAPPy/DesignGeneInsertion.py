@@ -16,7 +16,7 @@ import pandas as pd
 import itertools
 from mpl_toolkits.mplot3d import Axes3D
 mpl.interactive(False)
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 ####
 
 

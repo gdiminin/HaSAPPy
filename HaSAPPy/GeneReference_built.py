@@ -11,7 +11,7 @@ import pandas as pd
 import HTSeq
 import argparse
 import cPickle as pickle
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 
 def library_preparation(info):
     ################

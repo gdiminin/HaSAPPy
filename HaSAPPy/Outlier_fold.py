@@ -8,7 +8,7 @@ Created on Tue Apr  4 08:49:20 2017
 
 import pandas as pd
 import numpy as np
-import LOF
+import HaSAPPy.LOF as LOF
 
 
 def main (GroupAnalysis,DATA):

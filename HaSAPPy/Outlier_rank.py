@@ -8,7 +8,7 @@ Created on Tue Nov 14 18:08:54 2017
 
 import pandas as pd
 import numpy as np
-import LOF
+import HaSAPPy.LOF as LOF
 import os
 import cPickle as pickle
 

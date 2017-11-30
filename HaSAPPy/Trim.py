@@ -8,7 +8,7 @@ Created on Mon Mar 21 19:26:59 2016
 import re
 import os
 import subprocess
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 
 
 def load(Info):

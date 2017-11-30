@@ -14,7 +14,7 @@ from scipy.stats  import ttest_ind
 from scipy.stats  import fisher_exact
 
 import re
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 ############################################################
 
 class Analysis:
@@ -340,18 +340,18 @@ def performing_analysis(Info):
         summary.Bias = define_Bias(summary,Info)
 
     if Info.GroupAnalysis.Parameters.KI:
-        import Fisher
+        import HaSAPPy.Fisher as Fisher
         summary.KI = Fisher.main(Info.GroupAnalysis,summary.KI)
         string = '\t-Fisher\'s exact test on KI insertion'
         print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     if Info.GroupAnalysis.Outlier.perform:
 	if Info.GroupAnalysis.Outlier.Approach.fold:
-            import Outlier_fold
+            import HaSAPPy.Outlier_fold as Outlier_fold
             summary = Outlier_fold.main(Info.GroupAnalysis,summary)
             string = '\t-Outlier_fold analysis'
             print_save_analysis (string, Info.GroupAnalysis.storage_loc)
 	if Info.GroupAnalysis.Outlier.Approach.rank:
-            import Outlier_rank
+            import HaSAPPy.Outlier_rank as Outlier_rank
             summary = Outlier_rank.main(Info.GroupAnalysis,summary)
             string = '\t-Outlier_rank analysis'
             print_save_analysis (string, Info.GroupAnalysis.storage_loc)

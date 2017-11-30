@@ -8,7 +8,7 @@ Created on Thu Apr  7 07:28:14 2016
 import subprocess
 import os
 import HTSeq
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 
 #############################    
 ####Programs involved in align library with Bowtie2 cheack__BEGIN

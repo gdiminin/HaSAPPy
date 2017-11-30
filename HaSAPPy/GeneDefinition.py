@@ -9,7 +9,7 @@ import HTSeq
 import cPickle as pickle
 import pandas as pd
 import os
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 ############################################################
 
 

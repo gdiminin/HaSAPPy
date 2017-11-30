@@ -11,7 +11,7 @@ import cPickle as pickle
 import pandas as pd
 from collections import Counter 
 import os
-from HaSAPPY_time import *
+from HaSAPPy.HaSAPPY_time import *
 import itertools
 ############################################################
 #1) Defining the Class Library
