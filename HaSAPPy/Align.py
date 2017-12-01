@@ -30,9 +30,9 @@ def load(Info):
         
         if Info.Type_analysis.AlignPhix:
             if Info_selected == Info.AlignPhix:
-                command = "bowtie2 --time --threads 8 -x %s %s -S %s" %(Info_selected.reference,input_file_I,output_file_I) #bowtie2 command
+                command = "bowtie2 --time --threads 8 -x %s -U %s -S %s" %(Info_selected.reference,input_file_I,output_file_I) #bowtie2 command
                 if pair_end:
-                    command_pair_end = "bowtie2 --time --threads 8 -x %s %s -S %s" %(Info_selected.reference,input_file_II,output_file_II) #bowtie2 command
+                    command_pair_end = "bowtie2 --time --threads 8 -x %s -U %s -S %s" %(Info_selected.reference,input_file_II,output_file_II) #bowtie2 command
 
         if Info.Type_analysis.AlignGenome:
             if Info_selected == Info.AlignGenome : 
@@ -40,7 +40,7 @@ def load(Info):
                     if pair_end:
                         command = "bowtie2 --time --local --threads 8 -x %s -1 %s -2 %s -S %s" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
                     else:
-                        command = "bowtie2 --time --local --threads 8 -x %s %s -S %s" %(Info_selected.reference,input_file_I,output_file_I)
+                        command = "bowtie2 --time --local --threads 8 -x %s -U %s -S %s" %(Info_selected.reference,input_file_I,output_file_I)
                 if program == 'ngm':
                     if pair_end:
                         command = "ngm --local --gpu 0,1 --paired -r %s -1 %s -2 %s -o %s -t 8" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
