@@ -423,7 +423,7 @@ def start(Info):
                 else:
                     data['Reads'] = GroupAnalysis_table['%s_%s_fold' %(group,'Reads')]
             if GroupAnalysis.Outlier.perform:
-                data['Score'] = GroupAnalysis_table['%s_%s' %(group,'Score')]
+                data['Score'] = GroupAnalysis_table['%s_%s' %(group,'Score_fold')]
 
             data = data[data['II']>0]
             plot_distribution(GroupAnalysis,data,to_plot,group)
