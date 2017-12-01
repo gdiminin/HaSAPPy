@@ -63,7 +63,7 @@ git clone https://github.com/gdiminin/HaSAPPy.git
 ```
 This will install all Python files in the 'HaSAPPy' folder under your home folder. For read preprocessing a precompiled executable PreprocessReads is supplied. This is an optional step in data processing and if desired requires to set the execute property on this file:
 ```
-cd HaSAPPy/program
+cd HaSAPPy/HaSAPPy
 chmod +x PreprocessReads
 ```
 
