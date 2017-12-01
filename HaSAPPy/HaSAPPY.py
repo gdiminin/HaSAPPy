@@ -18,8 +18,10 @@ print '***********************************************************\n\n'
 
 parser.add_argument('path', help = 'Provide PATH of LoadModule file to start analysis. For more details visit HaSAPPy webpage on "https://github.com/gdiminin/HaSAPPy" ', action="store")
 
+
 text = parser.parse_args()
-if text == None:
+
+if text.path == None:
     print '\nWARNING: informations provided are not sufficent.\nCheck -h option to have more details on requested parameters'
 
 
