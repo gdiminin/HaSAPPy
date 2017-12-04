@@ -18,7 +18,7 @@ def load(Info):
         Info.print_save(exp,string)
         input_file_I = Info.Trim.input_files_I[Info.Trim.lib_names.index(exp)]
         output_file_I = os.path.join(Info.General.storing_loc,exp + '_' + Info.General.date,'raw',exp + '_QS.fastq')
-        command = './PreprocessReads -i %s -o %s -len 25 -a %s -f' %(input_file_I,output_file_I,Info.Trim.p7adaptor.upper())
+        command = 'PreprocessReads -i %s -o %s -len 25 -a %s -f' %(input_file_I,output_file_I,Info.Trim.p7adaptor.upper())
         run_output = subprocess.check_output(command,shell= True,stderr=subprocess.STDOUT)
         total_reads = int(re.findall('\\nReads in input file \S* : (\d*)\\n',run_output)[0])
         selected_reads= int(re.findall('\\nReads written to output file \S* : (\d*)\\n',run_output)[0])
@@ -31,7 +31,7 @@ def load(Info):
             input_file_II = Info.Trim.input_files_II[Info.Trim.lib_names.index(exp)]
             output_file_II = os.path.join(Info.General.storing_loc,exp + '_' + Info.General.date,'raw',exp + '_pairend_QS.fastq')
             
-            command = './PreprocessReads -i %s -o %s -len 25 -a %s -f' %(input_file_II,output_file_II,Info.Trim.p5adaptor.upper())
+            command = 'PreprocessReads -i %s -o %s -len 25 -a %s -f' %(input_file_II,output_file_II,Info.Trim.p5adaptor.upper())
             print command
             
             run_output = subprocess.check_output(command,shell= True,stderr=subprocess.STDOUT)
