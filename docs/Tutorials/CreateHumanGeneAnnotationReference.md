@@ -58,16 +58,10 @@ Move the downloaded annotation file into the HaSAPPy/docs folder:
 ```
 
 ## Generate the GeneReference.pkl file using GeneReference_built.py
-Open the terminal and move to the HaSAPPy program folder
+Open the terminal and start the **GeneReference_built.py** module using as input (option `-i`) the downloaded file. Save the output (option `-o`) in the same folder creating a file with the name GeneReference_Homo.pkl
 
 ```
-cd <DATA PATH>:/HaSAPPy/program
-```
-
-Start the **GeneReference_built.py** module using as input (option `-i`) the downloaded file. Save the output (option `-o`) in the same folder creating a file with the name GeneReference_Homo.pkl
-
-```
-python GeneReference_built.py -i  <DATA PATH>:/HaSAPPy/docs/RefSeq_human_GRCh38-hg38.txt -o <DATA PATH>:/HaSAPPy/docs/GeneReference_Homo-HG38.pkl
+GeneReference_built.py -i  <DATA PATH>:/HaSAPPy/docs/RefSeq_human_GRCh38-hg38.txt -o <DATAPATH>:/HaSAPPy/docs/GeneReference_Homo-HG38.pkl
 ```
 
 ## Inspect the GeneReference.pkl file generated
