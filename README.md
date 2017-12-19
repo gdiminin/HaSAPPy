@@ -61,7 +61,28 @@ To use HaSAPPy program download the package from GitHub repository. If you have 
 cd
 git clone https://github.com/gdiminin/HaSAPPy.git
 ```
-This will install all Python files in the 'HaSAPPy' folder under your home folder. For read preprocessing a precompiled executable PreprocessReads is supplied. This is an optional step in data processing and if desired requires to set the execute property on this file:
+This will install all Python files in the 'HaSAPPy' folder under your home folder. 
+Make executable HaSAPPY.py and GeneReference_built.py
+```
+cd HaSAPPy/HaSAPPy
+chmod +x HaSAPPY.py
+chmod +x GeneReference_built.py
+```
+
+To install HaSAPPy modules in your Python installation, you can use the following commands:
+```
+cd .. 
+python setup.py install
+```
+
+This will save HaSAPPy modules among Python standard libraries allowing to import them independently of folder location
+
+Save temporally HaSAPPy folder in the PATH variables
+```
+export PATH=$PATH:'location of HaSAPPy home dircetory'/HaSAPPy/HaSAPPy
+```
+
+For read preprocessing a precompiled executable PreprocessReads is supplied. This is an optional step in data processing and if desired requires to set the execute property on this file:
 ```
 cd HaSAPPy/HaSAPPy
 chmod +x PreprocessReads
@@ -75,7 +96,7 @@ This step is not required if adaptor and quality trimming of the reads is not de
 After installation of HaSAPPY program, Genes Annotation Reference must be generated using GeneReference_built.py
 The program requires two variables:
 
-`python GeneReference_built.py -i <path-to-input-file.txt> -o <path-to-output-anotation.pkl>`
+`GeneReference_built.py -i <path-to-input-file.txt> -o <path-to-output-anotation.pkl>`
 
 **-i** (INPUT) 	location of .txt file containing gene annotations according to UCSC browser. In the download folder, users can find the mm10_REFSEQgenes.txt file built for the mouse genome according to the assembly of Dec. 2011 (GCRm38/mm10). Alternatively, annotations can be obtained from UCSC browser (http://genome.ucsc.edu/cgi-bin/hgTables?command=start). Provide the following informations:	
 
@@ -96,7 +117,7 @@ The program requires two variables:
 
 An example command line for generating an annotation for the mouse genome:
 ```
-python GeneReference_built.py -i User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
+GeneReference_built.py -i User/HaSAPPy/docs/mm10_REFSEQgenes.txt -o User/HaSAPPy/docs/GeneReference_Mouse-MM10.pkl
 ```
 
 The [Generate Gene Reference file for Human genome](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/CreateHumanGeneAnnotationReference.md) tutorial explains how to download annotations for the human genome and generate Genes Annotation Reference.
@@ -108,10 +129,10 @@ To use a Gene Annotation Reference .pkl file with HaSAPPy its file path is enter
 
 Running a data analysis requires a command script that is pecified on the command line as input for HaSAPPy. An empty script is provided in docs/LoadModule.txt. Copy this file and enter the experimental parameters in the form (see more detail on how to generate a command script in the [Controlling the HaSAPPy workflow throught the command script](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/RunningHaSAPPyWorkflowsScript.md) tutorial).
 
-The analysis workflow can then be strated using HaSAPPY_start.py with the appropriate command script, see the following example:
+The analysis workflow can then be strated using HaSAPPY.py with the appropriate command script, see the following example:
 
 ```
-python HaSAPPY.py User/HaSAPPy/Commands/LoadModule.txt
+HaSAPPY.py User/HaSAPPy/Commands/LoadModule.txt
 ```
 
 After installation it is adviced to run HaSAPPy using the LoadModule_Test.txt file to confirm program and dependencies installation success. For instructions on how to perform the test run refer to the tutorial [Performing a test run of your HaSAPPy installation](https://github.com/gdiminin/HaSAPPy/blob/master/docs/Tutorials/TestRunHaSAPPY.md).
