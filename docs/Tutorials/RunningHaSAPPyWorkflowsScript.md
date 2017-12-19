@@ -609,9 +609,9 @@ Location of file storing GroupAnalysis informations:
 
 ## Final remarks
 
-Save the completed `LoadModule.txt` file with a new name and use it as input for runnning the HaSAPPy_start.py module from the command line.
+Save the completed `LoadModule.txt` file with a new name and use it as input for runnning the HaSAPPY.py module from the command line.
 
-`python HaSAPPy.py <path-to-LoadModule.txt>`
+`HaSAPPY.py <path-to-LoadModule.txt>`
 
 HaSAPPy command scripts are parsed in straight a forward and simple way. The parser in the the **INFOloads.py** module searches for specific TAGs (eg. `@1A)` and reads the remainder of the line into a Python object. Only TAG lines that correspond to scheduled data processing sections of a workflow are required. All other lines are ignored by HaSAPPy and simply contain text for supporting the user for entering the correct information. This should make it possible to use a line based interface for producing command scripts in an automated or GUI supported way in the future.
 
