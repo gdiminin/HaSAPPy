@@ -164,11 +164,12 @@ class GroupAnalysis (Upperlevel):
 
 class Tables(Upperlevel):    
     def __init__(self,dictionary,starting):
-        self.names = dictionary[8]['A']
-        self.keys = dictionary[8]['B']
-        self.filters = dictionary[8]['C']
+	self.tables_numb = dictionary[8]['A']
+        self.names = dictionary[8]['B']
+        self.keys = dictionary[8]['C']
+        self.filters = dictionary[8]['D']
         if starting:
-            self.input_files = dictionary[8]['D']
+            self.input_files = dictionary[8]['E']
         else:
             self.input_files = ''
 
@@ -648,8 +649,8 @@ def read_txt(informations,text):
                         string = [n.lstrip().rstrip() for n in re.findall('^\s*@\d[A-Z]\)\s*(\S+.*\S*)', line)[0].split(',')]
                         informations[section][task].append(string)
             elif section == 8:
-                informations = extract_line (section,task,line,informations,list_=['A'],string =['D'])
-                if task == 'B':
+                informations = extract_line (section,task,line,informations,number =['A'],list_=['B'],string =['E'])
+                if task == 'C':
                     if not informations[section].has_key(task):
                         informations[section][task] =[]    
                     key = []
@@ -658,16 +659,14 @@ def read_txt(informations,text):
                         variable = tuple(n.lstrip().rstrip() for n in param.split(',') if n != '')
                         if len(variable) == 3:
                             key.append(variable)
-                        elif variable[1] == 'Score' or variable[1] == 'Fisher':
-                            key.append(variable)
                         else:
                             print "ERROR! Line %i Section %s Task %i: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,param)
                     informations[section][task].append(key)
-                elif task == 'C':
+                elif task == 'D':
                     if not informations[section].has_key(task):
                         informations[section][task] =[]
                     filters = []
-                    items = re.findall('[fF]ilter\s*?\[(.*?)\]',line)
+                    items = re.findall('\[(.*?)\]',line)
                     for q in items:
                         filter_ = {}
                         if re.search('\((.*?)\)\s*?,\s*?(ascending|descending)',q):
@@ -675,8 +674,6 @@ def read_txt(informations,text):
                             filter_['operation'] = parameters[1]
                             variable = tuple(n.lstrip().rstrip() for n in parameters[0].split(',') if n != '')
                             if len(variable) == 3:
-                                filter_['parameter']= variable
-                            elif variable[1] == 'Score':
                                 filter_['parameter']= variable
                             else:
                                 print "ERROR! Line %i Section %i Task %s: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,q)
