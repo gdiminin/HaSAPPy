@@ -45,6 +45,15 @@ def main (data,m):
     #mergedData=pd.merge(data,scores,left_index=True,right_index=True)
     #mergedData['flag'] = mergedData.apply(returnFlag,axis=1)
     return scores
+
+def testDataForLOF (data):
+    possible = True
+    data = (data-data.mean())/data.std()
+    if int((data == np.inf).sum().sum()) == 0:
+        possible = False
+    if int((data == np.nan).sum().sum()) == 0:
+        possible = False
+    return possible
     
      
     

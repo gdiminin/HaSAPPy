@@ -70,11 +70,15 @@ def main (GroupAnalysis,DATA):
             
             outlier_fold = outlier_fold.mul(IIadjust,axis = 0)
 
-        outliers =LOF.main(outlier_fold,len(outlier_fold.index))
+        if LOF.testDataForLOF(outlier_fold):
+
+            outliers =LOF.main(outlier_fold,len(outlier_fold.index))
     
-        outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
-        outliers = outliers.rename(columns ={'Score':'%s_Score_fold' % group})            
-    	DATA.Outlier = pd.concat([DATA.Outlier,outliers],axis = 1)
+            outliers =pd.merge(outlier_fold,outliers,left_index=True,right_index=True)
+            outliers = outliers.rename(columns ={'Score':'%s_Score_fold' % group})            
+            DATA.Outlier = pd.concat([DATA.Outlier,outliers],axis = 1)
+        else:
+            print '\n!!!Data provided is not compatible with LOF analysis. Calculation of %s_Score_fold will be skipped.\n' % group
 
     return DATA
     

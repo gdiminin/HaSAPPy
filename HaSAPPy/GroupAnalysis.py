@@ -12,6 +12,7 @@ import numpy as np
 import os
 from scipy.stats  import ttest_ind
 from scipy.stats  import fisher_exact
+import HaSAPPy.rankAnalysis as rankAnalysis
 
 import re
 from HaSAPPy.HaSAPPY_time import *
@@ -236,7 +237,7 @@ def performing_analysis(Info):
             reference = pd.DataFrame({'FW':DATA.biasFW['%s_biasFW_sum'%reference],'RV':DATA.biasRV['%s_biasRV_sum'%reference]})
 
             reference['reference_fold'] = reference.apply(adjust_Bias_reference,axis = 1)
-            reference['reference_fold'][reference['reference_fold']==0] = 1
+            reference['reference_fold']= reference['reference_fold'].replace (0,1)
             
             group = pd.DataFrame({'FW':DATA.biasFW['%s_biasFW_sum'%group],'RV':DATA.biasRV['%s_biasRV_sum'%group]})
             
@@ -339,6 +340,8 @@ def performing_analysis(Info):
     if Info.GroupAnalysis.Parameters.Bias:
         summary.Bias = define_Bias(summary,Info)
 
+    summary = rankAnalysis.calculateRank(Info.GroupAnalysis,summary) #calculate rank values
+
     if Info.GroupAnalysis.Parameters.KI:
         import HaSAPPy.Fisher as Fisher
         summary.KI = Fisher.main(Info.GroupAnalysis,summary.KI)
@@ -347,12 +350,11 @@ def performing_analysis(Info):
     if Info.GroupAnalysis.Outlier.perform:
 	if Info.GroupAnalysis.Outlier.Approach.fold:
             import HaSAPPy.Outlier_fold as Outlier_fold
-            summary = Outlier_fold.main(Info.GroupAnalysis,summary)
+	    summary = Outlier_fold.main(Info.GroupAnalysis,summary)
             string = '\t-Outlier_fold analysis'
             print_save_analysis (string, Info.GroupAnalysis.storage_loc)
 	if Info.GroupAnalysis.Outlier.Approach.rank:
-            import HaSAPPy.Outlier_rank as Outlier_rank
-            summary = Outlier_rank.main(Info.GroupAnalysis,summary)
+            summary = rankAnalysis.calculateOutlierRank(Info.GroupAnalysis,summary)
             string = '\t-Outlier_rank analysis'
             print_save_analysis (string, Info.GroupAnalysis.storage_loc)
     string = '\tRunTime: %s' % computeRunTime(startTime, getCurrTime())

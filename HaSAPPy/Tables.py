@@ -37,23 +37,23 @@ def main(Info):
                 elif operation == '==':
                     summary = summary[summary[key] == number]
             elif operation == 'ascending':
-                summary = summary.sort_index(by = key, ascending = True)
+                summary = summary.sort_values(by = key, ascending = True)
             elif operation == 'descending':
-                summary = summary.sort_index(by = key, ascending = False)
+                summary = summary.sort_values(by = key, ascending = False)
                     
         table = pd.DataFrame()
         table.name = name
         columns_name = []
         for instruction in keys:
             group = [instruction[0]]
-            if group[0] == 'all':
+            if group[0] == 'All':
                 group = []
                 group.append(GroupAnalysis.Reference.name)
                 for group_exp in GroupAnalysis.Others.name:
                     group.append(group_exp)
             
             parameter = [instruction[1]]
-            if parameter[0] == 'all':
+            if parameter[0] == 'All':
                 parameter = []
                 if GroupAnalysis.Parameters.II:
                     parameter.append('II')
@@ -65,14 +65,15 @@ def main(Info):
                     parameter.append('biasRV')
                 if GroupAnalysis.Parameters.Reads:
                     parameter.append('Reads')
+		parameter.append('Score')
              
-                            
+
+            values = {}
+            value = instruction[2]
             if instruction[1]  != 'Score':
-                value = instruction[2]
                 if value == 'raw' or value == 'all':
-                    values = {}
                     if GroupAnalysis.Reference.name in group:
-                        values[GroupAnalysis.Reference.name] = [exp for exp in GroupAnalysis.Reference.experiments]
+                    	values[GroupAnalysis.Reference.name] = [exp for exp in GroupAnalysis.Reference.experiments]
                             
                     for group_exp in GroupAnalysis.Others.name:
                         if group_exp in group:
@@ -80,41 +81,56 @@ def main(Info):
                     
                     if value == 'all':
                         if GroupAnalysis.Reference.name in group:
-                            values[GroupAnalysis.Reference.name]+=['sum','mean','stdev','rank']
+			    values[GroupAnalysis.Reference.name] += ['sum','rank']
+			    if len( GroupAnalysis.Reference.experiments) >1:
+                            	values[GroupAnalysis.Reference.name]+=['mean','stdev']
+
                         for group_exp in GroupAnalysis.Others.name:
                             if group_exp in group:
-                                values[group_exp]+=['sum','mean','stdev','fold','ttest','rank']
-                    
-                    
+                                values[group_exp]+=['sum','fold','rank']
+				if len(GroupAnalysis.Others.experiments[GroupAnalysis.Others.name.index(group_exp)]) > 1:
+				    values[group_exp]+=['mean','stdev','ttest']
+                            if instruction[1] == 'All':
+                                values[group_exp]+=['fisher']    
                 else:
-                    values = {}
                     if GroupAnalysis.Reference.name in group:
                         values[GroupAnalysis.Reference.name] = [value]
                     for group_exp in GroupAnalysis.Others.name:
                         if group_exp in group:
                             values[group_exp] = [value]
 
-	    elif instruction[1]  == 'Score':
-		value = instruction[2]
-		if value == 'all':
-		    values = {}
-		    for group_exp in GroupAnalysis.Others.name:
+            elif instruction[1]  == 'Score':
+                if value == 'all':
+                    for group_exp in GroupAnalysis.Others.name:
                         if group_exp in group:
-                            values[group_exp] = ['fold','rank','fisher']
-			
-            
-            
+	                    values[group_exp] = ['fold','rank','fisher']
+           
             for a in group:
                 if not a == GroupAnalysis.Reference.name:
                     for b in parameter:
-                        for c in values[a]:
-                            columns_name.append('%s_%s_%s'%(a,b,c))
+                        if b != 'Score':
+                            for c in values[a]:
+                                if c == 'rank':
+                                    if b not in ['biasFW','biasRV']:
+                                        columns_name.append('%s_%s_%s'%(a,b,c))
+                                        columns_name.append('%s_%s_rankedFold'%(a,b))       
+                                elif c != 'fisher':
+                                    columns_name.append('%s_%s_%s'%(a,b,c))
+                                
+                                    
+                        else:
+                            if c in ['fold','rank','fisher']:
+                                columns_name.append('%s_%s_%s'%(a,b,c))
+                            
                             
                 elif a == GroupAnalysis.Reference.name:
                     for b in parameter:
 			if b != 'Score':
                             for c in values[a]:
-                                if not c == 'fold' and not c == 'ttest':
+                                if c == 'rank':
+                                    if b not in ['biasFW','biasRV']:
+                                        columns_name.append('%s_%s_%s'%(a,b,c))       
+                                elif c not in ['fold','ttest']:
                                     columns_name.append('%s_%s_%s'%(a,b,c))
                   
                 

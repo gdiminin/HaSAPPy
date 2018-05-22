@@ -45,18 +45,18 @@ def library_generation (exp, Info):
     count_GoodQualityAlignment = 0
     count_total = 0
     for algnt in aligned_file:
-	if algnt.aligned:
-	    if algnt.iv.chrom.startswith('chr'):
-		chromosome_style = ''
-	    else:
-		chromosome, _style = 'chr'
-	    break
+        if algnt.aligned:
+            if algnt.iv.chrom.startswith('chr'):
+                chromosome_style = ''
+            else:
+                chromosome_style = 'chr'
+                break
 	
 	
     for algnt in aligned_file:
         if algnt.aligned:
             if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-		ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
+                ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
                 insertions_counts[ins] +=1
                 count_GoodQualityAlignment +=1                    
             count_aligned +=1                    
@@ -79,7 +79,7 @@ def library_generation (exp, Info):
     insertions_series = pd.Series(insertions_counts, index = insertions_counts.keys())
     del insertions_counts
     insertions_order = insertions_series.copy()
-    insertions_order.sort(ascending = False)
+    insertions_order.sort_values(ascending = False)
     insertions_genomicarray = HTSeq.GenomicArray("auto",stranded = True)
     
     count_indipendent_insertions = 0

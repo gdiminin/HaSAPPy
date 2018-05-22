@@ -5,7 +5,6 @@ Created on Mon Mar 21 19:26:59 2016
 
 @author: GDM
 """
-
 import HaSAPPy.INFOloads as INFOloads
 import argparse
 
