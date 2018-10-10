@@ -37,9 +37,11 @@ def library_analysis(Info):
         Info.print_save(exp,string)
         
         library = Genes_library(exp,Info.GeneDefinition.input_files[Info.GeneDefinition.lib_names.index(exp)])
-                    
-        with open (library.input,'rb') as loading:
-            raw_data = pickle.load(loading)
+        
+	input_lib = pd.read_pickle(library.input)
+	raw_data = pd.DataFrame(input_lib.raw).reset_index() #Necessary to avoid indexing by GenomicIntervals 
+	raw_data.columns = ['pos','values']
+            
             
         library.II = pd.Series(data = 0, index = genes_ref.index)        
         library.II['_no_feature'] = 0
@@ -58,17 +60,17 @@ def library_analysis(Info):
             
         library.reads = pd.Series(data = 0, index = genes_ref.index)
         library.reads['_no_feature'] = 0
-    
-        for i in raw_data.raw.keys():
+
+        for ins in raw_data.index:
+	    i = raw_data.ix[ins,'pos']
             i_nosense = HTSeq.GenomicPosition(i.chrom,i.start,strand =".")
             if Info.GeneDefinition.Parameters.Reads: #Counting all Genes Insertions to be added to library.reads if paired-end
                 gene_ids = set(genes[i_nosense])
                 if gene_ids == set([]):
-		    continue
-#                    library.reads["_no_feature"] += raw_data.raw[i]
+                    library.reads["_no_feature"] += raw_data.ix[ins,'values']
                 else:
-                    for gene_id in gene_ids: 
-                        library.reads[gene_id] += raw_data.raw[i]
+                    for gene_id in gene_ids:
+                        library.reads[gene_id] += raw_data.ix[ins,'values']
             if Info.GeneDefinition.Parameters.II:
                 update_library(genes,i_nosense,library.II)
             if Info.GeneDefinition.Parameters.KI:    
@@ -98,7 +100,7 @@ def library_analysis(Info):
         with open (location,'wb') as saving:
             pickle.dump(library,saving)
             
-        library_evaluation(Info,library,len(raw_data.raw.keys()))
+        library_evaluation(Info,library,len(raw_data))
                     
         
         string = '\tRunTime: %s\n' %computeRunTime(startTime, getCurrTime())  
@@ -161,9 +163,10 @@ def library_analysis(Info):
     for exp in Info.GeneDefinition.lib_names:
         Info.print_save(exp,string)
      
-    with open(Info.GeneDefinition.reference, 'rb') as handle: # To open and restore the Genes Dictionary (!!!CHANGE "file_name!!!)
-        genes_ref = pickle.load(handle)
-    
+#    with open(Info.GeneDefinition.reference, 'rb') as handle: # To open and restore the Genes Dictionary (!!!CHANGE "file_name!!!)
+#        genes_ref = pd.read_pickle(handle)
+
+    genes_ref = pd.read_pickle(Info.GeneDefinition.reference)
     #Creation of GenomicArrays where to store information and structure of the genes
     genes = HTSeq.GenomicArrayOfSets("auto", stranded = False) #Upload genes location, without taking into account gene strand
 

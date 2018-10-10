@@ -290,7 +290,10 @@ def start(Info):
                         #Outlier design
                         scatter3D(data[data['Score'] >= Info.Design.Distribution.outlier_value],comb_columns,'r')
                         #Normal design
-                        scatter3D(data[data['Score'] < Info.Design.Distribution.outlier_value],comb_columns,'b')
+			scatter3D(data[data['Score'] < Info.Design.Distribution.outlier_value],comb_columns,'b') #Normal size
+#			normal = data[data['Score'] < Info.Design.Distribution.outlier_value]		#To reduce graph complexity 1
+#                        scatter3D(normal[normal['size']>50],comb_columns,'b')				#To reduce graph complexity 2
+#			scatter3D(normal[normal['size']<=50].sample(frac=0.01),comb_columns,'b') 	#To reduce graph complexity 3
                     else:
                         #All design
                         scatter3D(data,comb_columns,'b')
@@ -314,8 +317,8 @@ def start(Info):
                     ax.set_zlabel(comb_columns[2])
                     ax.set_title('Gene Distribution\n%s, %s, %s' %(comb_columns[0],comb_columns[1],comb_columns[2]))
             
-                    fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers3D_%s(%s-%s-%s).jpg' %(group,comb_columns[0],comb_columns[1],comb_columns[2])),dpi= 200)
-                    files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers3D_%s(%s-%s-%s).jpg' %(group,comb_columns[0],comb_columns[1],comb_columns[2])))
+                    fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers3D_%s(%s-%s-%s).svg' %(group,comb_columns[0],comb_columns[1],comb_columns[2])),dpi= 200)
+                    files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers3D_%s(%s-%s-%s).svg' %(group,comb_columns[0],comb_columns[1],comb_columns[2])))
                 
                 string =  '\t\tFile saved:'
                 print_save_analysis (string, GroupAnalysis.storage_loc)
@@ -335,7 +338,11 @@ def start(Info):
                     #Outlier design
                     scatter2D(data[data['Score'] >= Info.Design.Distribution.outlier_value],comb_columns,'r')
                     #Normal design
-                    scatter2D(data[data['Score'] < Info.Design.Distribution.outlier_value],comb_columns,'b')
+		    scatter2D(data[data['Score'] < Info.Design.Distribution.outlier_value],comb_columns,'b') #Normal size
+#		    normal = data[data['Score'] < Info.Design.Distribution.outlier_value]		#To reduce graph complexity 1
+#                   scatter2D(normal[normal['size']>50],comb_columns,'b')				#To reduce graph complexity 2
+#		    scatter2D(normal[normal['size']<=50].sample(frac=0.01),comb_columns,'b') 		#To reduce graph complexity 3
+
                 else:
                     #All design
                     scatter2D(data,comb_columns,'b')
@@ -358,8 +365,8 @@ def start(Info):
                 ax.set_ylabel(comb_columns[1])
                 ax.set_title('Gene Distribution\n%s, %s' %(comb_columns[0],comb_columns[1]))
                          
-                fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers2D_%s(%s-%s).jpg' %(group,comb_columns[0],comb_columns[1])),dpi= 200)
-                files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers2D_%s(%s-%s).jpg' %(group,comb_columns[0],comb_columns[1])))
+                fig.savefig(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers2D_%s(%s-%s).svg' %(group,comb_columns[0],comb_columns[1])),dpi= 200)
+                files_saved.append(os.path.join(GroupAnalysis.storage_loc,'graph','Outliers2D_%s(%s-%s).svg' %(group,comb_columns[0],comb_columns[1])))
                 
             string =  '\t\tFile saved:'
             print_save_analysis (string, GroupAnalysis.storage_loc)
@@ -399,6 +406,7 @@ def start(Info):
             data = pd.DataFrame()
             to_plot = []
             if GroupAnalysis.Parameters.II:
+		data['size'] = GroupAnalysis_table['%s_%s_sum' %(group,'II')] #Added 210818
                 to_plot.append('II')
                 if GroupAnalysis.Outlier.perform and GroupAnalysis.Outlier.Parameters.II:
                     data['II'] = GroupAnalysis_table['%s_%s_outlier' %(group,'II')]

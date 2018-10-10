@@ -67,8 +67,8 @@ def calculateRank (GroupAnalysis,DATA):
     if GroupAnalysis.Parameters.KI:
         DATA.Rank = calculate_ranking(GroupAnalysis,DATA.KI,'KI',DATA.Rank)
     if GroupAnalysis.Parameters.Reads:
-        DATA.Rank = calculate_ranking(GroupAnalysis,DATA.KI,'Reads',DATA.Rank)
-    
+        DATA.Rank = calculate_ranking(GroupAnalysis,DATA.Reads,'Reads',DATA.Rank)
+   
     if GroupAnalysis.Parameters.Bias:
             
         reference = pd.DataFrame({'FW':DATA.biasFW['%s_biasFW_sum'%GroupAnalysis.Reference.name],'RV':DATA.biasRV['%s_biasRV_sum'%GroupAnalysis.Reference.name]})
@@ -80,6 +80,7 @@ def calculateRank (GroupAnalysis,DATA):
             selected['selected_fold'] = selected.apply(adjust_Bias_selected,axis = 1)
             DATA.Rank['%s_Bias_rank'%group] = selected['selected_fold'].rank(method = 'max',ascending = False)
             DATA.Rank['%s_Bias_rankedFold'%group] = DATA.Rank['%s_Bias_rank'%GroupAnalysis.Reference.name]/DATA.Rank['%s_Bias_rank'%group]
+
     return DATA
 
 def calculateOutlierRank(GroupAnalysis,DATA):

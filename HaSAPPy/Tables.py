@@ -119,8 +119,9 @@ def main(Info):
                                 
                                     
                         else:
-                            if c in ['fold','rank','fisher']:
-                                columns_name.append('%s_%s_%s'%(a,b,c))
+			    for c in values[a]:
+                                if c in ['fold','rank','fisher']:
+                                    columns_name.append('%s_%s_%s'%(a,b,c))
                             
                             
                 elif a == GroupAnalysis.Reference.name:

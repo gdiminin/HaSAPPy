@@ -49,9 +49,9 @@ def main (data,m):
 def testDataForLOF (data):
     possible = True
     data = (data-data.mean())/data.std()
-    if int((data == np.inf).sum().sum()) == 0:
+    if int((data == np.inf).sum().sum()) != 0:
         possible = False
-    if int((data == np.nan).sum().sum()) == 0:
+    if int((data == np.nan).sum().sum()) != 0:
         possible = False
     return possible
     

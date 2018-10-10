@@ -43,9 +43,9 @@ def load(Info):
                         command = "bowtie2 --time --local --threads 8 -x %s -U %s -S %s" %(Info_selected.reference,input_file_I,output_file_I)
                 if program == 'ngm':
                     if pair_end:
-                        command = "ngm --local --gpu 0,1 --paired -r %s -1 %s -2 %s -o %s -t 8" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
+                        command = "ngm --local --gpu 0 --paired -r %s -1 %s -2 %s -o %s -t 8" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
                     else:
-                        command = "ngm --local --gpu 0,1 -q %s -r %s -o %s -t 8" %(input_file_I,Info_selected.reference,output_file_I)
+                        command = "ngm --local --gpu 0 -q %s -r %s -o %s -t 8" %(input_file_I,Info_selected.reference,output_file_I)
                 if program == 'nvBowtie':
                     if pair_end:
                         command = "nvBowtie --local --device 0 --device 1 -x %s -1 %s -2 %s -S %s" %(Info_selected.reference,input_file_I,input_file_II,output_file_I)
