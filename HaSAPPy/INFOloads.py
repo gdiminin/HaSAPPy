@@ -164,12 +164,11 @@ class GroupAnalysis (Upperlevel):
 
 class Tables(Upperlevel):    
     def __init__(self,dictionary,starting):
-	self.tables_numb = dictionary[8]['A']
-        self.names = dictionary[8]['B']
-        self.keys = dictionary[8]['C']
-        self.filters = dictionary[8]['D']
+        self.names = dictionary[8]['A']
+        self.keys = dictionary[8]['B']
+        self.filters = dictionary[8]['C']
         if starting:
-            self.input_files = dictionary[8]['E']
+            self.input_files = dictionary[8]['D']
         else:
             self.input_files = ''
 
@@ -649,8 +648,8 @@ def read_txt(informations,text):
                         string = [n.lstrip().rstrip() for n in re.findall('^\s*@\d[A-Z]\)\s*(\S+.*\S*)', line)[0].split(',')]
                         informations[section][task].append(string)
             elif section == 8:
-                informations = extract_line (section,task,line,informations,number =['A'],list_=['B'],string =['E'])
-                if task == 'C':
+                informations = extract_line (section,task,line,informations,list_=['A'],string =['D'])
+                if task == 'B':
                     if not informations[section].has_key(task):
                         informations[section][task] =[]    
                     key = []
@@ -662,7 +661,7 @@ def read_txt(informations,text):
                         else:
                             print "ERROR! Line %i Section %s Task %i: The table parameter '%s' doesn't contain the correct structure" %(line_count,section,task,param)
                     informations[section][task].append(key)
-                elif task == 'D':
+                elif task == 'C':
                     if not informations[section].has_key(task):
                         informations[section][task] =[]
                     filters = []
