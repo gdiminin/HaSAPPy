@@ -46,14 +46,14 @@ def main(Info):
         columns_name = []
         for instruction in keys:
             group = [instruction[0]]
-            if group[0] == 'All':
+            if group[0] == 'all':
                 group = []
                 group.append(GroupAnalysis.Reference.name)
                 for group_exp in GroupAnalysis.Others.name:
                     group.append(group_exp)
             
             parameter = [instruction[1]]
-            if parameter[0] == 'All':
+            if parameter[0] == 'all':
                 parameter = []
                 if GroupAnalysis.Parameters.II:
                     parameter.append('II')
@@ -90,7 +90,7 @@ def main(Info):
                                 values[group_exp]+=['sum','fold','rank']
 				if len(GroupAnalysis.Others.experiments[GroupAnalysis.Others.name.index(group_exp)]) > 1:
 				    values[group_exp]+=['mean','stdev','ttest']
-                            if instruction[1] == 'All':
+                            if instruction[1] == 'all':
                                 values[group_exp]+=['fisher']    
                 else:
                     if GroupAnalysis.Reference.name in group:
