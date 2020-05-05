@@ -52,15 +52,29 @@ def library_generation (exp, Info):
                 chromosome_style = 'chr'
                 break
 	
+    if Info.General.pair_ends: #Pair ends library
+        for bundle in HTSeq.pair_SAM_alignments(aligned_file, bundle=True):
+	    if len(bundle) != 1
+	        continue # Skip multiple alignments
+            first_almnt, second_almnt = bundle[0] # extract pair 
+	    if first_almnt.aligned and second_almnt.aligned:
+		if first_almnt.aQual >= Info.IIDefinition.fidelity_limit:
+		    ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(first_almnt.iv.chrom)),first_almnt.iv.start_d,first_almnt.iv.strand)
+		    insertions_counts[ins] +=1
+		    count_GoodQualityAlignment +=1
+                count_aligned +=1    
+	    count_total +=1
+    
+    else:	#Single ends library
+        for algnt in aligned_file:
+            if algnt.aligned:
+                if algnt.aQual >= Info.IIDefinition.fidelity_limit:
+                    ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
+                    insertions_counts[ins] +=1
+                    count_GoodQualityAlignment +=1                    
+                count_aligned +=1                    
+            count_total +=1
 	
-    for algnt in aligned_file:
-        if algnt.aligned:
-            if algnt.aQual >= Info.IIDefinition.fidelity_limit:
-                ins = HTSeq.GenomicPosition('%s%s' %(chromosome_style,str(algnt.iv.chrom)),algnt.iv.start_d,algnt.iv.strand)
-                insertions_counts[ins] +=1
-                count_GoodQualityAlignment +=1                    
-            count_aligned +=1                    
-        count_total +=1
 
     del aligned_file
             
