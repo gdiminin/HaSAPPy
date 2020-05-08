@@ -54,7 +54,7 @@ def library_generation (exp, Info):
 	
     if Info.General.pair_ends: #Pair ends library
         for bundle in HTSeq.pair_SAM_alignments(aligned_file, bundle=True):
-	    if len(bundle) != 1
+	    if len(bundle) != 1:
 	        continue # Skip multiple alignments
             first_almnt, second_almnt = bundle[0] # extract pair 
 	    if first_almnt.aligned and second_almnt.aligned:
